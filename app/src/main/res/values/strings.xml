@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">test</string>
+
+    <!--Custom string for underlined text on home page-->
+    <string name="SignUpUnderline">
+        <u>Sign up</u>
+    </string>
+
+    <!--Custom string for underlined text on login page-->
+    <string name="ForgotPassword">
+        <u>Forgot Password?</u>
+    </string>
+
+</resources>

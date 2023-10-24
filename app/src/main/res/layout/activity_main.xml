@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".MainActivity">
+
+    <!--UNCC Event Finder text-->
+    <TextView
+        android:layout_width="172dp"
+        android:layout_height="175dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="UNCC Event Finder"
+        android:textColor="@color/white"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:translationX="25dp"
+        android:translationY="104dp"
+        android:textAlignment="center"/>
+
+    <!--Google Login Button-->
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:backgroundTint="@color/white"
+        android:drawableLeft="@drawable/googleicon"
+        android:text="Login with Google"
+        android:textColor="@color/black" />
+
+    <!--Facebook Login Button-->
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:backgroundTint="@color/white"
+        android:drawableLeft="@drawable/facebookicon"
+        android:text="Login with Facebook"
+        android:textColor="@color/black"
+        android:translationY="75dp"/>
+
+    <!--Normal Login Button-->
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:backgroundTint="@color/white"
+        android:text="Login with Email"
+        android:drawableLeft="@drawable/baseline_email_24"
+        android:textColor="@color/black"
+        android:translationY="150dp"/>
+
+    <TextView
+        android:translationX="-60dp"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="75dp"
+        android:clickable="false"
+        android:gravity="center_horizontal"
+        android:text="Don't have an account?"
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/SignUpUnderline"
+        android:translationX="75dp"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="75dp"
+        android:clickable="true"
+        android:gravity="center_horizontal"
+        android:text="@string/SignUpUnderline"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        />
+
+</RelativeLayout>
