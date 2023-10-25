@@ -1,12 +1,15 @@
 package com.example.test
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 
 class CreateEventDetailsActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event_details)
@@ -36,6 +39,35 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         // Setup "Exit" button click listener
         val backToCreateEventButton = findViewById<Button>(R.id.backToCreateEvent)
         backToCreateEventButton.setOnClickListener {
+            // Retrieve checkbox states from the intent
+            val checkBoxAcademic = intent.getBooleanExtra("checkboxAcademic", false)
+            val checkBoxSocial = intent.getBooleanExtra("checkboxSocial", false)
+            val checkBoxSports = intent.getBooleanExtra("checkboxSports", false)
+            val checkBoxClubsOrg = intent.getBooleanExtra("checkboxClubsOrg", false)
+            val checkBoxWorkshops = intent.getBooleanExtra("checkboxWorkshops", false)
+            val checkBoxVolunteering = intent.getBooleanExtra("checkboxVolunteering", false)
+            val checkBoxStudentsOnly = intent.getBooleanExtra("checkboxStudentsOnly", false)
+
+            // Create a list of categories based on checkbox states
+            val categories = mutableListOf<String>()
+            if (checkBoxAcademic) categories.add("Academic")
+            if (checkBoxSocial) categories.add("Social")
+            if (checkBoxSports) categories.add("Sports")
+            if (checkBoxClubsOrg) categories.add("Clubs/Organizations")
+            if (checkBoxWorkshops) categories.add("Workshops/Seminars")
+            if (checkBoxVolunteering) categories.add("Volunteering")
+            if (checkBoxStudentsOnly) categories.add("Students Only")
+
+            // Save event details to the database
+            saveEventToDatabase(
+                title ?: "",          // Provide a default empty string if null
+                description ?: "",
+                dateAndTime,
+                buildingName,
+                address,
+                categories
+            )
+
             // Create an Intent to start MainActivity
             val intent = Intent(this@CreateEventDetailsActivity, MainActivity::class.java)
 
@@ -69,5 +101,47 @@ class CreateEventDetailsActivity : AppCompatActivity() {
 
         // Remove the trailing comma and space
         return checkBoxDetails.toString().removeSuffix(", ")
+    }
+
+    private fun saveEventToDatabase(
+        title: String,
+        description: String,
+        dateAndTime: String?,
+        buildingName: String?,
+        address: String?,
+        categories: List<String>
+    ) {
+        val dbHelper = EventDbHelper(this)
+        val db = dbHelper.writableDatabase
+
+        // Insert event details
+        val values = ContentValues().apply {
+            put(EventContract.EventEntry.COLUMN_TITLE, title)
+            put(EventContract.EventEntry.COLUMN_DESCRIPTION, description)
+            dateAndTime?.let { put(EventContract.EventEntry.COLUMN_DATETIME, it) }
+            buildingName?.let { put(EventContract.EventEntry.COLUMN_BUILDING_NAME, it) }
+            address?.let { put(EventContract.EventEntry.COLUMN_ADDRESS, it) }
+
+            // Set category columns
+            put(EventContract.EventEntry.COLUMN_CATEGORY_ACADEMIC, if ("Academic" in categories) 1 else 0)
+            put(EventContract.EventEntry.COLUMN_CATEGORY_SOCIAL, if ("Social" in categories) 1 else 0)
+            put(EventContract.EventEntry.COLUMN_CATEGORY_SPORTS, if ("Sports" in categories) 1 else 0)
+            put(EventContract.EventEntry.COLUMN_CATEGORY_CLUBS_ORG, if ("Clubs/Organizations" in categories) 1 else 0)
+            put(EventContract.EventEntry.COLUMN_CATEGORY_WORKSHOPS, if ("Workshops/Seminars" in categories) 1 else 0)
+            put(EventContract.EventEntry.COLUMN_CATEGORY_VOLUNTEERING, if ("Volunteering" in categories) 1 else 0)
+            put(EventContract.EventEntry.COLUMN_CATEGORY_STUDENTS_ONLY, if ("Students Only" in categories) 1 else 0)
+        }
+
+        val newRowId = db.insert(EventContract.EventEntry.TABLE_NAME, null, values)
+
+        if (newRowId != -1L) {
+            // The insertion was successful, and newRowId contains the ID of the new row
+            Log.d("Database", "Event row inserted successfully with ID: $newRowId")
+
+            // You can log or handle the success of category insertion here
+        } else {
+            Log.e("Database", "Error inserting event row")
+            // Handle the case where event insertion failed
+        }
     }
 }
