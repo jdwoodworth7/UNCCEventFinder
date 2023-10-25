@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--Green Banner -->
+    <RelativeLayout
+        android:id="@+id/bannerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/color_primary"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Menu and Map Icons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Menu Button -->
+            <ImageView
+                android:id="@+id/menuButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/baseline_menu_24"
+                android:layout_marginEnd="10dp"/>
+
+            <!-- Map Icon -->
+            <ImageView
+                android:id="@+id/mapIcon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/baseline_map_24" />
+
+        </LinearLayout>
+
+        <!-- Text: Create a new event -->
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Create a New Event"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <!-- Content Section -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bannerLayout"
+        android:background="#FFFFFF"
+        android:padding="16dp">
+
+        <!-- "Tell us about your event!" -->
+
+        <!-- "Give it a cool title" -->
+        <TextView
+            android:id="@+id/tellUsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tell us about your event!"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Give it a cool title:"
+            android:textSize="16sp"
+            android:textColor="#888888"
+            android:layout_below="@id/tellUsText"
+            android:layout_marginTop="20dp"/>
+
+        <!-- Title Textbox -->
+        <EditText
+            android:id="@+id/titleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tellUsText"
+            android:layout_marginTop="42dp"
+            android:background="#F0F0F0"
+            android:padding="5dp"/>
+
+        <!-- "Describe your event briefly" -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Describe your event briefly:"
+            android:textSize="16sp"
+            android:textColor="#888888"
+            android:layout_below="@id/titleEditText"
+            android:layout_marginTop="20dp"/>
+
+        <!-- Description Textbox -->
+        <EditText
+            android:id="@+id/descriptionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/titleEditText"
+            android:layout_marginTop="42dp"
+            android:background="#F0F0F0"
+            android:padding="40dp"/>
+
+        <TextView
+            android:id="@+id/descriptionCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0/200"
+            android:textSize="12sp"
+            android:textColor="#888888"
+            android:layout_below="@id/descriptionEditText"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- "Pick a date and time for your event" -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pick a date and time for your event:"
+            android:textSize="16sp"
+            android:textColor="#888888"
+            android:layout_below="@id/descriptionEditText"
+            android:layout_marginTop="28dp"/>
+
+        <!-- Date and Time Textbox -->
+        <EditText
+            android:id="@+id/dateAndTimeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/descriptionEditText"
+            android:layout_marginTop="51dp"
+            android:background="#F0F0F0"
+            android:padding="8dp"/>
+
+        <!-- "Tell us where your event will take place" -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tell us where your event will take place:"
+            android:textSize="16sp"
+            android:textColor="#888888"
+            android:layout_below="@id/dateAndTimeEditText"
+            android:layout_marginTop="30dp"/>
+
+        <!-- Location Textbox -->
+        <EditText
+            android:id="@+id/locationEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dateAndTimeEditText"
+            android:layout_marginTop="52dp"
+            android:background="#F0F0F0"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/locationCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0/80"
+            android:textSize="12sp"
+            android:textColor="#888888"
+            android:layout_below="@id/locationEditText"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- "Input the street address for navigation" -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Input the street address for navigation:"
+            android:textSize="16sp"
+            android:textColor="#888888"
+            android:layout_below="@id/locationEditText"
+            android:layout_marginTop="30dp"/>
+
+        <!-- Address Textbox -->
+        <EditText
+            android:id="@+id/addressEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/locationEditText"
+            android:layout_marginTop="52dp"
+            android:background="#F0F0F0"
+            android:padding="8dp"/>
+
+        <!-- Cancel and Continue Buttons -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/addressEditText"
+            android:layout_marginTop="16dp">
+
+            <!-- Cancel Button -->
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="   Cancel   "
+                android:textColor="#FFFFFF"
+                android:background="#00FF00"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:textStyle="bold"/>
+
+            <!-- Continue Button -->
+            <Button
+                android:id="@+id/continueButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  Continue  "
+                android:textColor="#FFFFFF"
+                android:background="#00FF00"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
