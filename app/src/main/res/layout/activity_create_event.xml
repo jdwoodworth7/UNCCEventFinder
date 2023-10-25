@@ -205,7 +205,7 @@
                 android:layout_height="wrap_content"
                 android:text="   Cancel   "
                 android:textColor="#FFFFFF"
-                android:background="#00FF00"
+                android:background="#005035"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="8dp"

@@ -6,17 +6,19 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 
+
 class CreateEventActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event)
 
-        val editTitle: EditText = findViewById(R.id.titleEditText)
-        val editDescription: EditText = findViewById(R.id.descriptionEditText)
-        val editDateAndTime: EditText = findViewById(R.id.dateAndTimeEditText)
-        val editBuildingName: EditText = findViewById(R.id.locationEditText)
-        val editAddress: EditText = findViewById(R.id.addressEditText)
-        val continueButton: Button = findViewById(R.id.continueButton)
+        // Assuming you have the relevant EditText and Button IDs in your activity_main.xml
+        val editTitle = findViewById<EditText>(R.id.titleEditText)
+        val editDescription = findViewById<EditText>(R.id.descriptionEditText)
+        val editDateAndTime = findViewById<EditText>(R.id.dateAndTimeEditText)
+        val editBuildingName = findViewById<EditText>(R.id.locationEditText)
+        val editAddress = findViewById<EditText>(R.id.addressEditText)
+        val continueButton = findViewById<Button>(R.id.continueButton)
 
         continueButton.setOnClickListener {
             // Get the entered data
@@ -27,7 +29,7 @@ class CreateEventActivity : AppCompatActivity() {
             val address = editAddress.text.toString()
 
             // Create an Intent to start the next activity
-            val intent = Intent(this, CreateEventCategoriesActivity::class.java)
+            val intent = Intent(this@CreateEventActivity, CreateEventCategoriesActivity::class.java)
 
             // Pass the data to the next activity
             intent.putExtra("title", title)
