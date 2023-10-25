@@ -85,7 +85,8 @@
             android:layout_below="@id/tellUsText"
             android:layout_marginTop="42dp"
             android:background="#F0F0F0"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:maxLength="100"/>
 
         <!-- "Describe your event briefly" -->
         <TextView
@@ -105,7 +106,8 @@
             android:layout_below="@id/titleEditText"
             android:layout_marginTop="42dp"
             android:background="#F0F0F0"
-            android:padding="40dp"/>
+            android:padding="8dp"
+            android:maxLength="200"/>
 
         <TextView
             android:id="@+id/descriptionCounter"
@@ -137,7 +139,8 @@
             android:layout_below="@id/descriptionEditText"
             android:layout_marginTop="51dp"
             android:background="#F0F0F0"
-            android:padding="8dp"/>
+            android:padding="8dp"
+            android:maxLength="100"/>
 
         <!-- "Tell us where your event will take place" -->
         <TextView
@@ -157,7 +160,8 @@
             android:layout_below="@id/dateAndTimeEditText"
             android:layout_marginTop="52dp"
             android:background="#F0F0F0"
-            android:padding="8dp"/>
+            android:padding="8dp"
+            android:maxLength="80"/>
 
         <TextView
             android:id="@+id/locationCounter"
@@ -189,7 +193,8 @@
             android:layout_below="@id/locationEditText"
             android:layout_marginTop="52dp"
             android:background="#F0F0F0"
-            android:padding="8dp"/>
+            android:padding="8dp"
+            android:maxLength="100"/>
 
         <!-- Cancel and Continue Buttons -->
         <RelativeLayout
