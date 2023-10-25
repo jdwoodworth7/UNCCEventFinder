@@ -10,6 +10,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val SignUpUnderline = findViewById<TextView>(R.id.SignUpUnderline)
-        SignUpUnderline.setOnClickListener()
+        //SignUpUnderline.setOnClickListener()
     }
 }
