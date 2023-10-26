@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.util.Log
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 class CreateEventDetailsActivity : AppCompatActivity() {
@@ -20,10 +21,6 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         val dateAndTime = intent.getStringExtra("dateAndTime")
         val buildingName = intent.getStringExtra("buildingName")
         val address = intent.getStringExtra("address")
-
-        //Buttons top be mapped
-        //val menuButton = findViewById<ImageView>(R.id.menuButton)
-        //val mapIcon = findViewById<ImageView>(R.id.mapIcon)
 
         // Build a string to display checkbox details
         val checkBoxDetails = buildCheckBoxDetails()
@@ -72,28 +69,19 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                 categories
             )
 
+<<<<<<< Updated upstream
             // Create an Intent to start MainActivity
+=======
+            // Create an Intent to start CreateEventActivity
+>>>>>>> Stashed changes
             val intent = Intent(this@CreateEventDetailsActivity, CreateEventActivity::class.java)
 
-            // Start the MainActivity
+            // Start the CreateEventActivity
             startActivity(intent)
 
             // Finish the current activity to remove it from the back stack
             finish()
         }
-
-        //menuButton.setOnClickListener {
-        //    // Open the menu activity when the menu button is clicked
-        //    val intent = Intent(this@CreateEventDetailsActivity, MenuActivity::class.java)
-        //    startActivity(intent)
-        //}
-
-        //mapIcon.setOnClickListener {
-        //    // Open the map activity when the map button is clicked
-        //    val intent = Intent(this@CreateEventDetailsActivity, MapActivity::class.java)
-        //    startActivity(intent)
-        //}
-
     }
 
     private fun buildCheckBoxDetails(): String {
