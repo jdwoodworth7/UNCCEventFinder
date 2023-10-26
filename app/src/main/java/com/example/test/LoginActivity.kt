@@ -32,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please fill out all of the provided prompts", Toast.LENGTH_SHORT).show()
             } else {
                 if(TextUtils.equals(email.text.toString(), "admin@gmail.com") && TextUtils.equals(password.text.toString(), "admin")){
-
+                    startActivity(Intent(this@LoginActivity, MapsActivity::class.java))
                 }else{
                     Toast.makeText(this, "Please enter a valid account email and password", Toast.LENGTH_SHORT).show()
                 }
