@@ -31,7 +31,7 @@
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".Register"
+            android:name=".GoogleActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
