@@ -1,84 +1,67 @@
 package com.example.test
 
 import android.content.Intent
-import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import android.app.Activity
+import com.google.android.material.button.MaterialButton
 
 class MainActivity : AppCompatActivity() {
-    private var googleSignInClient: GoogleSignInClient? = null
-    private lateinit var googleButton: ImageView
 
-    private val rcSignIn = 1000
-    private val startSignInForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            // Handle the result if the sign-in is successful.
-            val data = result.data
-            onActivityResult(rcSignIn, Activity.RESULT_OK, data)
-        } else {
-            // Handle the result if the sign-in is not successful.
-            // You can show an error message or take appropriate action here.
-        }
-    }
+    private lateinit var gso: GoogleSignInOptions
+    private lateinit var gsc: GoogleSignInClient
+    private lateinit var googleBtn: MaterialButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val SignUpUnderline = findViewById<TextView>(R.id.SignUpUnderline)
+
+        //val SignUpUnderline = findViewById<TextView>(R.id.SignUpUnderline)
         //SignUpUnderline.setOnClickListener()
 
-        googleButton = findViewById(R.id.google_btn)
-        googleSignInClient = configureGoogleSignIn()
+        googleBtn = findViewById(R.id.google_btn)
 
-        googleButton.setOnClickListener { signIn() }
+        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+        gsc = GoogleSignIn.getClient(this, gso)
 
-        val lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(this)
-        if (lastSignedInAccount != null) {
+        val acct = GoogleSignIn.getLastSignedInAccount(this)
+        if (acct != null) {
             navigateToGoogleActivity()
+        }
+
+        googleBtn.setOnClickListener {
+            signIn()
         }
     }
 
-    private fun configureGoogleSignIn(): GoogleSignInClient {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build()
-        return GoogleSignIn.getClient(this, gso)
-    }
-
     private fun signIn() {
-        val signInIntent = googleSignInClient?.signInIntent
-        startSignInForResult.launch(signInIntent)
+        val signInIntent = gsc.signInIntent
+        startActivityForResult(signInIntent, 1000)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == rcSignIn) {
+        if (requestCode == 1000) {
             try {
-                val account = GoogleSignIn.getSignedInAccountFromIntent(data)
+                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+                task.getResult(ApiException::class.java)
                 navigateToGoogleActivity()
             } catch (e: ApiException) {
-                showToast("Something went wrong")
+                Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun navigateToGoogleActivity() {
         finish()
         val intent = Intent(this, GoogleActivity::class.java)
         startActivity(intent)
-    }
-
-    companion object {
-        private const val RC_SIGN_IN = 1000
     }
 }
