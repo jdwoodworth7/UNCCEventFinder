@@ -73,7 +73,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             )
 
             // Create an Intent to start MainActivity
-            val intent = Intent(this@CreateEventDetailsActivity, MainActivity::class.java)
+            val intent = Intent(this@CreateEventDetailsActivity, CreateEventActivity::class.java)
 
             // Start the MainActivity
             startActivity(intent)
