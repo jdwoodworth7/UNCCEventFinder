@@ -11,4 +11,26 @@
         <u>Forgot Password?</u>
     </string>
 
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="log_in">Log In</string>
+    <string name="back_arrow">Back Arrow</string>
+    <string name="gmail_com">**********@gmail.com</string>
+    <string name="email">Email</string>
+    <string name="password">*****************</string>
+    <string name="passwordText">Password</string>
+    <string name="logo">Logo</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="uncc_event_finder">UNCC Event Finder</string>
+    <string name="login">LOGIN</string>
+    <string name="login_with_google">Login with Google</string>
+    <string name="login_with_facebook">Login with Facebook</string>
+    <string name="login_with_email">Login with Email</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="startext">******</string>
+    <string name="back_button">Back Button</string>
+    <string name="name">name</string>
+    <string name="sign_out">Sign out</string>
+
 </resources>
