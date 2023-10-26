@@ -10,6 +10,8 @@
     <string name="ForgotPassword">
         <u>Forgot Password?</u>
     </string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBWL4qwmL_44-8UFds3yZqQH5IWk_OnCUw</string>
 
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="log_in">Log In</string>
