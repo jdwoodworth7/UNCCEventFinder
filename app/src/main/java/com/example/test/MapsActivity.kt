@@ -1,7 +1,9 @@
 package com.example.test
 
+import android.gesture.Prediction
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -9,16 +11,30 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.example.test.databinding.ActivityMapsBinding
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
+import com.google.android.libraries.places.api.net.PlacesClient
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private var initialBounds: LatLngBounds? = null
+    private lateinit var placesClient: PlacesClient
+
+    val MAPS_API_KEY = "AIzaSyBWL4qwmL_44-8UFds3yZqQH5IWk_OnCUw"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
+
+        Places.initialize(applicationContext, MAPS_API_KEY)
+        placesClient = Places.createClient(this)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -41,7 +57,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         //initializes the point of camera focus by coordinates
         val campusCoordinates = LatLng(35.30856979486446, -80.73370233971224)
 
-        //TODO: i don't know, fix your brain and think when you get it back
         setInitialCameraBounds()
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(campusCoordinates))
@@ -51,6 +66,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.setOnCameraMoveListener {
             setZoomCameraBounds()
         }
+
+        fetchEventData()
+
         // Add a marker
         //mMap.addMarker(MarkerOptions().position(campusCoordinates).title("Marker Name"))
     }
@@ -84,5 +102,61 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         )
 
         mMap.setLatLngBoundsForCameraTarget(newBounds)
+    }
+
+    //Fetching Existing Event Data (TEMP: Local)
+    fun fetchEventData() {
+        val eventDbAccess = EventDbAccess(this)
+        val eventList = eventDbAccess.getEventDataFromDatabase()
+
+        //iterates for each event inside eventList
+        for (event in eventList) {
+            searchAddress(event)
+        }
+    }
+
+    fun searchAddress(event: EventData) {
+        val address = event.address
+
+        val addressLatLng = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
+
+        //SQL request to Places API
+        val predictionRequest = FindAutocompletePredictionsRequest.builder()
+            .setQuery(address) // queries for current event's address
+            .setSessionToken(AutocompleteSessionToken.newInstance())
+            .build()
+
+        //returns predicted address from Places API
+        placesClient.findAutocompletePredictions(predictionRequest)
+            .addOnSuccessListener { response ->
+                if (response.autocompletePredictions.isNotEmpty()) {
+                    val firstPrediction = response.autocompletePredictions[0]
+                    val addressId = firstPrediction.placeId
+
+                    val fetchPlaceRequest = FetchPlaceRequest.newInstance(addressId, addressLatLng)
+
+                    /*  NOTE - use prediction.zzd for full address
+                        use prediction.zze for street address only
+                        use prediction.zzf for City, State, and Country* */
+
+                    placesClient.fetchPlace(fetchPlaceRequest)
+                        .addOnSuccessListener { response ->
+                            val place = response.place
+                            mMap.addMarker(
+                                MarkerOptions().position(place.latLng).title(event.title)
+                            )
+                        }.addOnFailureListener { exception: Exception ->
+                            if (exception is ApiException) {
+                                val statusCode = exception.statusCode
+                                TODO("Handle error with given status code")
+                            }
+                        }
+                }
+            }.addOnFailureListener { exception ->
+                if (exception is ApiException) {
+                    Log.e("Place Prediction", "Place not found: " + exception.statusCode)
+                }
+            }
+
     }
 }
