@@ -28,8 +28,7 @@
         android:backgroundTint="@color/white"
         android:drawableLeft="@drawable/googleicon"
         android:text="Login with Google"
-        android:textColor="@color/black"
-        android:id="@+id/google_btn"/>
+        android:textColor="@color/black" />
 
     <!--Facebook Login Button-->
     <com.google.android.material.button.MaterialButton
@@ -40,9 +39,7 @@
         android:drawableLeft="@drawable/facebookicon"
         android:text="Login with Facebook"
         android:textColor="@color/black"
-        android:translationY="75dp"
-        android:id="@+id/facebook_btn"/>
-
+        android:translationY="75dp"/>
 
     <!--Normal Login Button-->
     <com.google.android.material.button.MaterialButton
@@ -53,8 +50,7 @@
         android:text="Login with Email"
         android:drawableLeft="@drawable/baseline_email_24"
         android:textColor="@color/black"
-        android:translationY="150dp"
-        android:id="@+id/login_btn"/>
+        android:translationY="150dp"/>
 
     <TextView
         android:translationX="-60dp"
