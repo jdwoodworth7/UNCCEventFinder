@@ -19,6 +19,9 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
         val checkBoxVolunteering = findViewById<CheckBox>(R.id.checkboxVolunteering)
         val checkBoxStudentsOnly = findViewById<CheckBox>(R.id.checkboxStudentsOnly)
         val continueButton = findViewById<Button>(R.id.continueButton)
+        val cancelButton = findViewById<Button>(R.id.cancelButton)
+        //val menuButton = findViewById<ImageView>(R.id.menuButton)
+        //val mapIcon = findViewById<ImageView>(R.id.mapIcon)
 
         continueButton.setOnClickListener {
             // Retrieve data from the previous activity
@@ -59,5 +62,23 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
             // Start the next activity
             startActivity(intent)
         }
+
+        cancelButton.setOnClickListener {
+            // If the user clicks the "Cancel" button, finish the activity
+            finish()
+        }
+
+        //menuButton.setOnClickListener {
+        //    // Open the menu activity when the menu button is clicked
+        //    val intent = Intent(this@CreateEventCategoriesActivity, MenuActivity::class.java)
+        //    startActivity(intent)
+        //}
+
+        //mapIcon.setOnClickListener {
+        //    // Open the map activity when the map button is clicked
+        //    val intent = Intent(this@CreateEventCategoriesActivity, MapActivity::class.java)
+        //    startActivity(intent)
+        //}
+
     }
 }
