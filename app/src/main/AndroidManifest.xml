@@ -27,6 +27,8 @@
             android:exported="false"/>
         <activity android:name=".CreateEventDetailsActivity"
             android:exported="false"/>
+        <activity android:name=".MenuActivity"
+            android:exported="false"/>
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_primary">
+
+    <!-- Content Section -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="50dp">
+
+        <!-- Student Name -->
+        <TextView
+            android:id="@+id/studentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Name"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            android:textStyle="bold"/>
+
+        <!-- Student Email -->
+        <TextView
+            android:id="@+id/studentEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="unccstudent@uncc.edu:"
+            android:textSize="16sp"
+            android:textColor="#888888"
+            android:layout_below="@id/studentName"
+            android:layout_marginTop="5dp"/>
+
+        <!-- Additional TextViews -->
+        <TextView
+            android:id="@+id/mySchedules"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Schedules"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:layout_below="@id/studentEmail"
+            android:layout_marginTop="80dp"/>
+
+        <TextView
+            android:id="@+id/searchEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search Events"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:layout_below="@id/mySchedules"
+            android:layout_marginTop="50dp"/>
+
+        <TextView
+            android:id="@+id/createEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create a New Event"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:layout_below="@id/searchEvent"
+            android:layout_marginTop="50dp"/>
+
+        <TextView
+            android:id="@+id/Notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notifications"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:layout_below="@id/createEvent"
+            android:layout_marginTop="50dp"/>
+
+        <TextView
+            android:id="@+id/myFriends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Friends"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:layout_below="@id/Notifications"
+            android:layout_marginTop="50dp"/>
+
+        <TextView
+            android:id="@+id/myProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Profile"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:layout_below="@id/myFriends"
+            android:layout_marginTop="50dp"/>
+
+
+        <TextView
+            android:id="@+id/settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:layout_below="@id/myProfile"
+            android:layout_marginTop="40dp"/>
+
+        <TextView
+            android:id="@+id/rateUs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rate Us"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:layout_below="@id/settings"
+            android:layout_marginTop="25dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

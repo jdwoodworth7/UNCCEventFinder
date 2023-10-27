@@ -4,6 +4,14 @@ plugins {
 }
 
 android {
+<<<<<<< Updated upstream
+=======
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("C:\\.android\\debug.keystore")
+        }
+    }
+>>>>>>> Stashed changes
     namespace = "com.example.test"
     compileSdk = 34
 
