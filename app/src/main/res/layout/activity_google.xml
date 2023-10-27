@@ -29,7 +29,7 @@
 
     <!--Back button-->
 
-    <ImageButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/backButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -59,6 +59,16 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/name"
         android:textSize="24sp"/>
+
+    <!--Log In Button-->
+    <Button
+        android:id="@+id/logInButton"
+        android:layout_width="237dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="115dp"
+        android:text="LOG IN"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"

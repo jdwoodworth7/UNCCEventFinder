@@ -42,10 +42,14 @@ class GoogleActivity : AppCompatActivity() {
 
         signOutBtn.setOnClickListener { signOut() }
 
-        val backButton: ImageButton = findViewById(R.id.backButton)
+        val backButton: Button = findViewById(R.id.backButton)
 
-        backButton.setOnClickListener {
-            startActivity(Intent(this@GoogleActivity, MainActivity::class.java))
+        backButton.setOnClickListener { signOut() }
+
+        val loginButton:Button = findViewById(R.id.logInButton)
+
+        loginButton.setOnClickListener {
+            startActivity(Intent(this@GoogleActivity, MapsActivity::class.java))
         }
     }
 
