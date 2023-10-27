@@ -48,7 +48,9 @@ class GoogleActivity : AppCompatActivity() {
 
         val loginButton:Button = findViewById(R.id.logInButton)
 
-        loginButton.setOnClickListener {startActivity( Intent(this@GoogleActivity, MapsActivity::class.java)) }
+        loginButton.setOnClickListener {
+            startActivity(Intent(this@GoogleActivity, MapsActivity::class.java))
+        }
     }
 
     private fun signOut() {
