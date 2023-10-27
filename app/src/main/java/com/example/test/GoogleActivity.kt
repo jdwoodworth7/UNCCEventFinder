@@ -3,6 +3,7 @@ package com.example.test
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -39,8 +40,12 @@ class GoogleActivity : AppCompatActivity() {
             email.text = personEmail
         }
 
-        signOutBtn.setOnClickListener {
-            signOut()
+        signOutBtn.setOnClickListener { signOut() }
+
+        val backButton: ImageButton = findViewById(R.id.backButton)
+
+        backButton.setOnClickListener {
+            startActivity(Intent(this@GoogleActivity, MainActivity::class.java))
         }
     }
 
