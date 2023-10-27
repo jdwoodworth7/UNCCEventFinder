@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 class CreateEventCategoriesActivity : AppCompatActivity() {
@@ -20,8 +21,8 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
         val checkBoxStudentsOnly = findViewById<CheckBox>(R.id.checkboxStudentsOnly)
         val continueButton = findViewById<Button>(R.id.continueButton)
         val cancelButton = findViewById<Button>(R.id.cancelButton)
-        //val menuButton = findViewById<ImageView>(R.id.menuButton)
-        //val mapIcon = findViewById<ImageView>(R.id.mapIcon)
+        val menuButton = findViewById<ImageView>(R.id.menuButton)
+        val mapIcon = findViewById<ImageView>(R.id.mapIcon)
 
         continueButton.setOnClickListener {
             // Retrieve data from the previous activity
@@ -68,17 +69,17 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
             finish()
         }
 
-        //menuButton.setOnClickListener {
-        //    // Open the menu activity when the menu button is clicked
-        //    val intent = Intent(this@CreateEventCategoriesActivity, MenuActivity::class.java)
-        //    startActivity(intent)
-        //}
+        menuButton.setOnClickListener {
+            // Open the menu activity when the menu button is clicked
+            val intent = Intent(this@CreateEventCategoriesActivity, MenuActivity::class.java)
+            startActivity(intent)
+        }
 
-        //mapIcon.setOnClickListener {
-        //    // Open the map activity when the map button is clicked
-        //    val intent = Intent(this@CreateEventCategoriesActivity, MapActivity::class.java)
-        //    startActivity(intent)
-        //}
+        mapIcon.setOnClickListener {
+            // Open the map activity when the map button is clicked
+            val intent = Intent(this@CreateEventCategoriesActivity, MapsActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 }

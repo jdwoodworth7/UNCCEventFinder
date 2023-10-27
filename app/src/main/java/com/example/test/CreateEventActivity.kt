@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,9 +24,9 @@ class CreateEventActivity : AppCompatActivity() {
         val editBuildingName = findViewById<EditText>(R.id.locationEditText)
         val editAddress = findViewById<EditText>(R.id.addressEditText)
         val continueButton = findViewById<Button>(R.id.continueButton)
-        //val cancelButton = findViewById<Button>(R.id.cancelButton)
-        //val menuButton = findViewById<ImageView>(R.id.menuButton)
-        //val mapIcon = findViewById<ImageView>(R.id.mapIcon)
+        val cancelButton = findViewById<Button>(R.id.cancelButton)
+        val menuButton = findViewById<ImageView>(R.id.menuButton)
+        val mapIcon = findViewById<ImageView>(R.id.mapIcon)
 
         val descriptionCounter = findViewById<TextView>(R.id.descriptionCounter)
         val locationCounter = findViewById<TextView>(R.id.locationCounter)
@@ -93,23 +94,23 @@ class CreateEventActivity : AppCompatActivity() {
             }
         }
 
-        //cancelButton.setOnClickListener {
-        //    // If the user clicks the "Cancel" button, open the menu
-        //    val intent = Intent(this@CreateEventActivity, MenuActivity::class.java)
-        //    startActivity(intent)
-        //}
+        cancelButton.setOnClickListener {
+            // If the user clicks the "Cancel" button, open the menu
+            val intent = Intent(this@CreateEventActivity, MenuActivity::class.java)
+            startActivity(intent)
+        }
 
-        //menuButton.setOnClickListener {
-        //    // Open the menu activity when the menu button is clicked
-        //    val intent = Intent(this@CreateEventActivity, MenuActivity::class.java)
-        //    startActivity(intent)
-        //}
+        menuButton.setOnClickListener {
+            // Open the menu activity when the menu button is clicked
+            val intent = Intent(this@CreateEventActivity, MenuActivity::class.java)
+            startActivity(intent)
+        }
 
-        //mapIcon.setOnClickListener {
-        //    // Open the map activity when the map button is clicked
-        //    val intent = Intent(this@CreateEventActivity, MapActivity::class.java)
-        //    startActivity(intent)
-        //}
+        mapIcon.setOnClickListener {
+            // Open the map activity when the map button is clicked
+            val intent = Intent(this@CreateEventActivity, MapsActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 }

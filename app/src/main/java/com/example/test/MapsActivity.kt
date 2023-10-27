@@ -1,9 +1,11 @@
 package com.example.test
 
+import android.content.Intent
 import android.gesture.Prediction
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -40,6 +42,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        // Get a reference to the menuButton
+        val menuButton = findViewById<ImageView>(R.id.menuButton)
+
+        // Set a click listener for the menuButton
+        menuButton.setOnClickListener {
+            // Start the MenuActivity when the menuButton is clicked
+            val intent = Intent(this@MapsActivity, MenuActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     /**
