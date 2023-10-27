@@ -7,7 +7,7 @@ plugins {
 android {
     signingConfigs {
         getByName("debug") {
-            storeFile = file("C:\\Android\\.android\\debug.keystore")
+            storeFile = file("debug.keystore")
         }
     }
     namespace = "com.example.test"
