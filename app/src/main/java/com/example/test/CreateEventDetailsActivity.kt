@@ -69,15 +69,6 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                 categories
             )
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-            // Create an Intent to start MainActivity
-=======
-            // Create an Intent to start CreateEventActivity
->>>>>>> Stashed changes
-=======
-            // Create an Intent to start CreateEventActivity
->>>>>>> Stashed changes
             val intent = Intent(this@CreateEventDetailsActivity, CreateEventActivity::class.java)
 
             // Start the CreateEventActivity
