@@ -1,6 +1,7 @@
 package com.example.test
 
 import android.content.Context
+import android.net.Uri
 import com.example.test.EventData
 
 
@@ -13,9 +14,11 @@ class EventDbAccess(private val context: Context) {
         val projection = arrayOf(
             EventContract.EventEntry.COLUMN_TITLE,
             EventContract.EventEntry.COLUMN_DESCRIPTION,
-            EventContract.EventEntry.COLUMN_DATETIME,
+            EventContract.EventEntry.COLUMN_DATE,  // Check this line
+            EventContract.EventEntry.COLUMN_TIME,
             EventContract.EventEntry.COLUMN_BUILDING_NAME,
             EventContract.EventEntry.COLUMN_ADDRESS,
+            EventContract.EventEntry.COLUMN_IMAGE_URI,
             EventContract.EventEntry.COLUMN_CATEGORY_ACADEMIC,
             EventContract.EventEntry.COLUMN_CATEGORY_SOCIAL,
             EventContract.EventEntry.COLUMN_CATEGORY_SPORTS,
@@ -25,7 +28,7 @@ class EventDbAccess(private val context: Context) {
             EventContract.EventEntry.COLUMN_CATEGORY_STUDENTS_ONLY
         )
 
-        val sortOrder = "${EventContract.EventEntry.COLUMN_DATETIME} ASC"
+        val sortOrder = "${EventContract.EventEntry.COLUMN_DATE} ASC, ${EventContract.EventEntry.COLUMN_TIME} ASC"
 
         val cursor = db.query(
             EventContract.EventEntry.TABLE_NAME,   // The table to query
@@ -44,12 +47,16 @@ class EventDbAccess(private val context: Context) {
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_TITLE))
             val description =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_DESCRIPTION))
-            val dateAndTime =
-                cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_DATETIME))
+            val date =
+                cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_DATE))
+            val time=
+                cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_TIME))
             val buildingName =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_BUILDING_NAME))
             val address =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_ADDRESS))
+            val imageUri =
+                cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_IMAGE_URI))
 
             val academic =
                 cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_ACADEMIC)) == 1
@@ -75,8 +82,15 @@ class EventDbAccess(private val context: Context) {
             if (volunteering) categories.add("Volunteering")
             if (studentsOnly) categories.add("Students Only")
 
-            val eventData =
-                EventData(title, description, dateAndTime, buildingName, address, categories)
+            val eventData = EventData(
+                title,
+                description,
+                "$date $time",
+                buildingName,
+                address,
+                Uri.parse(imageUri ?: ""),
+                categories
+            )
             eventList.add(eventData)
         }
         cursor.close()

@@ -6,8 +6,7 @@
     android:padding="7dp"
     android:background="#5A6978"
     android:layout_marginBottom="8dp"
-    android:layout_marginStart="4dp">
-
+    android:layout_marginStart="1dp">
 
     <View
         android:id="@+id/bottomHalfBackground"
@@ -32,7 +31,7 @@
         android:text="Title"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="5dp" />
 
     <TextView
         android:id="@+id/buildingNameTextView"
@@ -41,7 +40,7 @@
         android:layout_below="@+id/titleTextView"
         android:text="BuildingName"
         android:textSize="18sp"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/dateTextView"
@@ -49,8 +48,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/buildingNameTextView"
         android:text="DateAndTime"
-        android:textSize="18sp"
-        android:layout_marginTop="8dp" />
+        android:textSize="14sp"
+        android:layout_marginTop="15dp" />
 
 
 </RelativeLayout>
