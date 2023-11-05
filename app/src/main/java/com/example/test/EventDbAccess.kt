@@ -18,7 +18,7 @@ class EventDbAccess(private val context: Context) {
             EventContract.EventEntry.COLUMN_TIME,
             EventContract.EventEntry.COLUMN_BUILDING_NAME,
             EventContract.EventEntry.COLUMN_ADDRESS,
-            EventContract.EventEntry.COLUMN_IMAGE_URI,
+            EventContract.EventEntry.COLUMN_IMAGE_URL,
             EventContract.EventEntry.COLUMN_CATEGORY_ACADEMIC,
             EventContract.EventEntry.COLUMN_CATEGORY_SOCIAL,
             EventContract.EventEntry.COLUMN_CATEGORY_SPORTS,
@@ -55,8 +55,8 @@ class EventDbAccess(private val context: Context) {
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_BUILDING_NAME))
             val address =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_ADDRESS))
-            val imageUri =
-                cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_IMAGE_URI))
+            val imageUrl =
+                cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_IMAGE_URL))
 
             val academic =
                 cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_ACADEMIC)) == 1
@@ -85,10 +85,11 @@ class EventDbAccess(private val context: Context) {
             val eventData = EventData(
                 title,
                 description,
-                "$date $time",
+                date,
+                time,
                 buildingName,
                 address,
-                Uri.parse(imageUri ?: ""),
+                imageUrl,
                 categories
             )
             eventList.add(eventData)

@@ -22,7 +22,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         val time = intent.getStringExtra("time")
         val buildingName = intent.getStringExtra("buildingName")
         val address = intent.getStringExtra("address")
-        val imageUri = intent.getStringExtra("imageUri")
+        val imageUrl = intent.getStringExtra("imageUrl")
 
         // Build a string to display checkbox details
         val checkBoxDetails = buildCheckBoxDetails()
@@ -38,7 +38,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                     "Building Name: $buildingName\n" +
                     "Address: $address\n" +
                     "Categories: $checkBoxDetails\n" +
-                    "Image URI: $imageUri"
+                    "Image URI: $imageUrl"
         )
 
         // Setup "Exit" button click listener
@@ -72,7 +72,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                 buildingName ?: "",
                 address ?: "",
                 categories ?: emptyList(),  // Provide an empty list if null
-                imageUri ?: ""
+                imageUrl ?: ""
             )
 
             val intent = Intent(this@CreateEventDetailsActivity, CreateEventActivity::class.java)
@@ -117,7 +117,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         buildingName: String?,
         address: String?,
         categories: List<String>,
-        imageUri: String
+        imageUrl: String?
     ) {
         val dbHelper = EventDbHelper(this)
         val db = dbHelper.writableDatabase
@@ -130,7 +130,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             time?.let { put(EventContract.EventEntry.COLUMN_TIME, it) }
             buildingName?.let { put(EventContract.EventEntry.COLUMN_BUILDING_NAME, it) }
             address?.let { put(EventContract.EventEntry.COLUMN_ADDRESS, it) }
-            put(EventContract.EventEntry.COLUMN_IMAGE_URI, imageUri)
+            put(EventContract.EventEntry.COLUMN_IMAGE_URL, imageUrl)
 
 
             // Set category columns

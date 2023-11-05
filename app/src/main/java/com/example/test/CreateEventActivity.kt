@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
+import coil.load
 
 class CreateEventActivity : AppCompatActivity() {
 
@@ -21,13 +22,11 @@ class CreateEventActivity : AppCompatActivity() {
     private lateinit var selectImageButton: Button
     private lateinit var userUploadedImageView: ImageView
     private val PICK_IMAGE_REQUEST = 1
-    private lateinit var selectedImageUri: Uri
+    private lateinit var selectedImageUrl: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event)
-
-        selectedImageUri = Uri.parse("android.resource://your.package.name/drawable/default_image")
 
         initDatePicker()
         dateButton = findViewById(R.id.datePickerButton)
@@ -103,17 +102,14 @@ class CreateEventActivity : AppCompatActivity() {
             val buildingName = editBuildingName.text.toString()
             val address = editAddress.text.toString()
 
-            // Check if the selected image is still the default image
-            if (selectedImageUri.toString() == "android.resource://your.package.name/drawable/default_image") {
-                // No image selected, set it to null
-                selectedImageUri = Uri.EMPTY
-            }
-
             if (title.isEmpty() || description.isEmpty() || date.isEmpty() || time.isEmpty() || buildingName.isEmpty() || address.isEmpty()) {
                 // Display a message or toast indicating that all fields must be filled
                 // For example:
-                Toast.makeText(this@CreateEventActivity, "Please fill out all fields", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this@CreateEventActivity, "Please fill out all fields", Toast.LENGTH_SHORT).show()
+            } else if (selectedImageUrl.isEmpty()) {
+                // Display a message or toast indicating that the user must upload an image
+                // For example:
+                Toast.makeText(this@CreateEventActivity, "Please upload an image", Toast.LENGTH_SHORT).show()
             } else {
                 // Create an Intent to start the next activity
                 val intent = Intent(this@CreateEventActivity, CreateEventCategoriesActivity::class.java)
@@ -125,12 +121,7 @@ class CreateEventActivity : AppCompatActivity() {
                 intent.putExtra("time", time)
                 intent.putExtra("buildingName", buildingName)
                 intent.putExtra("address", address)
-
-                // Check if an image is selected
-                if (selectedImageUri != null) {
-                    // Pass the image URI to the next activity
-                    intent.putExtra("imageUri", selectedImageUri.toString())
-                }
+                intent.putExtra("imageUrl", selectedImageUrl)
 
                 // Start the next activity
                 startActivity(intent)
@@ -160,15 +151,16 @@ class CreateEventActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
-            // Get the selected image URI
-            selectedImageUri = data.data!!
+            // Get the selected image URL directly as a string
+            selectedImageUrl = data.data!!.toString()
 
             // Inflate the card_item.xml layout to find photoImageView
             val cardView: View = layoutInflater.inflate(R.layout.card_item, null)
             userUploadedImageView = cardView.findViewById(R.id.photoImageView)
 
-            // Set the image to userUploadedImageView
-            userUploadedImageView.setImageURI(selectedImageUri)
+            // Use Coil to load the image from the URL into the ImageView
+            userUploadedImageView.load(selectedImageUrl)
+
             userUploadedImageView.visibility = View.VISIBLE
         }
     }

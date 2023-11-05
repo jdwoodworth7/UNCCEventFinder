@@ -1,13 +1,13 @@
 package com.example.test
 
-import android.os.Bundle
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import android.Manifest
 import android.content.Intent
+import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.launch
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 
 class SearchActivity : AppCompatActivity() {
 
@@ -47,6 +47,13 @@ class SearchActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // Find the filter icon and set a click listener
+        val filterIcon = findViewById<ImageView>(R.id.filterIcon)
+        filterIcon.setOnClickListener {
+            // Open the FilterActivity when the filter icon is clicked
+            val intent = Intent(this@SearchActivity, FilterActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private val requestPermissionLauncher =

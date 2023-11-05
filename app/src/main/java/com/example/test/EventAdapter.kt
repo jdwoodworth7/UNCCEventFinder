@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 
 class EventAdapter(private val eventList: MutableList<EventData>) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
@@ -32,11 +33,15 @@ class EventAdapter(private val eventList: MutableList<EventData>) : RecyclerView
         // Set the text for TextViews
         holder.titleTextView.text = currentItem.title
         holder.buildingNameTextView.text = currentItem.buildingName
-        holder.dateTextView.text = currentItem.dateAndTime
+        holder.dateTextView.text = currentItem.date
 
+        // Change from "userUploadedImageUri" to "userUploadedImageUrl"
         try {
-            currentItem.userUploadedImageUri?.let { uri ->
-                holder.photoImageView.setImageURI(uri)
+            currentItem.userUploadedImageUrl?.let { imageUrl ->
+                // Use Coil to load the image from the URL into the ImageView
+                holder.photoImageView.load(imageUrl) {
+                    // You can customize image loading options if needed
+                }
             }
         } catch (e: SecurityException) {
             e.printStackTrace()

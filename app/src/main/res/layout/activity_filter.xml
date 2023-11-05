@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Green Banner -->
+    <RelativeLayout
+        android:id="@+id/bannerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/color_primary"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/menuButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/baseline_menu_24"
+                android:layout_marginEnd="10dp"/>
+
+            <ImageView
+                android:id="@+id/mapIcon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/baseline_map_24" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Filters"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <!-- Gray Box for Search -->
+    <RelativeLayout
+        android:id="@+id/graybannerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bannerLayout"
+        android:background="#C0CCDA"
+        android:padding="7dp">
+
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F0F0F0"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:hint="Search for Filters"
+            android:inputType="text"
+            android:drawableLeft="@drawable/baseline_search_24"
+            android:drawablePadding="70dp"
+            android:maxWidth="250dp"
+            android:layout_marginEnd="45dp"
+            android:layout_alignParentStart="true"
+            android:gravity="center_vertical"/>
+
+    </RelativeLayout>
+
+    <!-- Filter Icon to the Right of the Search Box -->
+    <ImageView
+        android:id="@+id/filterIcon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/baseline_filter_list_24"
+        android:layout_below="@id/bannerLayout"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="4dp" />
+
+    <LinearLayout
+        android:id="@+id/toggleButtonsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/graybannerLayout"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp">
+
+        <!-- Academic ToggleButton -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp">
+
+            <TextView
+                android:id="@+id/academicText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Academic"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="30dp"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <ToggleButton
+                android:id="@+id/toggleAcademic"
+                android:layout_width="70dp"
+                android:layout_height="60dp"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/toggle_selector"
+                android:button="@drawable/toggle_selector"
+                android:layout_alignParentEnd="true"
+                android:checked="false"/>
+        </RelativeLayout>
+
+        <!-- Social ToggleButton -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp">
+
+            <TextView
+                android:id="@+id/socialText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Social"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="30dp"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <ToggleButton
+                android:id="@+id/toggleSocial"
+                android:layout_width="70dp"
+                android:layout_height="60dp"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/toggle_selector"
+                android:button="@drawable/toggle_selector"
+                android:layout_alignParentEnd="true"
+                android:checked="false"/>
+        </RelativeLayout>
+
+        <!-- Clubs/Organizations ToggleButton -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp">
+
+            <TextView
+                android:id="@+id/clubsOrgText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clubs/Organizations"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="30dp"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <ToggleButton
+                android:id="@+id/toggleClubsOrg"
+                android:layout_width="70dp"
+                android:layout_height="60dp"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/toggle_selector"
+                android:button="@drawable/toggle_selector"
+                android:layout_alignParentEnd="true"
+                android:checked="false"/>
+        </RelativeLayout>
+
+        <!-- Workshops ToggleButton -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp">
+
+            <TextView
+                android:id="@+id/workshopsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Workshops"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="30dp"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <ToggleButton
+                android:id="@+id/toggleWorkshops"
+                android:layout_width="70dp"
+                android:layout_height="60dp"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/toggle_selector"
+                android:button="@drawable/toggle_selector"
+                android:layout_alignParentEnd="true"
+                android:checked="false"/>
+        </RelativeLayout>
+
+        <!-- Volunteering ToggleButton -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp">
+
+            <TextView
+                android:id="@+id/volunteeringText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Volunteering"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="30dp"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <ToggleButton
+                android:id="@+id/toggleVolunteering"
+                android:layout_width="70dp"
+                android:layout_height="60dp"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/toggle_selector"
+                android:button="@drawable/toggle_selector"
+                android:layout_alignParentEnd="true"
+                android:checked="false"/>
+        </RelativeLayout>
+
+        <!-- Students Only ToggleButton -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp">
+
+            <TextView
+                android:id="@+id/studentsOnlyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Students Only"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="30dp"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <ToggleButton
+                android:id="@+id/toggleStudentsOnly"
+                android:layout_width="70dp"
+                android:layout_height="60dp"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/toggle_selector"
+                android:button="@drawable/toggle_selector"
+                android:layout_alignParentEnd="true"
+                android:checked="false"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toggleButtonsLayout"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="16dp">
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="-1dp"
+            android:background="#005035"
+            android:text="   Cancel   "
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="-2dp"
+            android:background="#00FF00"
+            android:text="   Submit   "
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

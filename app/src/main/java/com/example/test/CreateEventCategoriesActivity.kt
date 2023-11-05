@@ -32,7 +32,7 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
             val time = intent.getStringExtra("time")
             val buildingName = intent.getStringExtra("buildingName")
             val address = intent.getStringExtra("address")
-            val imageUri = intent.getStringExtra("imageUri")
+            val imageUrl = intent.getStringExtra("imageUrl")
 
             // Retrieve checkbox information
             val isAcademicChecked = checkBoxAcademic.isChecked
@@ -53,7 +53,7 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
             intent.putExtra("time", time)
             intent.putExtra("buildingName", buildingName)
             intent.putExtra("address", address)
-            intent.putExtra("imageUri", imageUri)
+            intent.putExtra("imageUrl", imageUrl)
 
             // Pass checkbox information
             intent.putExtra("checkboxAcademic", checkBoxAcademic.isChecked)
