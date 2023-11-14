@@ -14,7 +14,7 @@ class EventDbAccess(private val context: Context) {
         val projection = arrayOf(
             EventContract.EventEntry.COLUMN_TITLE,
             EventContract.EventEntry.COLUMN_DESCRIPTION,
-            EventContract.EventEntry.COLUMN_DATE,  // Check this line
+            EventContract.EventEntry.COLUMN_DATE,
             EventContract.EventEntry.COLUMN_TIME,
             EventContract.EventEntry.COLUMN_BUILDING_NAME,
             EventContract.EventEntry.COLUMN_ADDRESS,
@@ -31,12 +31,12 @@ class EventDbAccess(private val context: Context) {
         val sortOrder = "${EventContract.EventEntry.COLUMN_DATE} ASC, ${EventContract.EventEntry.COLUMN_TIME} ASC"
 
         val cursor = db.query(
-            EventContract.EventEntry.TABLE_NAME,   // The table to query
+            EventContract.EventEntry.TABLE_NAME,  // The table to query
             projection,                           // The columns to return
-            null,                                 // The columns for the WHERE clause
-            null,                                 // The values for the WHERE clause
-            null,                                 // Don't group the rows
-            null,                                 // Don't filter by row groups
+            null,                         // The columns for the WHERE clause
+            null,                      // The values for the WHERE clause
+            null,                         // Don't group the rows
+            null,                          // Don't filter by row groups
             sortOrder                             // The sort order
         )
 
