@@ -18,9 +18,11 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         // Retrieve data from the previous activity
         val title = intent.getStringExtra("title")
         val description = intent.getStringExtra("description")
-        val dateAndTime = intent.getStringExtra("dateAndTime")
+        val date = intent.getStringExtra("date")
+        val time = intent.getStringExtra("time")
         val buildingName = intent.getStringExtra("buildingName")
         val address = intent.getStringExtra("address")
+        val imageUrl = intent.getStringExtra("imageUrl")
 
         // Build a string to display checkbox details
         val checkBoxDetails = buildCheckBoxDetails()
@@ -31,10 +33,12 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             "You have created an event!\n\n" +
                     "Title: $title\n" +
                     "Description: $description\n" +
-                    "Date and Time: $dateAndTime\n" +
+                    "Date: $date" + "  " +  // Separate date
+                    "Time: $time\n" +   // Separate time
                     "Building Name: $buildingName\n" +
-                    "Address: $address\n\n" +
-                    "Categories: $checkBoxDetails"
+                    "Address: $address\n" +
+                    "Categories: $checkBoxDetails\n" +
+                    "Image URI: $imageUrl"
         )
 
         // Setup "Exit" button click listener
@@ -61,12 +65,14 @@ class CreateEventDetailsActivity : AppCompatActivity() {
 
             // Save event details to the database
             saveEventToDatabase(
-                title ?: "",          // Provide a default empty string if null
+                title ?: "",
                 description ?: "",
-                dateAndTime,
-                buildingName,
-                address,
-                categories
+                date ?: "",
+                time ?: "",
+                buildingName ?: "",
+                address ?: "",
+                categories ?: emptyList(),  // Provide an empty list if null
+                imageUrl ?: ""
             )
 
             val intent = Intent(this@CreateEventDetailsActivity, CreateEventActivity::class.java)
@@ -106,10 +112,12 @@ class CreateEventDetailsActivity : AppCompatActivity() {
     private fun saveEventToDatabase(
         title: String,
         description: String,
-        dateAndTime: String?,
+        date: String?,
+        time: String?,
         buildingName: String?,
         address: String?,
-        categories: List<String>
+        categories: List<String>,
+        imageUrl: String?
     ) {
         val dbHelper = EventDbHelper(this)
         val db = dbHelper.writableDatabase
@@ -118,9 +126,12 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         val values = ContentValues().apply {
             put(EventContract.EventEntry.COLUMN_TITLE, title)
             put(EventContract.EventEntry.COLUMN_DESCRIPTION, description)
-            dateAndTime?.let { put(EventContract.EventEntry.COLUMN_DATETIME, it) }
+            date?.let { put(EventContract.EventEntry.COLUMN_DATE, it) }
+            time?.let { put(EventContract.EventEntry.COLUMN_TIME, it) }
             buildingName?.let { put(EventContract.EventEntry.COLUMN_BUILDING_NAME, it) }
             address?.let { put(EventContract.EventEntry.COLUMN_ADDRESS, it) }
+            put(EventContract.EventEntry.COLUMN_IMAGE_URL, imageUrl)
+
 
             // Set category columns
             put(EventContract.EventEntry.COLUMN_CATEGORY_ACADEMIC, if ("Academic" in categories) 1 else 0)
