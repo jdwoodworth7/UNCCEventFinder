@@ -22,6 +22,10 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
+import okhttp3.*
+import java.io.IOException
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -123,16 +127,29 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //iterates for each event inside eventList
         for (event in eventList) {
-            searchAddress(event)
+            //searches and fetches latitude and longitude from input address
+            fetchLatLngFromAddress(event) { lat, lng ->
+                val latLng = LatLng(lat, lng)
+
+                //adds marker on given coordinate
+                //TODO: automate alternate marker locations so that events of the same address won't stack on top
+                //Suggestion: If multiple events occur at the same address, display titles of multiple events in list view
+                runOnUiThread {
+                    mMap.addMarker(
+                        MarkerOptions().position(latLng).title(event.title)
+                    )
+                }
+            }
         }
     }
 
-    fun searchAddress(event: EventData) {
+    //for future use, prediction address for better accuracy
+    fun searchAddressByPrediction(event: EventData) {
         val address = event.address
 
         val addressLatLng = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
 
-        //SQL request to Places API
+        //AutoComplete Prediction SQL request to Places API
         val predictionRequest = FindAutocompletePredictionsRequest.builder()
             .setQuery(address) // queries for current event's address
             .setSessionToken(AutocompleteSessionToken.newInstance())
@@ -171,4 +188,74 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
     }
+
+    //fetches Latitude and Longitude from Json response string using Gson library
+    fun fetchLatLngFromAddress(event: EventData, onLatLngReceived: (Double, Double) -> Unit){
+        getLocationByAddress(event.address,
+            onResponse = { response ->
+
+                val jsonString = response.body?.string()
+
+                //checks if response string is not empty
+                if (jsonString != null) {
+                    val jsonObject = Gson().fromJson(jsonString, JsonObject::class.java)
+
+                    val resultsArray = jsonObject.getAsJsonArray("results")
+
+                    if(resultsArray.size() > 0){
+                        val locationObject = resultsArray[0].asJsonObject
+                            .getAsJsonObject("geometry")
+                            .getAsJsonObject("location")
+
+                        val lat = locationObject.getAsJsonPrimitive("lat").asDouble
+                        val lng = locationObject.getAsJsonPrimitive("lng").asDouble
+
+                        //returns Latitude and Longitude
+                        onLatLngReceived(lat,lng)
+
+                    }else {
+                        //if json string is not empty but results has no value
+                        Log.e("Response Body Results Array", "Results are empty")
+                    }
+                }else {
+                    //if response json string is empty
+                    Log.e("Response Body", "Response Body is Empty")
+                }
+            },
+            onFailure = { exception ->
+                exception.printStackTrace()
+            }
+        )
+    }
+
+    //HTTP Get request to Places API for address search.
+    fun getLocationByAddress(address: String?, onResponse: (Response) -> Unit, onFailure: (Exception) -> Unit) {
+        val client = OkHttpClient()
+        val url = HttpUrl.Builder()
+            .scheme("https")
+            .host("maps.googleapis.com")
+            .addPathSegment("maps")
+            .addPathSegment("api")
+            .addPathSegment("geocode")
+            .addPathSegment("json")
+            .addQueryParameter("address", address)
+            .addQueryParameter("key", MAPS_API_KEY)
+            .build()
+
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                onFailure(e)
+            }
+
+            override fun onResponse(call: Call, response: Response){
+                onResponse(response)
+            }
+
+        })
+    }
+
 }
