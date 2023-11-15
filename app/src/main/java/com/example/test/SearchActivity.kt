@@ -1,15 +1,20 @@
 package com.example.test
 
-import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.findFragment
+import android.view.inputmethod.EditorInfo
 
 class SearchActivity : AppCompatActivity() {
+
+    private lateinit var searchEditText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,13 +27,22 @@ class SearchActivity : AppCompatActivity() {
             }
 
             // Request permission when the activity is created
-            requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+            requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
 
             val searchResultsFragment = SearchResultsFragment()
 
-            supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, searchResultsFragment)
-                .commit()
+            supportFragmentManager.commit {
+                add(R.id.fragment_container, searchResultsFragment)
+            }
+        }
+
+        searchEditText = findViewById(R.id.searchEditText)
+        searchEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                performSearch()
+                return@setOnEditorActionListener true
+            }
+            false
         }
 
         // Find the menu button and set a click listener
@@ -71,5 +85,14 @@ class SearchActivity : AppCompatActivity() {
     // This method contains the image loading logic
     private fun loadImages() {
         // Implement your image loading logic here
+    }
+
+    private fun performSearch() {
+        val searchQuery = searchEditText.text.toString().trim()
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        if (fragment is SearchResultsFragment) {
+            fragment.searchEventsByTitle(searchQuery)
+        }
     }
 }

@@ -10,4 +10,12 @@
         android:paddingEnd="4dp"
         android:clipToPadding="false"
         android:scrollbars="vertical" />
+
+    <TextView
+        android:id="@+id/noResultsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No results found"
+        android:visibility="gone" />
 </RelativeLayout>

@@ -59,23 +59,37 @@
         android:padding="7dp">
 
         <!-- Search Box with Search Icon Inside -->
-        <EditText
-            android:id="@+id/searchEditText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F0F0F0"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:hint="Search for Events"
-            android:inputType="text"
-            android:drawableLeft="@drawable/baseline_search_24"
-            android:drawablePadding="70dp"
-            android:maxWidth="250dp"
-            android:layout_marginEnd="45dp"
-            android:layout_alignParentStart="true"
-            android:gravity="center_vertical"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Search Icon Button -->
+            <ImageButton
+                android:id="@+id/searchedButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/baseline_search_24"
+                android:background="?android:attr/selectableItemBackground" />
+
+            <!-- Search EditText -->
+            <EditText
+                android:id="@+id/searchEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F0F0F0"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:hint="Search for Events"
+                android:inputType="text"
+                android:maxWidth="250dp"
+                android:layout_marginEnd="45dp"
+                android:layout_alignParentStart="true"
+                android:gravity="center_vertical" />
+        </LinearLayout>
 
     </RelativeLayout>
 
