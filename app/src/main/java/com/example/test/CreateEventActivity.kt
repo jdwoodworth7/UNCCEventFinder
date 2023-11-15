@@ -107,11 +107,11 @@ class CreateEventActivity : AppCompatActivity() {
                 // For example:
                 Toast.makeText(this@CreateEventActivity, "Please fill out all fields", Toast.LENGTH_SHORT).show()
             }
-//            else if (selectedImageUrl=="") {  //updated .isEmpty() to initialized empty string
-//                // Display a message or toast indicating that the user must upload an image
-//                // For example:
-//                Toast.makeText(this@CreateEventActivity, "Please upload an image", Toast.LENGTH_SHORT).show()
-//            }
+            else if (selectedImageUrl=="") {  //updated .isEmpty() to initialized empty string
+                // Display a message or toast indicating that the user must upload an image
+                // For example:
+                Toast.makeText(this@CreateEventActivity, "Please upload an image", Toast.LENGTH_SHORT).show()
+            }
             else {
                 // Create an Intent to start the next activity
                 val intent = Intent(this@CreateEventActivity, CreateEventCategoriesActivity::class.java)
