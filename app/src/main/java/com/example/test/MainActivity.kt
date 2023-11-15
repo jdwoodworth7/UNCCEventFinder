@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -27,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         val SignUpUnderline = findViewById<TextView>(R.id.SignUpUnderline)
         val EmailButton = findViewById<Button>(R.id.EmailButton)
         SignUpUnderline.setOnClickListener {
-            startActivity(Intent(this@MainActivity, RegisterActivity::class.java))
+            startActivity(Intent(this@MainActivity, CalendarViewActivity::class.java))
         }
 
         EmailButton.setOnClickListener {
