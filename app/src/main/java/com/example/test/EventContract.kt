@@ -6,6 +6,7 @@ object EventContract {
     // Define table and column names
     object EventEntry : BaseColumns {
         const val TABLE_NAME = "events"
+        const val COLUMN_ID = "id"
         const val COLUMN_TITLE = "title"
         const val COLUMN_DESCRIPTION = "description"
         const val COLUMN_DATE = "date"
@@ -25,6 +26,7 @@ object EventContract {
     // Define SQL statements for creating and deleting tables
     const val SQL_CREATE_ENTRIES =
         "CREATE TABLE ${EventEntry.TABLE_NAME} (" +
+                "${EventEntry.COLUMN_ID} TEXT PRIMARY KEY," +
                 "${EventEntry.COLUMN_TITLE} TEXT," +
                 "${EventEntry.COLUMN_DESCRIPTION} TEXT," +
                 "${EventEntry.COLUMN_DATE} TEXT," +

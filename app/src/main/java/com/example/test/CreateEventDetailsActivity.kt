@@ -2,12 +2,15 @@ package com.example.test
 
 import android.content.ContentValues
 import android.content.Intent
+import android.database.sqlite.SQLiteConstraintException
+import android.media.metrics.Event
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.util.Log
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import java.util.UUID
 
 class CreateEventDetailsActivity : AppCompatActivity() {
 
@@ -109,6 +112,10 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         return checkBoxDetails.toString().removeSuffix(", ")
     }
 
+    private fun generateUUID(): UUID {
+        return UUID.randomUUID()
+    }
+
     private fun saveEventToDatabase(
         title: String,
         description: String,
@@ -121,9 +128,14 @@ class CreateEventDetailsActivity : AppCompatActivity() {
     ) {
         val dbHelper = EventDbHelper(this)
         val db = dbHelper.writableDatabase
+        var id: UUID
 
-        // Insert event details
-        val values = ContentValues().apply {
+        try {
+            id = generateUUID()
+
+            // Insert event details
+            val values = ContentValues().apply {
+            put(EventContract.EventEntry.COLUMN_ID, id.toString())
             put(EventContract.EventEntry.COLUMN_TITLE, title)
             put(EventContract.EventEntry.COLUMN_DESCRIPTION, description)
             date?.let { put(EventContract.EventEntry.COLUMN_DATE, it) }
@@ -143,16 +155,56 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             put(EventContract.EventEntry.COLUMN_CATEGORY_STUDENTS_ONLY, if ("Students Only" in categories) 1 else 0)
         }
 
-        val newRowId = db.insert(EventContract.EventEntry.TABLE_NAME, null, values)
+            val newRowId = db.insert(EventContract.EventEntry.TABLE_NAME, null, values)
+            if (newRowId != -1L) {
+                // The insertion was successful, and newRowId contains the ID of the new row
+                Log.d("Database", "Event row inserted successfully with ID: $newRowId")
 
-        if (newRowId != -1L) {
-            // The insertion was successful, and newRowId contains the ID of the new row
-            Log.d("Database", "Event row inserted successfully with ID: $newRowId")
+                // You can log or handle the success of category insertion here
+            } else {
+                Log.e("Database", "Error inserting event row")
+                // Handle the case where event insertion failed
+            }
+        } catch (e:SQLiteConstraintException) { //Uniqueness violation - UUID is already in use
+            Log.e("Database", "UUID already exists")
+            Log.e("Database", "Generating Another UUID")
+            Log.e("Database", "Reattempting Insertion")
 
-            // You can log or handle the success of category insertion here
-        } else {
-            Log.e("Database", "Error inserting event row")
-            // Handle the case where event insertion failed
+            id = generateUUID()
+
+            // Insert event details
+            val values = ContentValues().apply {
+                put(EventContract.EventEntry.COLUMN_ID, id.toString())
+                put(EventContract.EventEntry.COLUMN_TITLE, title)
+                put(EventContract.EventEntry.COLUMN_DESCRIPTION, description)
+                date?.let { put(EventContract.EventEntry.COLUMN_DATE, it) }
+                time?.let { put(EventContract.EventEntry.COLUMN_TIME, it) }
+                buildingName?.let { put(EventContract.EventEntry.COLUMN_BUILDING_NAME, it) }
+                address?.let { put(EventContract.EventEntry.COLUMN_ADDRESS, it) }
+                put(EventContract.EventEntry.COLUMN_IMAGE_URL, imageUrl)
+
+                // Set category columns
+                put(EventContract.EventEntry.COLUMN_CATEGORY_ACADEMIC, if ("Academic" in categories) 1 else 0)
+                put(EventContract.EventEntry.COLUMN_CATEGORY_SOCIAL, if ("Social" in categories) 1 else 0)
+                put(EventContract.EventEntry.COLUMN_CATEGORY_SPORTS, if ("Sports" in categories) 1 else 0)
+                put(EventContract.EventEntry.COLUMN_CATEGORY_CLUBS_ORG, if ("Clubs/Organizations" in categories) 1 else 0)
+                put(EventContract.EventEntry.COLUMN_CATEGORY_WORKSHOPS, if ("Workshops/Seminars" in categories) 1 else 0)
+                put(EventContract.EventEntry.COLUMN_CATEGORY_VOLUNTEERING, if ("Volunteering" in categories) 1 else 0)
+                put(EventContract.EventEntry.COLUMN_CATEGORY_STUDENTS_ONLY, if ("Students Only" in categories) 1 else 0)
+            }
+
+            val newRowId = db.insert(EventContract.EventEntry.TABLE_NAME, null, values)
+
+            if (newRowId != -1L) {
+                // The insertion was successful, and newRowId contains the ID of the new row
+                Log.d("Database", "Event row inserted successfully with ID: $newRowId")
+
+                // You can log or handle the success of category insertion here
+            } else {
+                Log.e("Database", "Error inserting event row")
+                // Handle the case where event insertion failed
+            }
+
         }
     }
 }

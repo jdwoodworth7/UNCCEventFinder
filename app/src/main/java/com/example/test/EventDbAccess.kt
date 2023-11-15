@@ -3,6 +3,7 @@ package com.example.test
 import android.content.Context
 import android.net.Uri
 import com.example.test.EventData
+import java.util.UUID
 
 
 class EventDbAccess(private val context: Context) {
@@ -12,6 +13,7 @@ class EventDbAccess(private val context: Context) {
         val db = dbHelper.readableDatabase
 
         val projection = arrayOf(
+            EventContract.EventEntry.COLUMN_ID,
             EventContract.EventEntry.COLUMN_TITLE,
             EventContract.EventEntry.COLUMN_DESCRIPTION,
             EventContract.EventEntry.COLUMN_DATE,
@@ -43,6 +45,11 @@ class EventDbAccess(private val context: Context) {
         val eventList = mutableListOf<EventData>()
 
         while (cursor.moveToNext()) {
+            //retrieves UUID as a string
+            val idString =
+                cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_ID))
+            //converts String value to UUID
+            val id = UUID.fromString(idString)
             val title =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_TITLE))
             val description =
@@ -83,6 +90,7 @@ class EventDbAccess(private val context: Context) {
             if (studentsOnly) categories.add("Students Only")
 
             val eventData = EventData(
+                id,
                 title,
                 description,
                 date,
