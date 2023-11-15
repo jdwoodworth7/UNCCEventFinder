@@ -1,6 +1,9 @@
 package com.example.test
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +25,7 @@ class SearchResultsFragment : Fragment() {
     private lateinit var noResultsTextView: TextView
     private lateinit var searchedButton: ImageButton
     private lateinit var searchEditText: EditText
+    private val FILTER_REQUEST_CODE = 1
 
     private var allEvents: List<EventData> = mutableListOf()
 
@@ -68,6 +72,18 @@ class SearchResultsFragment : Fragment() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == FILTER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val filterData = data?.getParcelableExtra<FilterData>("filterData") ?: FilterData(false, false, false, false, false, false)
+            Log.d("SearchResultsFragment", "Received Filter Data: $filterData")
+
+            // Apply the filter
+            applyFilter(filterData)
+        }
+    }
+
     private fun showResults(results: List<EventData>) {
         recyclerView.visibility = View.VISIBLE
         noResultsTextView.visibility = View.GONE
@@ -77,5 +93,22 @@ class SearchResultsFragment : Fragment() {
     private fun showNoResults() {
         recyclerView.visibility = View.GONE
         noResultsTextView.visibility = View.VISIBLE
+    }
+
+    fun applyFilter(filterData: FilterData) {
+        val filteredEvents = allEvents.filter { event ->
+            (event.categories.contains("Academic") && filterData.academic) ||
+                    (event.categories.contains("Social") && filterData.social) ||
+                    (event.categories.contains("Clubs/Organizations") && filterData.clubsOrg) ||
+                    (event.categories.contains("Workshops/Seminars") && filterData.workshops) ||
+                    (event.categories.contains("Volunteering") && filterData.volunteering) ||
+                    (event.categories.contains("Students Only") && filterData.studentsOnly)
+        }
+
+        if (filteredEvents.isNotEmpty()) {
+            showResults(filteredEvents)
+        } else {
+            showNoResults()
+        }
     }
 }

@@ -14,8 +14,21 @@ import android.view.inputmethod.EditorInfo
 
 class SearchActivity : AppCompatActivity() {
 
+    private val FILTER_REQUEST_CODE = 1
     private lateinit var searchEditText: EditText
+    private val filterLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            // Retrieve filter data from the result
+            val filterData = result.data?.getParcelableExtra<FilterData>("filterData")
 
+            // Apply the filter to the fragment
+            val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+            if (fragment is SearchResultsFragment && filterData != null) {
+                fragment.applyFilter(filterData)
+            }
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -65,8 +78,7 @@ class SearchActivity : AppCompatActivity() {
         val filterIcon = findViewById<ImageView>(R.id.filterIcon)
         filterIcon.setOnClickListener {
             // Open the FilterActivity when the filter icon is clicked
-            val intent = Intent(this@SearchActivity, FilterActivity::class.java)
-            startActivity(intent)
+            filterLauncher.launch(Intent(this@SearchActivity, FilterActivity::class.java))
         }
     }
 
@@ -95,4 +107,21 @@ class SearchActivity : AppCompatActivity() {
             fragment.searchEventsByTitle(searchQuery)
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == FILTER_REQUEST_CODE && resultCode == RESULT_OK) {
+            // Retrieve filter data from the result
+            val filterData = data?.getParcelableExtra<FilterData>("filterData")
+
+            // Apply the filter to the fragment
+            val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+            if (fragment is SearchResultsFragment && filterData != null) {
+                fragment.applyFilter(filterData)
+            }
+        }
+    }
+
 }
