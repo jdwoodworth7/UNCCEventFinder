@@ -12,12 +12,16 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 import coil.load
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 class CreateEventActivity : AppCompatActivity() {
 
     private lateinit var datePickerDialog: DatePickerDialog
     private lateinit var dateButton: Button
-    private lateinit var selectedTime: String
+    private lateinit var selectedTime: LocalTime
+    private lateinit var selectedDate: LocalDate
     private lateinit var timeButton: Button
     private lateinit var selectImageButton: Button
     private lateinit var userUploadedImageView: ImageView
@@ -28,13 +32,12 @@ class CreateEventActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event)
 
-        initDatePicker()
         dateButton = findViewById(R.id.datePickerButton)
         timeButton = findViewById(R.id.timePickerButton)
         selectImageButton = findViewById(R.id.uploadButton)
 
         dateButton.setOnClickListener {
-            datePickerDialog.show()
+            openDatePicker()
         }
 
         timeButton.setOnClickListener {
@@ -97,12 +100,12 @@ class CreateEventActivity : AppCompatActivity() {
             // Get the entered data
             val title = editTitle.text.toString()
             val description = editDescription.text.toString()
-            val date = dateButton.text.toString()
-            val time = timeButton.text.toString()
+            val date = selectedDate
+            val time = selectedTime
             val buildingName = editBuildingName.text.toString()
             val address = editAddress.text.toString()
 
-            if (title.isEmpty() || description.isEmpty() || date.isEmpty() || time.isEmpty() || buildingName.isEmpty() || address.isEmpty()) {
+            if (title.isEmpty() || description.isEmpty() || date == null || time == null || buildingName.isEmpty() || address.isEmpty()) {
                 // Display a message or toast indicating that all fields must be filled
                 // For example:
                 Toast.makeText(this@CreateEventActivity, "Please fill out all fields", Toast.LENGTH_SHORT).show()
@@ -116,11 +119,13 @@ class CreateEventActivity : AppCompatActivity() {
                 // Create an Intent to start the next activity
                 val intent = Intent(this@CreateEventActivity, CreateEventCategoriesActivity::class.java)
 
+
+
                 // Pass the data to the next activity
                 intent.putExtra("title", title)
                 intent.putExtra("description", description)
-                intent.putExtra("date", date)
-                intent.putExtra("time", time)
+                intent.putExtra("date", date.toString())
+                intent.putExtra("time", time.toString())
                 intent.putExtra("buildingName", buildingName)
                 intent.putExtra("address", address)
                 intent.putExtra("imageUrl", selectedImageUrl)
@@ -175,13 +180,16 @@ class CreateEventActivity : AppCompatActivity() {
         val timePickerDialog = TimePickerDialog(
             this,
             TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+                //set the selectedTime to the user input value in LocalTime
+                selectedTime = LocalTime.of(hour,minute)
+
                 // Convert 24-hour format to 12-hour format with AM/PM
-                val amPm = if (hour < 12) "AM" else "PM"
-                val displayHour = if (hour > 12) hour - 12 else if (hour == 0) 12 else hour
-                selectedTime = String.format(Locale.getDefault(), "%02d:%02d %s", displayHour, minute, amPm)
+                 val amPm = if (hour < 12) "AM" else "PM"
+                 val displayHour = if (hour > 12) hour - 12 else if (hour == 0) 12 else hour
+                 val timeString = String.format(Locale.getDefault(), "%02d:%02d %s", displayHour, minute, amPm)
 
                 // Update the text of the timeButton
-                timeButton.text = selectedTime
+                timeButton.text = timeString
             },
             hourOfDay,
             minute,
@@ -191,16 +199,22 @@ class CreateEventActivity : AppCompatActivity() {
         timePickerDialog.show()
     }
 
-    private fun initDatePicker() {
+    private fun openDatePicker() {
         val cal = Calendar.getInstance()
         val year = cal.get(Calendar.YEAR)
         val month = cal.get(Calendar.MONTH)
         val day = cal.get(Calendar.DAY_OF_MONTH)
 
-        datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, year, month, day ->
+        datePickerDialog = DatePickerDialog(this,
+            DatePickerDialog.OnDateSetListener { _, year, month , day ->
+            //set the selectedDate to the user input value in LocalDate
+            selectedDate = LocalDate.of(year,month + 1,day)
+
             val dateString = makeDateString(day, month + 1, year)
             dateButton.text = dateString
         }, year, month, day)
+
+        datePickerDialog.show()
     }
 
     private fun getTodaysDate(): String {

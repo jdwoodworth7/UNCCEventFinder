@@ -32,7 +32,8 @@ class CalendarListAdapter (private val context : Activity, private val arrayList
         icon.load(imageUrl)
         icon.visibility = View.VISIBLE
         title.text = arrayList[position].title
-        time.text = arrayList[position].time
+        //TODO: Change the following line to follow the LocalTime format
+//        time.text = arrayList[position].time
 
 
 

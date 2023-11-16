@@ -2,6 +2,8 @@ package com.example.test
 
 import android.content.Context
 import com.example.test.EventData
+import java.time.LocalDate
+import java.time.LocalTime
 import java.util.UUID
 
 class EventDbAccess(private val context: Context) {
@@ -66,9 +68,9 @@ class EventDbAccess(private val context: Context) {
             val description =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_DESCRIPTION))
             val date =
-                cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_DATE))
+                LocalDate.parse(cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_DATE)))
             val time =
-                cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_TIME))
+                LocalTime.parse(cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_TIME)))
             val buildingName =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_BUILDING_NAME))
             val address =
