@@ -29,6 +29,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private var initialBounds: LatLngBounds? = null
     private lateinit var placesClient: PlacesClient
+
 //    private lateinit var selectedEvent: Event
 
     val MAPS_API_KEY = "AIzaSyBWL4qwmL_44-8UFds3yZqQH5IWk_OnCUw"
@@ -70,7 +71,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //initializes the point of camera focus by coordinates
         val campusCoordinates = LatLng(35.30856979486446, -80.73370233971224)
-
         setInitialCameraBounds()
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(campusCoordinates))
@@ -92,12 +92,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 //if an event of matching id is found
                 if(event != null) {
+                    //zooms the camera to the clicked marker position to a certain extent
+                    val markerLatLng = clickedMarker.position
+                    val cameraUpdate = CameraUpdateFactory.newLatLngZoom(markerLatLng, 17.5f)
+                    mMap.animateCamera(cameraUpdate)
+
                     //TODO:to be implemented when button UI is available
                     //val navButton : Button = view.findViewById(R.id.${navButtonId})
                     //navButton.setOnClickListener {
                     //sendLocationNavigation(event)
                     //}
-                    clickedMarker.title = eventId.toString()
+
+                    //shows the marker title above the marker
+                    clickedMarker.title = event.title
                     clickedMarker.showInfoWindow()
                 } else{
                     Log.e("Event Not Found", "Event with ID $eventId not found")
