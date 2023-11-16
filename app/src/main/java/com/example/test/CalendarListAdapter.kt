@@ -23,7 +23,7 @@ class CalendarListAdapter (private val context : Activity, private val arrayList
 
         //icon.setImageResource(arrayList[position].icon)
         title.text = arrayList[position].title
-        time.text = arrayList[position].dateAndTime
+        time.text = arrayList[position].time
 
 
 
