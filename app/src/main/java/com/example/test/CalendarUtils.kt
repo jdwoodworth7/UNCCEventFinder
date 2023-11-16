@@ -12,7 +12,7 @@ lateinit var selectedDate: LocalDate
 
 //Formats day month year
 fun formattedDate(date: LocalDate): String {
-    val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
+    val formatter = DateTimeFormatter.ofPattern("MMM DD YYYY")
     return date.format(formatter)
 }
 

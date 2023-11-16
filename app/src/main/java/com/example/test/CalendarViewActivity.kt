@@ -1,7 +1,10 @@
 package com.example.test
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
+import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +16,7 @@ import java.time.LocalTime
 class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
     private lateinit var monthYearText: TextView
     private lateinit var calendarRecyclerView: RecyclerView
+    private lateinit var listView: ListView
 
     private lateinit var eventTitle: TextView
     private lateinit var eventTime: TextView
@@ -28,10 +32,50 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
         selectedDate = LocalDate.now()
         setMonthView()
         time = LocalTime.now()
+        setListViewAdapter()
+
+        // Find the menu button and set a click listener
+        val menuButton = findViewById<ImageView>(R.id.menuButton)
+        menuButton.setOnClickListener {
+            // Open the MenuActivity when the menu button is clicked
+            val intent = Intent(this@CalendarViewActivity, MenuActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Find the map icon and set a click listener
+        val mapIcon = findViewById<ImageView>(R.id.mapIcon)
+        mapIcon.setOnClickListener {
+            // Open the MapActivity when the map icon is clicked
+            val intent = Intent(this@CalendarViewActivity, MapsActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    override fun onResume(){
+        super.onResume()
+        setListViewAdapter()
+    }
+
+    private fun setListViewAdapter() {
+        val dailyEvents: ArrayList<EventData> = eventsForDate(selectedDate)
+        val calendarListAdapter = CalendarListAdapter(this, dailyEvents)
+        listView.adapter = calendarListAdapter
+    }
+
+    fun eventsForDate(date: LocalDate): ArrayList<EventData> {
+        val eventDbAccess = EventDbAccess(this)
+        val eventList = eventDbAccess.getEventDataFromDatabase()
+        val events = ArrayList<EventData>()
+        for (event in eventList) {
+            //if (event.date == formattedDate(date))
+                events.add(event)
+        }
+        return events
     }
 
     //Find the recycler view and text view on startup and make them variables
     private fun initWidgets() {
+        listView = findViewById(R.id.calendarListView)
         monthYearText = findViewById(R.id.monthYearTV)
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView)
     }
@@ -65,4 +109,6 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
             setMonthView()
         }
     }
+
+
 }
