@@ -130,7 +130,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/naviButton"
+            android:id="@+id/navigationButton"
             android:layout_width="150dp"
             android:layout_height="34dp"
             android:text="Navigate To"
@@ -162,12 +162,13 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scrollLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/timeLayout" >
 
         <LinearLayout
-            android:id="@+id/eventLayout"
+            android:id="@+id/event_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -188,6 +189,20 @@
                 android:id="@+id/event_category_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/category1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="Sports"
+                    android:textSize="10sp"/>
+
+                <Button
+                    android:id="@+id/category2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="Clubs"
+                    android:textSize="10sp"/>
 
             </GridLayout>
 
@@ -216,22 +231,43 @@
                 android:text="event detail text"
                 android:background="@drawable/layout_border" />
 
-            <TextView
-                android:id="@+id/event_friends"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="_ friends are attending this event!"
-                android:padding="4dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/event_interested"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="_ friends are interested in this event"
-                android:padding="4dp"
-                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 
+    <LinearLayout
+        android:id="@+id/event_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:layout_margin="1dp"
+        android:gravity= "center"
+        app:layout_constraintBottom_toBottomOf="parent" >
+
+        <TextView
+            android:id="@+id/event_friends"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Currently, _ people are interested this event!"
+            android:padding="4dp"
+            android:gravity= "center"
+            android:background="@drawable/layout_border"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/event_friend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="_ friends are attending this event"
+            android:padding="4dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/event_interested"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="_ friends are interested in this event"
+            android:padding="4dp"
+            android:textStyle="bold" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
