@@ -9,8 +9,13 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import java.time.LocalDate
+
+
 
 class CalendarListAdapter (private val context : Activity, private val arrayList : ArrayList<EventData> ) : ArrayAdapter<EventData>(context, R.layout.activity_calendar_list_view, arrayList) {
+
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater : LayoutInflater = LayoutInflater.from(context)
         val view: View = inflater.inflate(R.layout.activity_calendar_list_view, null)

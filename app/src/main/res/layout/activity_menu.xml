@@ -63,10 +63,10 @@
             android:layout_marginTop="50dp"/>
 
         <TextView
-            android:id="@+id/Notifications"
+            android:id="@+id/menuCalendarView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Notifications"
+            android:text="Calendar View"
             android:textSize="16sp"
             android:textColor="#FFFFFF"
             android:layout_below="@id/createEvent"
@@ -79,7 +79,7 @@
             android:text="My Friends"
             android:textSize="16sp"
             android:textColor="#FFFFFF"
-            android:layout_below="@id/Notifications"
+            android:layout_below="@id/menuCalendarView"
             android:layout_marginTop="50dp"/>
 
         <TextView

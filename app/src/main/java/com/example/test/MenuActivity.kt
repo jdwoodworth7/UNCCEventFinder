@@ -31,5 +31,16 @@ class MenuActivity : AppCompatActivity() {
             val intent = Intent(this@MenuActivity, SearchActivity::class.java)
             startActivity(intent)
         }
+
+        // Find the "Create an Event" TextView
+        val calendarViewTextView: TextView = findViewById(R.id.menuCalendarView)
+
+        // Set an onClickListener for "Create an Event"
+        calendarViewTextView.setOnClickListener {
+
+            // Launch CreateEventActivity
+            val intent = Intent(this@MenuActivity, CalendarViewActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
