@@ -1,0 +1,7 @@
+<!-- res/drawable/toggle_selector.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- When toggle is checked -->
+    <item android:drawable="@drawable/baseline_toggle_on_24" android:state_checked="true" />
+    <!-- When toggle is unchecked -->
+    <item android:drawable="@drawable/baseline_toggle_off_24" />
+</selector>

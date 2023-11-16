@@ -22,5 +22,14 @@ class MenuActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // Find the "Search Event" TextView
+        val searchEventTextView: TextView = findViewById(R.id.searchEvent)
+
+        // Set an onClickListener for "Search Event"
+        searchEventTextView.setOnClickListener {
+            // Launch SearchActivity
+            val intent = Intent(this@MenuActivity, SearchActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
