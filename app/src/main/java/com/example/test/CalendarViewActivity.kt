@@ -67,7 +67,7 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
         val eventList = eventDbAccess.getEventDataFromDatabase()
         val events = ArrayList<EventData>()
         for (event in eventList) {
-            //if (event.date == formattedDate(date))
+            if (event.date == date)
                 events.add(event)
         }
         return events
@@ -106,6 +106,7 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
     override fun onItemClick(position: Int, date: LocalDate?) {
         if (date != null) {
             selectedDate = date
+            setListViewAdapter()
             setMonthView()
         }
     }
