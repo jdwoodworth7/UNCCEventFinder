@@ -1,16 +1,34 @@
 package com.example.test
 
-import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.findFragment
+import android.view.inputmethod.EditorInfo
 
 class SearchActivity : AppCompatActivity() {
 
+    private val FILTER_REQUEST_CODE = 1
+    private lateinit var searchEditText: EditText
+    private val filterLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            // Retrieve filter data from the result
+            val filterData = result.data?.getParcelableExtra<FilterData>("filterData")
+
+            // Apply the filter to the fragment
+            val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+            if (fragment is SearchResultsFragment && filterData != null) {
+                fragment.applyFilter(filterData)
+            }
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -22,13 +40,22 @@ class SearchActivity : AppCompatActivity() {
             }
 
             // Request permission when the activity is created
-            requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+            requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
 
             val searchResultsFragment = SearchResultsFragment()
 
-            supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, searchResultsFragment)
-                .commit()
+            supportFragmentManager.commit {
+                add(R.id.fragment_container, searchResultsFragment)
+            }
+        }
+
+        searchEditText = findViewById(R.id.searchEditText)
+        searchEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                performSearch()
+                return@setOnEditorActionListener true
+            }
+            false
         }
 
         // Find the menu button and set a click listener
@@ -51,8 +78,7 @@ class SearchActivity : AppCompatActivity() {
         val filterIcon = findViewById<ImageView>(R.id.filterIcon)
         filterIcon.setOnClickListener {
             // Open the FilterActivity when the filter icon is clicked
-            val intent = Intent(this@SearchActivity, FilterActivity::class.java)
-            startActivity(intent)
+            filterLauncher.launch(Intent(this@SearchActivity, FilterActivity::class.java))
         }
     }
 
@@ -72,4 +98,30 @@ class SearchActivity : AppCompatActivity() {
     private fun loadImages() {
         // Implement your image loading logic here
     }
+
+    private fun performSearch() {
+        val searchQuery = searchEditText.text.toString().trim()
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        if (fragment is SearchResultsFragment) {
+            fragment.searchEventsByTitle(searchQuery)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == FILTER_REQUEST_CODE && resultCode == RESULT_OK) {
+            // Retrieve filter data from the result
+            val filterData = data?.getParcelableExtra<FilterData>("filterData")
+
+            // Apply the filter to the fragment
+            val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+            if (fragment is SearchResultsFragment && filterData != null) {
+                fragment.applyFilter(filterData)
+            }
+        }
+    }
+
 }

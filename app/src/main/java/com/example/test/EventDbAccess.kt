@@ -1,14 +1,13 @@
 package com.example.test
 
 import android.content.Context
-import android.net.Uri
 import com.example.test.EventData
 import java.util.UUID
-
 
 class EventDbAccess(private val context: Context) {
     // Function to fetch data from the events table
     fun getEventDataFromDatabase(): List<EventData> {
+
         val dbHelper = EventDbHelper(context)
         val db = dbHelper.readableDatabase
 
@@ -48,15 +47,27 @@ class EventDbAccess(private val context: Context) {
             //retrieves UUID as a string
             val idString =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_ID))
-            //converts String value to UUID
-            val id = UUID.fromString(idString)
+            // Check if idString is not null and not empty before creating UUID
+            val id = if (!idString.isNullOrEmpty()) {
+                try {
+                    UUID.fromString(idString)
+                } catch (e: IllegalArgumentException) {
+                    // Handle the case where the UUID string is not valid
+                    // For example, provide a default UUID
+                    UUID.randomUUID()
+                }
+            } else {
+                // If idString is null or empty, provide a default UUID
+                UUID.randomUUID()
+            }
+
             val title =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_TITLE))
             val description =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_DESCRIPTION))
             val date =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_DATE))
-            val time=
+            val time =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_TIME))
             val buildingName =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_BUILDING_NAME))
