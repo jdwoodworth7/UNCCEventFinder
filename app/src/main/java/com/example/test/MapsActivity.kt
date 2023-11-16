@@ -1,11 +1,11 @@
 package com.example.test
 
-import android.content.Context
 import android.content.Intent
 import android.media.metrics.Event
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -22,10 +22,6 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
-import okhttp3.*
-import java.io.IOException
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import java.util.UUID
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -33,7 +29,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private var initialBounds: LatLngBounds? = null
     private lateinit var placesClient: PlacesClient
-    private lateinit var selectedEvent: Event
+//    private lateinit var selectedEvent: Event
 
     val MAPS_API_KEY = "AIzaSyBWL4qwmL_44-8UFds3yZqQH5IWk_OnCUw"
 
@@ -97,7 +93,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 //if an event of matching id is found
                 if(event != null) {
                     //TODO:to be implemented when button UI is available
-                    //navigationButton.setOnClickListener {
+                    //val navButton : Button = view.findViewById(R.id.${navButtonId})
+                    //navButton.setOnClickListener {
                     //sendLocationNavigation(event)
                     //}
                     clickedMarker.title = eventId.toString()
@@ -113,7 +110,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     //locks camera movement to areas within campus
-    fun setInitialCameraBounds() {
+    private fun setInitialCameraBounds() {
         val minLatitude = 35.30
         val minLongitude = -80.745
         val maxLatitude = 35.315
@@ -126,9 +123,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.setLatLngBoundsForCameraTarget(initialBounds)
     }
 
-    fun setZoomCameraBounds() {
-        val currentCameraPosition = mMap.cameraPosition
-        val currentZoom = currentCameraPosition.zoom
+    private fun setZoomCameraBounds() {
+        //val currentCameraPosition = mMap.cameraPosition
+        //val currentZoom = currentCameraPosition.zoom
 
         val minLatitude = initialBounds?.southwest?.latitude ?: 0.0
         val maxLatitude = initialBounds?.northeast?.latitude ?: 0.0
@@ -144,7 +141,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     //Fetching Existing Event Data (TEMP: Local)
-    fun fetchEventData() {
+    private fun fetchEventData() {
         val eventDbAccess = EventDbAccess(this)
         val eventList = eventDbAccess.getEventDataFromDatabase()
 
@@ -168,7 +165,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    fun fetchEventByID(id: UUID): EventData? {
+    private fun fetchEventByID(id: UUID): EventData? {
         val eventDbAccess = EventDbAccess(this)
         val eventList = eventDbAccess.getEventDataFromDatabase()
 
@@ -178,14 +175,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
         return null
-    }
-
-    //queries latitude and longitude and sends value to NavigationAppIntegration
-    fun sendLocationNavigation(event: EventData) {
-        fetchLatLngFromAddress(event){lat, lng->
-            val navigationAppIntegration = NavigationAppIntegration(this)
-            navigationAppIntegration.starNavigationToGoogleMap(lat, lng)
-        }
     }
 
     //for future use, prediction address for better accuracy
@@ -234,77 +223,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    //fetches Latitude and Longitude from Json response string using Gson library
-    fun fetchLatLngFromAddress(event: EventData, onLatLngReceived: (Double, Double) -> Unit) {
-        getLocationByAddress(event.address,
-            onResponse = { response ->
-
-                val jsonString = response.body?.string()
-
-                //checks if response string is not empty
-                if (jsonString != null) {
-                    val jsonObject = Gson().fromJson(jsonString, JsonObject::class.java)
-
-                    val resultsArray = jsonObject.getAsJsonArray("results")
-
-                    if (resultsArray.size() > 0) {
-                        val locationObject = resultsArray[0].asJsonObject
-                            .getAsJsonObject("geometry")
-                            .getAsJsonObject("location")
-
-                        val lat = locationObject.getAsJsonPrimitive("lat").asDouble
-                        val lng = locationObject.getAsJsonPrimitive("lng").asDouble
-
-                        //returns Latitude and Longitude
-                        onLatLngReceived(lat, lng)
-
-                    } else {
-                        //if json string is not empty but results has no value
-                        Log.e("Response Body Results Array", "Results are empty")
-                    }
-                } else {
-                    //if response json string is empty
-                    Log.e("Response Body", "Response Body is Empty")
-                }
-            },
-            onFailure = { exception ->
-                exception.printStackTrace()
-            }
-        )
+    //queries latitude and longitude and sends value to NavigationAppIntegration
+    private fun sendLocationNavigation(event: EventData){
+        fetchLatLngFromAddress(event) {lat, lng ->
+            val navigationAppIntegration = NavigationAppIntegration(this)
+            navigationAppIntegration.starNavigationToGoogleMap(lat, lng)
+        }
     }
-
-    //HTTP Get request to Places API for address search.
-    fun getLocationByAddress(
-        address: String?,
-        onResponse: (Response) -> Unit,
-        onFailure: (Exception) -> Unit
-    ) {
-        val client = OkHttpClient()
-        val url = HttpUrl.Builder()
-            .scheme("https")
-            .host("maps.googleapis.com")
-            .addPathSegment("maps")
-            .addPathSegment("api")
-            .addPathSegment("geocode")
-            .addPathSegment("json")
-            .addQueryParameter("address", address)
-            .addQueryParameter("key", MAPS_API_KEY)
-            .build()
-
-        val request = Request.Builder()
-            .url(url)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                onFailure(e)
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                onResponse(response)
-            }
-
-        })
-    }
-
 }
