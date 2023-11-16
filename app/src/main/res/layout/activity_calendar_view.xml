@@ -72,14 +72,14 @@
 
         <TextView
             android:id="@+id/monthYearTV"
-            android:layout_width="150dp"
-            android:layout_weight="2"
+            android:layout_width="155dp"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="@color/color_primary"
             android:text="Feb 2021"
-            android:textSize="40sp"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:background="@color/color_primary"/>
+            android:textSize="40sp" />
 
         <ImageButton
             android:layout_width="0dp"
@@ -173,6 +173,14 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="326dp" />
+
+    <ListView
+        android:id="@+id/calendarListView"
+        tools:listitem="@layout/activity_calendar_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+            />
 
 </LinearLayout>

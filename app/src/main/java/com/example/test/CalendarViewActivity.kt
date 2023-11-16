@@ -8,14 +8,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.time.LocalDate
-import java.time.YearMonth
-import java.time.format.DateTimeFormatter
-import java.util.ArrayList
+import java.time.LocalTime
 
 class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
     private lateinit var monthYearText: TextView
     private lateinit var calendarRecyclerView: RecyclerView
-    private lateinit var selectedDate: LocalDate
+
+    private lateinit var eventTitle: TextView
+    private lateinit var eventTime: TextView
+
+    private lateinit var time: LocalTime
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +27,7 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
         //Giving it the current date and time of local pc
         selectedDate = LocalDate.now()
         setMonthView()
+        time = LocalTime.now()
     }
 
     //Find the recycler view and text view on startup and make them variables
@@ -42,29 +46,6 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
         calendarRecyclerView.adapter = calendarAdapter
     }
 
-    //Gets how many days in selected month to feed correct cell count into recyclerview
-    private fun daysInMonthArray(date: LocalDate): ArrayList<String> {
-        val daysInMonthArray = ArrayList<String>()
-        val yearMonth = YearMonth.from(date)
-        val daysInMonth = yearMonth.lengthOfMonth()
-        val firstOfMonth = date.withDayOfMonth(1)
-        val dayOfWeek = firstOfMonth.dayOfWeek.value
-        for (i in 1..42) {
-            if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
-                daysInMonthArray.add("")
-            } else {
-                daysInMonthArray.add((i - dayOfWeek).toString())
-            }
-        }
-        return daysInMonthArray
-    }
-
-    //Format of month and year text from local computer time
-    private fun monthYearFromDate(date: LocalDate): String {
-        val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
-        return date.format(formatter)
-    }
-
     //Go back a month button
     fun previousMonthAction(view: View) {
         selectedDate = selectedDate.minusMonths(1)
@@ -78,10 +59,10 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
     }
 
     //Temp click listener
-    override fun onItemClick(position: Int, dayText: String) {
-        if (dayText != "") {
-            val message = "Selected Date $dayText ${monthYearFromDate(selectedDate)}"
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    override fun onItemClick(position: Int, date: LocalDate?) {
+        if (date != null) {
+            selectedDate = date
+            setMonthView()
         }
     }
 }

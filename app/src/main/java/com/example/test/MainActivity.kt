@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         val SignUpUnderline = findViewById<TextView>(R.id.SignUpUnderline)
         val EmailButton = findViewById<Button>(R.id.EmailButton)
         SignUpUnderline.setOnClickListener {
-            startActivity(Intent(this@MainActivity, CalendarViewActivity::class.java))
+            startActivity(Intent(this@MainActivity, RegisterActivity::class.java))
         }
 
         EmailButton.setOnClickListener {
