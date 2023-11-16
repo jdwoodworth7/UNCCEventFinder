@@ -9,7 +9,9 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import java.time.LocalDate
+import coil.load
 
 
 
@@ -19,14 +21,16 @@ class CalendarListAdapter (private val context : Activity, private val arrayList
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater : LayoutInflater = LayoutInflater.from(context)
         val view: View = inflater.inflate(R.layout.activity_calendar_list_view, null)
+        val imageUrl: String? = arrayList[position].userUploadedImageUrl
 
-        //val icon : ImageView = view.findViewById(R.id.calendarListIcon)
+        val icon : ImageView = view.findViewById(R.id.calendarListIcon)
         val title : TextView = view.findViewById(R.id.calendarListTitle)
         val time : TextView = view.findViewById(R.id.calendarListTime)
         val navButton : Button = view.findViewById(R.id.buttonNavigate)
         val removeButton : Button = view.findViewById(R.id.buttonRemove)
 
-        //icon.setImageResource(arrayList[position].icon)
+        icon.load(imageUrl)
+        icon.visibility = View.VISIBLE
         title.text = arrayList[position].title
         time.text = arrayList[position].time
 
