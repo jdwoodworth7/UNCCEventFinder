@@ -47,7 +47,6 @@ class EventDbAccess(private val context: Context) {
             //retrieves UUID as a string
             val idString =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_ID))
-
             // Check if idString is not null and not empty before creating UUID
             val id = if (!idString.isNullOrEmpty()) {
                 try {

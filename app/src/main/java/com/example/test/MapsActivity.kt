@@ -1,7 +1,8 @@
 package com.example.test
 
+import android.content.Context
 import android.content.Intent
-import android.gesture.Prediction
+import android.media.metrics.Event
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,7 +13,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.example.test.databinding.ActivityMapsBinding
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
@@ -22,12 +22,18 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
+import okhttp3.*
+import java.io.IOException
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import java.util.UUID
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private var initialBounds: LatLngBounds? = null
     private lateinit var placesClient: PlacesClient
+    private lateinit var selectedEvent: Event
 
     val MAPS_API_KEY = "AIzaSyBWL4qwmL_44-8UFds3yZqQH5IWk_OnCUw"
 
@@ -81,8 +87,29 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         fetchEventData()
 
-        // Add a marker
-        //mMap.addMarker(MarkerOptions().position(campusCoordinates).title("Marker Name"))
+        mMap.setOnMarkerClickListener { clickedMarker ->
+            val eventId = clickedMarker.tag as UUID?
+
+            //if current marker's tag in UUID is not null
+            if (eventId != null) {
+                val event = fetchEventByID(eventId) //Match clicked marker's event with event in db using id
+
+                //if an event of matching id is found
+                if(event != null) {
+                    //TODO:to be implemented when button UI is available
+                    //navigationButton.setOnClickListener {
+                    //sendLocationNavigation(event)
+                    //}
+                    clickedMarker.title = eventId.toString()
+                    clickedMarker.showInfoWindow()
+                } else{
+                    Log.e("Event Not Found", "Event with ID $eventId not found")
+                }
+            } else {
+                Log.e("Invalid Marker", "No valid event ID found for the clicked marker")
+            }
+            true//consumes the click event
+        }
     }
 
     //locks camera movement to areas within campus
@@ -123,16 +150,51 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //iterates for each event inside eventList
         for (event in eventList) {
-            searchAddress(event)
+            //searches and fetches latitude and longitude from input address
+            fetchLatLngFromAddress(event) { lat, lng ->
+                val latLng = LatLng(lat, lng)
+
+                //adds marker on given coordinate
+                //TODO: automate alternate marker locations so that events of the same address won't stack on top
+                //Suggestion: If multiple events occur at the same address, display titles of multiple events in list view
+                runOnUiThread {
+                    val newMarker = mMap.addMarker(
+                        MarkerOptions().position(latLng).title(event.title)
+                    )
+                    //assign event's unique id to the marker
+                    newMarker?.tag = event.id
+                }
+            }
         }
     }
 
-    fun searchAddress(event: EventData) {
+    fun fetchEventByID(id: UUID): EventData? {
+        val eventDbAccess = EventDbAccess(this)
+        val eventList = eventDbAccess.getEventDataFromDatabase()
+
+        for (event in eventList) {
+            if (event.id == id) {
+                return event
+            }
+        }
+        return null
+    }
+
+    //queries latitude and longitude and sends value to NavigationAppIntegration
+    fun sendLocationNavigation(event: EventData) {
+        fetchLatLngFromAddress(event){lat, lng->
+            val navigationAppIntegration = NavigationAppIntegration(this)
+            navigationAppIntegration.starNavigationToGoogleMap(lat, lng)
+        }
+    }
+
+    //for future use, prediction address for better accuracy
+    fun searchAddressByPrediction(event: EventData) {
         val address = event.address
 
         val addressLatLng = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
 
-        //SQL request to Places API
+        //AutoComplete Prediction SQL request to Places API
         val predictionRequest = FindAutocompletePredictionsRequest.builder()
             .setQuery(address) // queries for current event's address
             .setSessionToken(AutocompleteSessionToken.newInstance())
@@ -171,4 +233,78 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
     }
+
+    //fetches Latitude and Longitude from Json response string using Gson library
+    fun fetchLatLngFromAddress(event: EventData, onLatLngReceived: (Double, Double) -> Unit) {
+        getLocationByAddress(event.address,
+            onResponse = { response ->
+
+                val jsonString = response.body?.string()
+
+                //checks if response string is not empty
+                if (jsonString != null) {
+                    val jsonObject = Gson().fromJson(jsonString, JsonObject::class.java)
+
+                    val resultsArray = jsonObject.getAsJsonArray("results")
+
+                    if (resultsArray.size() > 0) {
+                        val locationObject = resultsArray[0].asJsonObject
+                            .getAsJsonObject("geometry")
+                            .getAsJsonObject("location")
+
+                        val lat = locationObject.getAsJsonPrimitive("lat").asDouble
+                        val lng = locationObject.getAsJsonPrimitive("lng").asDouble
+
+                        //returns Latitude and Longitude
+                        onLatLngReceived(lat, lng)
+
+                    } else {
+                        //if json string is not empty but results has no value
+                        Log.e("Response Body Results Array", "Results are empty")
+                    }
+                } else {
+                    //if response json string is empty
+                    Log.e("Response Body", "Response Body is Empty")
+                }
+            },
+            onFailure = { exception ->
+                exception.printStackTrace()
+            }
+        )
+    }
+
+    //HTTP Get request to Places API for address search.
+    fun getLocationByAddress(
+        address: String?,
+        onResponse: (Response) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val client = OkHttpClient()
+        val url = HttpUrl.Builder()
+            .scheme("https")
+            .host("maps.googleapis.com")
+            .addPathSegment("maps")
+            .addPathSegment("api")
+            .addPathSegment("geocode")
+            .addPathSegment("json")
+            .addQueryParameter("address", address)
+            .addQueryParameter("key", MAPS_API_KEY)
+            .build()
+
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                onFailure(e)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                onResponse(response)
+            }
+
+        })
+    }
+
 }

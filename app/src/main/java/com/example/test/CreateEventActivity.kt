@@ -22,7 +22,7 @@ class CreateEventActivity : AppCompatActivity() {
     private lateinit var selectImageButton: Button
     private lateinit var userUploadedImageView: ImageView
     private val PICK_IMAGE_REQUEST = 1
-    private lateinit var selectedImageUrl: String
+    private var selectedImageUrl: String = "" //changed lateinit variable to initialized variable with an empty string
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,11 +106,13 @@ class CreateEventActivity : AppCompatActivity() {
                 // Display a message or toast indicating that all fields must be filled
                 // For example:
                 Toast.makeText(this@CreateEventActivity, "Please fill out all fields", Toast.LENGTH_SHORT).show()
-            } else if (selectedImageUrl.isEmpty()) {
+            }
+            else if (selectedImageUrl=="") {  //updated .isEmpty() to initialized empty string
                 // Display a message or toast indicating that the user must upload an image
                 // For example:
                 Toast.makeText(this@CreateEventActivity, "Please upload an image", Toast.LENGTH_SHORT).show()
-            } else {
+            }
+            else {
                 // Create an Intent to start the next activity
                 val intent = Intent(this@CreateEventActivity, CreateEventCategoriesActivity::class.java)
 
