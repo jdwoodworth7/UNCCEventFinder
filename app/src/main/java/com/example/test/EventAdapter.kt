@@ -33,7 +33,7 @@ class EventAdapter(private val eventList: MutableList<EventData>) : RecyclerView
         // Set the text for TextViews
         holder.titleTextView.text = currentItem.title
         holder.buildingNameTextView.text = currentItem.buildingName
-        holder.dateTextView.text = currentItem.date
+        holder.dateTextView.text = currentItem.date.toString()
 
         // Change from "userUploadedImageUri" to "userUploadedImageUrl"
         try {
