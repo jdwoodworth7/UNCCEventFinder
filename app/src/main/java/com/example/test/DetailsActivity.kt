@@ -12,7 +12,8 @@ import com.google.android.gms.maps.model.LatLng
 import java.util.UUID
 
 class DetailsActivity : AppCompatActivity() {
-
+    private lateinit var userIdS: String
+    private lateinit var userId: UUID
     private lateinit var eventTitle: TextView
     private lateinit var eventTime: TextView
     private lateinit var eventDate: TextView
@@ -20,6 +21,7 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var eventLocation: TextView
     private lateinit var eventDescription: TextView
     private lateinit var eventImage: ImageView
+    private lateinit var categories: LinearLayout
 
     private lateinit var interestButton: Button
     private lateinit var navigationButton: Button
@@ -30,21 +32,22 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_details)
 
-        val eventData = intent.getParcelableExtra<EventData>("event")
-
+        val selectedEvent = intent.getParcelableExtra<EventData>("event")
+        if (selectedEvent != null) {
+            userId = selectedEvent.id
+        }
+        eventTitle = findViewById(R.id.detailTitle)
 
         interestButton = findViewById(R.id.interestButton)
         navigationButton = findViewById(R.id.navigationButton)
         menuButton = findViewById(R.id.menuButton)
         mapIcon = findViewById(R.id.mapIcon)
 
-        //val eventId = UUID.fromString("your_event_id_here")
-        //val eventDataList = getEventById(eventId)
-
         // Initialize EventDbAccess
         val eventDbAccess = EventDbAccess(this)
         // Get event data from the database
-        val eventDataList = eventDbAccess.getEventDataFromDatabase()
+        //val eventDataList = eventDbAccess.getEventDataFromDatabase()
+        val eventDataList = eventDbAccess.getEventById(userId)
 
         for (eventData in eventDataList) {
             eventDescription = findViewById(R.id.eventdescriptiontext)
@@ -78,6 +81,7 @@ class DetailsActivity : AppCompatActivity() {
                 linearLayout.addView(button)
             }
 
+
             /*
         for (eventData in eventDataList) {
             val audience = eventData.audience
@@ -98,7 +102,7 @@ class DetailsActivity : AppCompatActivity() {
             }
 
             navigationButton.setOnClickListener {
-                sendLocationNavigation(eventData)
+                //sendLocationNavigation(selectedEvent)
             }
 
             menuButton.setOnClickListener {
@@ -114,10 +118,22 @@ class DetailsActivity : AppCompatActivity() {
             }
         }
     }
+/*
     private fun sendLocationNavigation(event: EventData) {
         fetchLatLngFromAddress(event) { lat, lng ->
             val navigationAppIntegration = NavigationAppIntegration(this)
             navigationAppIntegration.starNavigationToGoogleMap(lat, lng)
         }
+        */
+    private fun fetchEventByID(id: UUID): EventData? {
+        val eventDbAccess = EventDbAccess(this)
+        val eventList = eventDbAccess.getEventDataFromDatabase()
+
+        for (event in eventList) {
+            if (event.id == id) {
+                return event
+            }
+        }
+        return null
     }
 }

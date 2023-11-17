@@ -133,8 +133,7 @@ class EventDbAccess(private val context: Context) {
 
     }
 
-    @SuppressLint("SuspiciousIndentation")
-    fun getEventById(eventId: UUID): List<EventData> {
+    fun getEventById(eventId: UUID): EventData? {
         val dbHelper = EventDbHelper(context)
         val db = dbHelper.readableDatabase
 
@@ -159,6 +158,8 @@ class EventDbAccess(private val context: Context) {
         val selection = "${EventContract.EventEntry.COLUMN_ID} = ?"
         val selectionArgs = arrayOf(eventId.toString())
 
+        val sortOrder = "${EventContract.EventEntry.COLUMN_DATE} ASC, ${EventContract.EventEntry.COLUMN_TIME} ASC"
+
         val cursor = db.query(
             EventContract.EventEntry.TABLE_NAME,  // The table to query
             projection,                           // The columns to return
@@ -166,70 +167,70 @@ class EventDbAccess(private val context: Context) {
             selectionArgs,                        // The values for the WHERE clause
             null,                                 // Don't group the rows
             null,                                 // Don't filter by row groups
-            null                                  // No sort order needed for a single row
+            sortOrder                                    // The sort order
         )
 
-        val eventData = mutableListOf<EventData>()
+        var eventData: EventData? = null
 
-        while (cursor.moveToNext()) {
+        if (cursor.moveToFirst()) {
             //retrieves UUID as a string
             val idString =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_ID))
-
-        val id = if (!idString.isNullOrEmpty()) {
-            try {
-                UUID.fromString(idString)
-            } catch (e: IllegalArgumentException) {
-                // Handle the case where the UUID string is not valid
-                // For example, provide a default UUID
+            // Check if idString is not null and not empty before creating UUID
+            val id = if (!idString.isNullOrEmpty()) {
+                try {
+                    UUID.fromString(idString)
+                } catch (e: IllegalArgumentException) {
+                    // Handle the case where the UUID string is not valid
+                    // For example, provide a default UUID
+                    UUID.randomUUID()
+                }
+            } else {
+                // If idString is null or empty, provide a default UUID
                 UUID.randomUUID()
             }
-        } else {
-            // If idString is null or empty, provide a default UUID
-            UUID.randomUUID()
-        }
 
-        val title =
-            cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_TITLE))
-        val description =
-            cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_DESCRIPTION))
-        val date =
-            LocalDate.parse(cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_DATE)))
-        val time =
-            LocalTime.parse(cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_TIME)))
-        val buildingName =
-            cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_BUILDING_NAME))
-        val address =
-            cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_ADDRESS))
-        val imageUrl =
-            cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_IMAGE_URL))
+            val title =
+                cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_TITLE))
+            val description =
+                cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_DESCRIPTION))
+            val date =
+                LocalDate.parse(cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_DATE)))
+            val time =
+                LocalTime.parse(cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_TIME)))
+            val buildingName =
+                cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_BUILDING_NAME))
+            val address =
+                cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_ADDRESS))
+            val imageUrl =
+                cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_IMAGE_URL))
 
-        val academic =
-            cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_ACADEMIC)) == 1
-        val social =
-            cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_SOCIAL)) == 1
-        val sports =
-            cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_SPORTS)) == 1
-        val clubsOrg =
-            cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_CLUBS_ORG)) == 1
-        val workshops =
-            cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_WORKSHOPS)) == 1
-        val volunteering =
-            cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_VOLUNTEERING)) == 1
-        val studentsOnly =
-            cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_STUDENTS_ONLY)) == 1
+            val academic =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_ACADEMIC)) == 1
+            val social =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_SOCIAL)) == 1
+            val sports =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_SPORTS)) == 1
+            val clubsOrg =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_CLUBS_ORG)) == 1
+            val workshops =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_WORKSHOPS)) == 1
+            val volunteering =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_VOLUNTEERING)) == 1
+            val studentsOnly =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_STUDENTS_ONLY)) == 1
 
-        val categories = mutableListOf<String>()
-        if (academic) categories.add("Academic")
-        if (social) categories.add("Social")
-        if (sports) categories.add("Sports")
-        if (clubsOrg) categories.add("Clubs/Organizations")
-        if (workshops) categories.add("Workshops/Seminars")
-        if (volunteering) categories.add("Volunteering")
-        if (studentsOnly) categories.add("Students Only")
+            val categories = mutableListOf<String>()
+            if (academic) categories.add("Academic")
+            if (social) categories.add("Social")
+            if (sports) categories.add("Sports")
+            if (clubsOrg) categories.add("Clubs/Organizations")
+            if (workshops) categories.add("Workshops/Seminars")
+            if (volunteering) categories.add("Volunteering")
+            if (studentsOnly) categories.add("Students Only")
 
             // Create an EventData object for the retrieved row
-            val eventData = EventData(
+            eventData = EventData(
                 id,
                 title,
                 description,
