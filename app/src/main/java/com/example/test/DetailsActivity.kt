@@ -24,11 +24,14 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var menuButton: ImageView
     private lateinit var mapIcon: ImageView
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_details)
+
+        // val selectedEvent = intent.getParcelableExtra<EventData>("event")
+        // if (selectedEvent != null) {
+        //    // You can put your code here if needed
+        // }
 
         interestButton = findViewById(R.id.interestButton)
         navigationButton = findViewById(R.id.navigationButton)
@@ -38,8 +41,8 @@ class DetailsActivity : AppCompatActivity() {
         // Initialize EventDbAccess
         val eventDbAccess = EventDbAccess(this)
         // Get event data from the database
-        val eventDataList  = eventDbAccess.getEventDataFromDatabase()
-        // Create buttons dynamically based on categories
+        val eventDataList = eventDbAccess.getEventDataFromDatabase()
+
         for (eventData in eventDataList) {
             eventDescription = findViewById(R.id.eventdescriptiontext)
             eventTitle = findViewById(R.id.detailTitle)
@@ -57,7 +60,7 @@ class DetailsActivity : AppCompatActivity() {
             eventTime.text = eventData.time.toString()
             eventLocation.text = eventData.buildingName
             eventAddress.text = eventData.address
-            //eventImage.image = eventData.imageUrl
+            // eventImage.image = eventData.imageUrl
 
             eventDescription.movementMethod = ScrollingMovementMethod()
 
@@ -72,9 +75,10 @@ class DetailsActivity : AppCompatActivity() {
             }
         }
 
+        // Uncomment this section if needed
         /*
         for (eventData in eventDataList) {
-            val audience = eventData.audience
+            val audiences = eventData.audience
 
             for (audience in audiences) {
                 val button = Button(this)
@@ -89,9 +93,11 @@ class DetailsActivity : AppCompatActivity() {
         */
 
         interestButton.setOnClickListener {
+            // Implement the click listener for the interest button
         }
 
         navigationButton.setOnClickListener {
+            // Implement the click listener for the navigation button
         }
 
         menuButton.setOnClickListener {
@@ -105,7 +111,5 @@ class DetailsActivity : AppCompatActivity() {
             val intent = Intent(this@DetailsActivity, MapsActivity::class.java)
             startActivity(intent)
         }
-
-
     }
 }

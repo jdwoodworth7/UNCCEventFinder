@@ -73,7 +73,7 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
         val events = ArrayList<EventData>()
         //Checking if dates match to put in the new array
         for (event in eventList) {
-            if (event.date == date)
+            if (LocalDate.parse(event.date) == date)
                 events.add(event)
         }
         return events
