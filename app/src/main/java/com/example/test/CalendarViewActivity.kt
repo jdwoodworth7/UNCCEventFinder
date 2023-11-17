@@ -56,16 +56,20 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
         setListViewAdapter()
     }
 
+    //Sets the adapter and finds which events are on that day via eventsForDate
     private fun setListViewAdapter() {
         val dailyEvents: ArrayList<EventData> = eventsForDate(selectedDate)
         val calendarListAdapter = CalendarListAdapter(this, dailyEvents)
         listView.adapter = calendarListAdapter
     }
 
+    //Queries the database to see which events are on which day and adds them to a temp array if dates match
     fun eventsForDate(date: LocalDate): ArrayList<EventData> {
+        //Gets database access
         val eventDbAccess = EventDbAccess(this)
         val eventList = eventDbAccess.getEventDataFromDatabase()
         val events = ArrayList<EventData>()
+        //Checking if dates match to put in the new array
         for (event in eventList) {
             if (event.date == date)
                 events.add(event)

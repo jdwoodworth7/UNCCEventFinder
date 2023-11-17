@@ -19,21 +19,24 @@ class CalendarListAdapter (private val context : Activity, private val arrayList
 
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        //Sets up the listview
         val inflater : LayoutInflater = LayoutInflater.from(context)
         val view: View = inflater.inflate(R.layout.activity_calendar_list_view, null)
+
+        //Used for event image
         val imageUrl: String? = arrayList[position].userUploadedImageUrl
 
+        //Finds the listview parts
         val icon : ImageView = view.findViewById(R.id.calendarListIcon)
         val title : TextView = view.findViewById(R.id.calendarListTitle)
         val time : TextView = view.findViewById(R.id.calendarListTime)
         val navButton : Button = view.findViewById(R.id.buttonNavigate)
         val removeButton : Button = view.findViewById(R.id.buttonRemove)
 
+        //Uses coil to load the image url from a file pathway string
         icon.load(imageUrl)
         icon.visibility = View.VISIBLE
         title.text = arrayList[position].title
-        //TODO: Change the following line to follow the LocalTime format
-//        time.text = arrayList[position].time
 
 
 
