@@ -120,18 +120,18 @@
         <Button
             android:id="@+id/interestButton"
             android:layout_width="150dp"
-            android:layout_height="34dp"
+            android:layout_height="40dp"
             android:text="@string/i_m_interested"
-            android:textSize="11sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/navigationButton"
             android:layout_width="150dp"
-            android:layout_height="34dp"
+            android:layout_height="40dp"
             android:text="@string/navigate_to"
             android:layout_marginStart="10dp"
-            android:textSize="11sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -143,6 +143,7 @@
         android:background="@drawable/layout_border"
         android:padding="16dp"
         android:layout_margin="10dp"
+        android:layout_gravity="center"
         app:layout_constraintTop_toBottomOf="@+id/buttonLayout" >
 
         <TextView
@@ -150,8 +151,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="4dp"
-            android:textSize="16sp"
             android:textStyle="bold"
+            android:layout_gravity="center"
             app:drawableLeftCompat="@drawable/baseline_calendar_month_24" />
 
         <TextView
@@ -159,7 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="4dp"
-            android:textSize="16sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <TextView
@@ -167,7 +168,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="4dp"
-            android:textSize="16sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
     </LinearLayout>
 
