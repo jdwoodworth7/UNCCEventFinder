@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawerlayout1"
+    tools:context=".MapsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="595dp">
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar1"
+                    android:layout_width="match_parent"
+                    android:layout_height="76dp"
+                    android:layout_weight="1"
+                    android:background="@color/color_primary"
+                    android:minHeight="?attr/actionBarSize"
+                    android:theme="?attr/actionBarTheme"
+                    app:theme="@style/ToolBarStyle" />
+
+                <fragment
+                    android:id="@+id/map"
+                    class="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="524dp"
+                    android:layout_marginTop="70dp" />
+
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/button5"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="165dp"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="14dp"
+                android:layout_marginBottom="10dp"
+                android:text="MORE DETAILS"
+                app:backgroundTint="@color/color_primary" />
+
+            <Button
+                android:id="@+id/button7"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="165dp"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="211dp"
+                android:layout_marginBottom="10dp"
+                android:text="NAVIGATION"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/color_primary" />
+
+            <TextView
+                android:id="@+id/Eventauthor"
+                android:layout_width="275dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="39dp"
+                android:text="By: Charlotte Intramural Sports"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/eventaddress"
+                android:layout_width="275dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/Eventauthor"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="7dp"
+                android:text="UREC - 8827 CRAVER RD, CHARLOTTE NC 28223"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/Evetntitle"
+                android:layout_width="275dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="0dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="NINER VBALL TOURNEY"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:typeface="normal" />
+
+            <ImageView
+                android:id="@+id/eventiamge"
+                android:layout_width="96dp"
+                android:layout_height="59dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="72dp"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:headerLayout="@layout/nav_header2"
+        app:menu="@menu/nav_menu"
+        android:layout_gravity="start"
+        android:id="@+id/nav_menu"/>
+
+    <!-- Green Banner -->
+
+    <!-- Map Fragment -->
+
+</androidx.drawerlayout.widget.DrawerLayout>
