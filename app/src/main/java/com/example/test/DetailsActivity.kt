@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import java.util.UUID
 
 class DetailsActivity : AppCompatActivity() {
 
@@ -35,11 +36,14 @@ class DetailsActivity : AppCompatActivity() {
         menuButton = findViewById(R.id.menuButton)
         mapIcon = findViewById(R.id.mapIcon)
 
+        val eventId = UUID.fromString("your_event_id_here")
+        //val eventDataList = getEventById(eventId)
+
         // Initialize EventDbAccess
         val eventDbAccess = EventDbAccess(this)
         // Get event data from the database
         val eventDataList  = eventDbAccess.getEventDataFromDatabase()
-        // Create buttons dynamically based on categories
+
         for (eventData in eventDataList) {
             eventDescription = findViewById(R.id.eventdescriptiontext)
             eventTitle = findViewById(R.id.detailTitle)
@@ -61,6 +65,7 @@ class DetailsActivity : AppCompatActivity() {
 
             eventDescription.movementMethod = ScrollingMovementMethod()
 
+            // Create buttons dynamically based on categories
             for (category in categories) {
                 val button = Button(this)
                 button.text = category
