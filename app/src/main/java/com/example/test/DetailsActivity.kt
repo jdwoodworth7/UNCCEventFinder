@@ -8,9 +8,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.maps.model.LatLng
+import java.util.UUID
 
 class DetailsActivity : AppCompatActivity() {
-
+    private lateinit var userIdS: String
+    private lateinit var userId: UUID
     private lateinit var eventTitle: TextView
     private lateinit var eventTime: TextView
     private lateinit var eventDate: TextView
@@ -18,6 +21,7 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var eventLocation: TextView
     private lateinit var eventDescription: TextView
     private lateinit var eventImage: ImageView
+    private lateinit var categories: LinearLayout
 
     private lateinit var interestButton: Button
     private lateinit var navigationButton: Button
@@ -28,10 +32,12 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_details)
 
-        // val selectedEvent = intent.getParcelableExtra<EventData>("event")
-        // if (selectedEvent != null) {
-        //    // You can put your code here if needed
-        // }
+        val selectedEvent = intent.getParcelableExtra<EventData>("event")
+        if (selectedEvent != null) {
+            userId = selectedEvent.id
+        }
+        eventTitle = findViewById(R.id.detailTitle)
+
 
         interestButton = findViewById(R.id.interestButton)
         navigationButton = findViewById(R.id.navigationButton)
@@ -41,7 +47,9 @@ class DetailsActivity : AppCompatActivity() {
         // Initialize EventDbAccess
         val eventDbAccess = EventDbAccess(this)
         // Get event data from the database
-        val eventDataList = eventDbAccess.getEventDataFromDatabase()
+        //val eventDataList = eventDbAccess.getEventDataFromDatabase()
+        val eventDataList = eventDbAccess.getEventById(userId)
+
 
         for (eventData in eventDataList) {
             eventDescription = findViewById(R.id.eventdescriptiontext)
@@ -56,8 +64,8 @@ class DetailsActivity : AppCompatActivity() {
 
             eventTitle.text = eventData.title
             eventDescription.text = eventData.description
-            eventDate.text = eventData.date.toString()
-            eventTime.text = eventData.time.toString()
+            eventDate.text = eventData.date
+            eventTime.text = eventData.time
             eventLocation.text = eventData.buildingName
             eventAddress.text = eventData.address
             // eventImage.image = eventData.imageUrl
@@ -73,10 +81,7 @@ class DetailsActivity : AppCompatActivity() {
                 val linearLayout = findViewById<LinearLayout>(R.id.categoryButtonsLayout)
                 linearLayout.addView(button)
             }
-        }
 
-        // Uncomment this section if needed
-        /*
         for (eventData in eventDataList) {
             val audiences = eventData.audience
 
@@ -92,24 +97,44 @@ class DetailsActivity : AppCompatActivity() {
         }
         */
 
-        interestButton.setOnClickListener {
-            // Implement the click listener for the interest button
-        }
+            interestButton.setOnClickListener {
+            }
 
-        navigationButton.setOnClickListener {
-            // Implement the click listener for the navigation button
-        }
+            navigationButton.setOnClickListener {
+                //sendLocationNavigation(selectedEvent)
+            }
 
-        menuButton.setOnClickListener {
-            // Open the menu activity when the menu button is clicked
-            val intent = Intent(this@DetailsActivity, MenuActivity::class.java)
-            startActivity(intent)
-        }
 
-        mapIcon.setOnClickListener {
-            // Open the map activity when the map button is clicked
-            val intent = Intent(this@DetailsActivity, MapsActivity::class.java)
-            startActivity(intent)
+            menuButton.setOnClickListener {
+                // Open the menu activity when the menu button is clicked
+                val intent = Intent(this@DetailsActivity, MenuActivity::class.java)
+                startActivity(intent)
+            }
+
+            mapIcon.setOnClickListener {
+                // Open the map activity when the map button is clicked
+                val intent = Intent(this@DetailsActivity, MapsActivity::class.java)
+                startActivity(intent)
+            }
         }
+    }
+/*
+    private fun sendLocationNavigation(event: EventData) {
+        fetchLatLngFromAddress(event) { lat, lng ->
+            val navigationAppIntegration = NavigationAppIntegration(this)
+            navigationAppIntegration.starNavigationToGoogleMap(lat, lng)
+        }
+        */
+    private fun fetchEventByID(id: UUID): EventData? {
+        val eventDbAccess = EventDbAccess(this)
+        val eventList = eventDbAccess.getEventDataFromDatabase()
+
+        for (event in eventList) {
+            if (event.id == id) {
+                return event
+            }
+        }
+        return null
+
     }
 }
