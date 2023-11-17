@@ -119,6 +119,19 @@ class EventDbAccess(private val context: Context) {
 
         return eventList
     }
+    companion object{
+        fun removeEventFromDatabase(context: Context, itemTitle: String){
+            val dbHelper = EventDbHelper(context)
+            val db = dbHelper.readableDatabase
+            //val tableName = getTableName(context).toString()
+
+
+            db.delete("events", "title=?", arrayOf(itemTitle))
+            db.close()
+        }
+
+    }
+
     fun getEventById(eventId: UUID): List<EventData> {
         val dbHelper = EventDbHelper(context)
         val db = dbHelper.readableDatabase
