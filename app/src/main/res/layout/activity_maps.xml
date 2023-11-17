@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/maps_activity"
     tools:context=".MapsActivity">
 
     <!-- Green Banner -->
@@ -35,6 +36,19 @@
 
         </LinearLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/calendarRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="326dp" />
+
+        <ListView
+            android:id="@+id/calendarListView"
+            tools:listitem="@layout/activity_calendar_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            />
+
         <!-- Text: Map -->
         <TextView
             android:id="@+id/titleTextView"
@@ -49,14 +63,22 @@
     </RelativeLayout>
 
     <!-- Map Fragment -->
-    <fragment
-        xmlns:map="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
-        class="com.google.android.gms.maps.SupportMapFragment"
+
+    <RelativeLayout
+        android:id="@+id/mapContainer"
         android:layout_width="match_parent"
-        android:layout_marginTop="70dp"
         android:layout_height="match_parent"
-        />
+        android:layout_marginTop="70dp">
+
+        <fragment
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

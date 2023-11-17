@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class FilterActivity : AppCompatActivity() {
 
+    //Declare ToggleButtons and Buttons
     private lateinit var toggleAcademic: ToggleButton
     private lateinit var toggleSocial: ToggleButton
     private lateinit var toggleClubsOrg: ToggleButton
@@ -23,7 +24,7 @@ class FilterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filter)
 
-        // Initialize ToggleButtons and Button
+        // Initialize ToggleButtons and Buttons
         toggleAcademic = findViewById(R.id.toggleAcademic)
         toggleSocial = findViewById(R.id.toggleSocial)
         toggleClubsOrg = findViewById(R.id.toggleClubsOrg)
