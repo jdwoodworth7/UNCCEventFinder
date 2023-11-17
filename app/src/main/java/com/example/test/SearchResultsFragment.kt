@@ -28,7 +28,7 @@ class SearchResultsFragment : Fragment() {
     private lateinit var searchEditText: EditText
     private val FILTER_REQUEST_CODE = 1
 
-    // Store all events retrieved from the database
+    // Store all the events retrieved from the database
     private var allEvents: List<EventData> = mutableListOf()
 
     override fun onCreateView(
