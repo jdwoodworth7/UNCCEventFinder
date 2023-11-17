@@ -38,8 +38,23 @@ class CalendarListAdapter (private val context : Activity, private val arrayList
         icon.visibility = View.VISIBLE
         title.text = arrayList[position].title
 
+        //onClickListener for NavigationButton
+        navButton.setOnClickListener{
+            handleNavigationButtonClick(position)
+        }
 
 
         return view
+    }
+
+    private fun handleNavigationButtonClick(position: Int){
+        //focuses on the selected event among events in the list (same date)
+        val eventData = arrayList[position]
+
+        //queries latitude and longitude and sends value to NavigationAppIntegration
+        fetchLatLngFromAddress(eventData) {lat, lng ->
+            val navigationAppIntegration = NavigationAppIntegration(context)
+            navigationAppIntegration.starNavigationToGoogleMap(lat, lng)
+        }
     }
 }
