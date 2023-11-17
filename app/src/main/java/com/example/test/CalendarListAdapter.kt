@@ -12,7 +12,6 @@ import android.widget.TextView
 import java.time.LocalDate
 
 
-
 class CalendarListAdapter (private val context : Activity, private val arrayList : ArrayList<EventData> ) : ArrayAdapter<EventData>(context, R.layout.activity_calendar_list_view, arrayList) {
 
 
@@ -28,10 +27,26 @@ class CalendarListAdapter (private val context : Activity, private val arrayList
 
         //icon.setImageResource(arrayList[position].icon)
         title.text = arrayList[position].title
-        time.text = arrayList[position].time
+        //TODO: Change the following line to follow the LocalTime format
+        //time.text = arrayList[position].time
 
+        //onClickListener for NavigationButton
+        navButton.setOnClickListener{
+            handleNavigationButtonClick(position)
+        }
 
 
         return view
+    }
+
+    private fun handleNavigationButtonClick(position: Int){
+        //focuses on the selected event among events in the list (same date)
+        val eventData = arrayList[position]
+
+        //queries latitude and longitude and sends value to NavigationAppIntegration
+        fetchLatLngFromAddress(eventData) {lat, lng ->
+            val navigationAppIntegration = NavigationAppIntegration(context)
+            navigationAppIntegration.starNavigationToGoogleMap(lat, lng)
+        }
     }
 }
