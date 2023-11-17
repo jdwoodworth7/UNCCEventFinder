@@ -33,7 +33,8 @@ class EventDbAccess(private val context: Context) {
             EventContract.EventEntry.COLUMN_CATEGORY_STUDENTS_ONLY
         )
 
-        val sortOrder = "${EventContract.EventEntry.COLUMN_DATE} ASC, ${EventContract.EventEntry.COLUMN_TIME} ASC"
+        val sortOrder =
+            "${EventContract.EventEntry.COLUMN_DATE} ASC, ${EventContract.EventEntry.COLUMN_TIME} ASC"
 
         val cursor = db.query(
             EventContract.EventEntry.TABLE_NAME,  // The table to query
@@ -122,8 +123,8 @@ class EventDbAccess(private val context: Context) {
         return eventList
     }
 
-    companion object{
-        fun removeEventFromDatabase(context: Context, itemTitle: String){
+    companion object {
+        fun removeEventFromDatabase(context: Context, itemTitle: String) {
             val dbHelper = EventDbHelper(context)
             val db = dbHelper.readableDatabase
             //val tableName = getTableName(context).toString()
@@ -136,8 +137,6 @@ class EventDbAccess(private val context: Context) {
     }
 
     fun getEventById(eventId: UUID): EventData? {
-    @SuppressLint("SuspiciousIndentation")
-    fun getEventById(eventId: UUID): List<EventData> {
         val dbHelper = EventDbHelper(context)
         val db = dbHelper.readableDatabase
 
@@ -162,7 +161,8 @@ class EventDbAccess(private val context: Context) {
         val selection = "${EventContract.EventEntry.COLUMN_ID} = ?"
         val selectionArgs = arrayOf(eventId.toString())
 
-        val sortOrder = "${EventContract.EventEntry.COLUMN_DATE} ASC, ${EventContract.EventEntry.COLUMN_TIME} ASC"
+        val sortOrder =
+            "${EventContract.EventEntry.COLUMN_DATE} ASC, ${EventContract.EventEntry.COLUMN_TIME} ASC"
 
         val cursor = db.query(
             EventContract.EventEntry.TABLE_NAME,  // The table to query
