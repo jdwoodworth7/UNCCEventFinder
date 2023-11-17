@@ -38,6 +38,7 @@ class CalendarListAdapter (private val context : Activity, private val arrayList
         icon.load(imageUrl)
         icon.visibility = View.VISIBLE
         title.text = arrayList[position].title
+        time.text = arrayList[position].time
 
         //onClickListener for NavigationButton
         navButton.setOnClickListener{
