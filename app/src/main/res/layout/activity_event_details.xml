@@ -33,16 +33,16 @@
                 android:layout_height="35dp"
                 android:src="@drawable/baseline_menu_24"
                 android:layout_marginEnd="10dp"
-                android:contentDescription="Menu Navigation Button" />
+                android:contentDescription="@string/menu_navigation_button" />
 
             <!-- Navigation Button -->
             <ImageView
-                android:id="@+id/mapButton"
+                android:id="@+id/mapIcon"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/baseline_map_24"
                 android:layout_marginEnd="10dp"
-                android:contentDescription="Map Navigation Button" />
+                android:contentDescription="@string/map_navigation_button" />
 
         </LinearLayout>
 
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Event Details"
+            android:text="@string/event_details"
             android:textColor="@color/white"
             android:textSize="22sp"
             android:textStyle="bold" />
@@ -59,7 +59,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/eventTitle"
+        android:id="@+id/eventLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -76,23 +76,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                tools:text="Title"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/detailSubTitle"
+                android:id="@+id/detailLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                tools:text="SubTitle"
                 android:textColor="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/detailAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="Address/Location" />
+                android:padding="8dp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -104,9 +102,8 @@
                 android:id="@+id/eventImage"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/common_google_signin_btn_icon_dark"
                 android:layout_gravity="end"
-                android:contentDescription="Event Image" />
+                android:contentDescription="@string/event_image" />
         </LinearLayout>
 
     </RelativeLayout>
@@ -118,14 +115,13 @@
         android:orientation="horizontal"
         android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:paddingBottom="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/eventTitle" >
+        app:layout_constraintTop_toBottomOf="@+id/eventLayout" >
 
         <Button
             android:id="@+id/interestButton"
             android:layout_width="150dp"
             android:layout_height="34dp"
-            android:text="I'm interested"
+            android:text="@string/i_m_interested"
             android:textSize="11sp"
             android:textStyle="bold" />
 
@@ -133,7 +129,7 @@
             android:id="@+id/navigationButton"
             android:layout_width="150dp"
             android:layout_height="34dp"
-            android:text="Navigate To"
+            android:text="@string/navigate_to"
             android:layout_marginStart="10dp"
             android:textSize="11sp"
             android:textStyle="bold" />
@@ -143,96 +139,104 @@
         android:id="@+id/timeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:background="@drawable/layout_border"
         android:padding="16dp"
         android:layout_margin="10dp"
         app:layout_constraintTop_toBottomOf="@+id/buttonLayout" >
 
         <TextView
-            android:id="@+id/event_time"
-            android:layout_width="match_parent"
+            android:id="@+id/calendarIcon"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sep 29th, 10:30 Am - Oct 4th, 7PM"
             android:padding="4dp"
             android:textSize="16sp"
             android:textStyle="bold"
             app:drawableLeftCompat="@drawable/baseline_calendar_month_24" />
 
+        <TextView
+            android:id="@+id/eventDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/eventTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/scrollLayout"
+    <LinearLayout
+        android:id="@+id/event_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/layout_border"
+        android:padding="16dp"
+        android:layout_margin="10dp"
         app:layout_constraintTop_toBottomOf="@+id/timeLayout" >
 
-        <LinearLayout
-            android:id="@+id/event_layout"
+        <TextView
+            android:id="@+id/event_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/layout_border"
-            android:padding="16dp"
-            android:layout_margin="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/buttonLayout" >
+            android:text="@string/event_category"
+            android:padding="4dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/categoryButtonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:textSize= "11sp"
+            android:gravity="start"/>
+        <!--
+        <TextView
+            android:id="@+id/event_audience"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Audience"
+            android:padding="4dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/audienceButtonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:gravity="left"/>
+        -->
+        <TextView
+            android:id="@+id/event_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/event_description"
+            android:padding="4dp"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:id="@+id/scrollLayout"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            app:layout_constraintTop_toBottomOf="@+id/event_description">
 
             <TextView
-                android:id="@+id/event_category"
+                android:id="@+id/eventdescriptiontext"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Event Category"
-                android:padding="4dp"
-                android:textStyle="bold" />
-
-            <GridLayout
-                android:id="@+id/event_category_grid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/category1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="Sports"
-                    android:textSize="10sp"/>
-
-                <Button
-                    android:id="@+id/category2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="Clubs"
-                    android:textSize="10sp"/>
-
-            </GridLayout>
-
-            <TextView
-                android:id="@+id/event_audience"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Audience"
-                android:padding="4dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/event_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Event Description"
-                android:padding="4dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/event_description_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
+                android:layout_height="180dp"
+                android:background="@drawable/layout_border"
                 android:padding="8dp"
-                android:text="event detail text"
-                android:background="@drawable/layout_border" />
+                android:paddingTop="8dp" />
+        </ScrollView>
 
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/event_bottom"
@@ -242,6 +246,7 @@
         android:padding="8dp"
         android:layout_margin="1dp"
         android:gravity= "center"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent" >
 
         <TextView
@@ -269,5 +274,6 @@
             android:text="_ friends are interested in this event"
             android:padding="4dp"
             android:textStyle="bold" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

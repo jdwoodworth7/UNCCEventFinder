@@ -48,24 +48,23 @@ android {
 }
 
 dependencies {
-    val activity_version = "1.7.0"
-    val fragment_version = "1.6.1"
 
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.8.0")
+    implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation ("com.google.android.gms:play-services-auth:20.7.0")
-    implementation("androidx.activity:activity-ktx:$activity_version")
-    implementation("androidx.fragment:fragment-ktx:$fragment_version")
-    implementation("com.google.android.libraries.places:places:2.5.0")
+    //noinspection GradleDependency
+    implementation("androidx.activity:activity-ktx:$1.7.0")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
+    implementation("com.google.android.libraries.places:places:3.2.0")
     implementation ("io.coil-kt:coil:1.4.0")
     implementation ("com.squareup.okhttp3:okhttp:4.11.0")
     implementation ("com.google.code.gson:gson:2.8.9")
-    implementation ("androidx.appcompat:appcompat:1.4.1")
+    implementation ("androidx.appcompat:appcompat:1.6.1")
     implementation("io.coil-kt:coil:1.4.0")
 }

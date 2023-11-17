@@ -34,5 +34,14 @@
     <string name="back_button">Back Button</string>
     <string name="name">name</string>
     <string name="sign_out">Sign out</string>
+    <string name="text_fill">text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill \ntext fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill text fill</string>
+    <string name="event_image">Event Image</string>
+    <string name="menu_navigation_button">Menu Navigation Button</string>
+    <string name="map_navigation_button">Map Navigation Button</string>
+    <string name="event_details">Event Details</string>
+    <string name="i_m_interested">I\'m interested</string>
+    <string name="navigate_to">Navigate To</string>
+    <string name="event_category">Event Category</string>
+    <string name="event_description">Event Description</string>
 
 </resources>
