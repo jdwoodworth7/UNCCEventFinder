@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import java.time.LocalDate
 import java.time.LocalTime
 
+
 class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
     private lateinit var monthYearText: TextView
     private lateinit var calendarRecyclerView: RecyclerView
@@ -62,6 +63,7 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
         val calendarListAdapter = CalendarListAdapter(this, dailyEvents)
         listView.adapter = calendarListAdapter
     }
+
 
     //Queries the database to see which events are on which day and adds them to a temp array if dates match
     fun eventsForDate(date: LocalDate): ArrayList<EventData> {

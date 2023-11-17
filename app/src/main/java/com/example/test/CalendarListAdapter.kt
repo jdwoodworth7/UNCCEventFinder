@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import java.time.LocalDate
 import coil.load
+import com.example.test.EventDbAccess
 
 
 
@@ -43,6 +44,10 @@ class CalendarListAdapter (private val context : Activity, private val arrayList
             handleNavigationButtonClick(position)
         }
 
+        removeButton.setOnClickListener{
+            handleRemovalButtonClick(position)
+        }
+
 
         return view
     }
@@ -56,5 +61,14 @@ class CalendarListAdapter (private val context : Activity, private val arrayList
             val navigationAppIntegration = NavigationAppIntegration(context)
             navigationAppIntegration.starNavigationToGoogleMap(lat, lng)
         }
+    }
+
+    private fun handleRemovalButtonClick(position: Int){
+        //focuses on the selected event among events in the list (same date)
+        val eventData = arrayList[position]
+        val eventTitle:String = eventData.title
+
+        //removes the event
+        EventDbAccess.removeEventFromDatabase(context, eventTitle)
     }
 }
