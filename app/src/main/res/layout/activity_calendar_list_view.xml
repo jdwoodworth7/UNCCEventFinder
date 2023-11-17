@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".CalendarListView">
 
+    <!--Location for the icon of the event-->
     <ImageView
         android:id="@+id/calendarListIcon"
         android:layout_width="75dp"
@@ -15,6 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--Event title-->
     <TextView
         android:id="@+id/calendarListTitle"
         android:layout_width="wrap_content"
@@ -25,6 +27,7 @@
         app:layout_constraintStart_toEndOf="@+id/calendarListIcon"
         app:layout_constraintTop_toTopOf="@+id/calendarListIcon" />
 
+    <!--The time the event takes place-->
     <TextView
         android:id="@+id/calendarListTime"
         android:layout_width="wrap_content"
@@ -34,6 +37,7 @@
         app:layout_constraintStart_toStartOf="@+id/calendarListTitle"
         app:layout_constraintTop_toBottomOf="@+id/calendarListTitle" />
 
+    <!--Remove button-->
     <Button
         android:id="@+id/buttonRemove"
         android:layout_width="wrap_content"
@@ -48,6 +52,7 @@
         android:textSize="12sp"
         android:clickable="true"/>
 
+    <!--Navigate button-->
     <Button
         android:id="@+id/buttonNavigate"
         android:layout_width="wrap_content"

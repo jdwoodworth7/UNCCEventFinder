@@ -47,5 +47,6 @@ fun daysInMonthArray(date: LocalDate): ArrayList<LocalDate?> {
     return daysInMonthArray
 }
 
+//Not actually using the class but is a holder for static functions
 class CalendarUtils {
 }
