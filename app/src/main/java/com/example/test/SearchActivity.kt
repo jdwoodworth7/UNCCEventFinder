@@ -14,8 +14,13 @@ import android.view.inputmethod.EditorInfo
 
 class SearchActivity : AppCompatActivity() {
 
+    // Request code for launching the filter activity
     private val FILTER_REQUEST_CODE = 1
+
+    // EditText for entering search queries
     private lateinit var searchEditText: EditText
+
+    // Activity result launcher for handling filter activity results
     private val filterLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
             // Retrieve filter data from the result
@@ -39,9 +44,7 @@ class SearchActivity : AppCompatActivity() {
                 return
             }
 
-            // Request permission when the activity is created
-            requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-
+            // Create and add the SearchResultsFragment to the fragment container
             val searchResultsFragment = SearchResultsFragment()
 
             supportFragmentManager.commit {
@@ -49,6 +52,7 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
+        // Set up the searchEditText for search queries
         searchEditText = findViewById(R.id.searchEditText)
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -57,6 +61,8 @@ class SearchActivity : AppCompatActivity() {
             }
             false
         }
+
+        // Set up click listeners for menu, map, and filter icons
 
         // Find the menu button and set a click listener
         val menuButton = findViewById<ImageView>(R.id.menuButton)
@@ -82,23 +88,7 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                // Permission is granted, you can proceed with the image loading logic
-                // For example, reload your fragment or perform the image loading action
-                loadImages()
-            } else {
-                // Permission is not granted, handle it accordingly
-                // You might want to show a message to the user or disable features that require the permission
-            }
-        }
-
-    // This method contains the image loading logic
-    private fun loadImages() {
-        // Implement your image loading logic here
-    }
-
+    // Perform search based on the entered query
     private fun performSearch() {
         val searchQuery = searchEditText.text.toString().trim()
         val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
@@ -108,6 +98,7 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    //Handle the results of the filter activity
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 

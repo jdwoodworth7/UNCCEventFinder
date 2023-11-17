@@ -20,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 
 class SearchResultsFragment : Fragment() {
 
+    //UI Elements and variables
     private lateinit var eventAdapter: EventAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var noResultsTextView: TextView
@@ -27,14 +28,17 @@ class SearchResultsFragment : Fragment() {
     private lateinit var searchEditText: EditText
     private val FILTER_REQUEST_CODE = 1
 
+    // Store all events retrieved from the database
     private var allEvents: List<EventData> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_search_results, container, false)
 
+        // Initialize UI elements and set up RecyclerView
         recyclerView = view.findViewById(R.id.recyclerView)
         noResultsTextView = view.findViewById(R.id.noResultsTextView)
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -57,11 +61,13 @@ class SearchResultsFragment : Fragment() {
         return view
     }
 
+    // Perform search based on the entered query
     private fun performSearch() {
         val searchQuery = searchEditText.text.toString().trim()
         searchEventsByTitle(searchQuery)
     }
 
+    // Search events by title and display results or no results
     fun searchEventsByTitle(title: String) {
         val filteredEvents = allEvents.filter { it.title.contains(title, ignoreCase = true) }
 
@@ -72,6 +78,7 @@ class SearchResultsFragment : Fragment() {
         }
     }
 
+    // Handle the result of the filter activity
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -84,17 +91,20 @@ class SearchResultsFragment : Fragment() {
         }
     }
 
+    // Display search results and update the RecyclerView
     private fun showResults(results: List<EventData>) {
         recyclerView.visibility = View.VISIBLE
         noResultsTextView.visibility = View.GONE
         eventAdapter.updateData(results)
     }
 
+    // Display a message when no results are found
     private fun showNoResults() {
         recyclerView.visibility = View.GONE
         noResultsTextView.visibility = View.VISIBLE
     }
 
+    // Apply the selected filter to the list of events
     fun applyFilter(filterData: FilterData) {
         val filteredEvents = allEvents.filter { event ->
             (event.categories.contains("Academic") && filterData.academic) ||
