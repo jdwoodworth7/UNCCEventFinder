@@ -1,5 +1,6 @@
 package com.example.test
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.example.test.EventData
 import java.time.LocalDate
@@ -132,6 +133,7 @@ class EventDbAccess(private val context: Context) {
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     fun getEventById(eventId: UUID): List<EventData> {
         val dbHelper = EventDbHelper(context)
         val db = dbHelper.readableDatabase
@@ -231,8 +233,8 @@ class EventDbAccess(private val context: Context) {
                 id,
                 title,
                 description,
-                date,
-                time,
+                date.toString(),
+                time.toString(),
                 buildingName,
                 address,
                 imageUrl,
