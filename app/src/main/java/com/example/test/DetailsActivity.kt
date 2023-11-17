@@ -24,11 +24,14 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var menuButton: ImageView
     private lateinit var mapIcon: ImageView
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_details)
+
+        val selectedEvent = intent.getParcelableExtra<EventData>("event")
+        if(selectedEvent != null){
+
+            }
 
         interestButton = findViewById(R.id.interestButton)
         navigationButton = findViewById(R.id.navigationButton)

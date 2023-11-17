@@ -135,20 +135,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     // authorTextView.text = event.author
                     addressTextView.text = event.address
 
+                    //load event image
                     imageView.load(event.userUploadedImageUrl)
 
                     moreDetailsButton.setOnClickListener {
+                        val intent = Intent(this@MapsActivity, DetailsActivity::class.java)
 
+                        //put the Event object (parcelized) as an extra in the intent
+                        intent.putExtra("event", event)
+
+                        // Start the next activity
+                        startActivity(intent)
                     }
 
                     navigateButton.setOnClickListener{
                         sendLocationNavigation(event)
                     }
-
-                    //val navButton : Button = view.findViewById(R.id.${navButtonId})
-                    //navButton.setOnClickListener {
-                    //sendLocationNavigation(event)
-                    //}
 
                     //shows the marker title above the marker
                     clickedMarker.title = event.title
