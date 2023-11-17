@@ -175,6 +175,7 @@
         android:layout_width="match_parent"
         android:layout_height="326dp" />
 
+    <!--Location for the list view-->
     <ListView
         android:id="@+id/calendarListView"
         tools:listitem="@layout/activity_calendar_list_view"

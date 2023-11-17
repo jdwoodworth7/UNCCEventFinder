@@ -8,6 +8,7 @@ import java.time.LocalDate
 import java.util.ArrayList
 
 class CalendarAdapter(private val days: ArrayList<LocalDate?>, private val onItemListener: OnItemListener) : RecyclerView.Adapter<CalendarViewHolder>() {
+    //Creates the cells for the calendar
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.calendar_cell, parent, false)
@@ -17,6 +18,7 @@ class CalendarAdapter(private val days: ArrayList<LocalDate?>, private val onIte
         return CalendarViewHolder(view, onItemListener, days)
     }
 
+    //Sets the color of the selected date to be light gray as long as its not null (off the calendar)
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
         val date: LocalDate? = days.get(position)
         if (date == null) {

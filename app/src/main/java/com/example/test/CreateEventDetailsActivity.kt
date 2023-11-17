@@ -78,9 +78,9 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                 imageUrl ?: ""
             )
 
-            val intent = Intent(this@CreateEventDetailsActivity, CreateEventActivity::class.java)
+            val intent = Intent(this@CreateEventDetailsActivity, MapsActivity::class.java)
 
-            // Start the CreateEventActivity
+            // Start the MapsActivity
             startActivity(intent)
 
             // Finish the current activity to remove it from the back stack
