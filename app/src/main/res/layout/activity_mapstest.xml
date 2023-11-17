@@ -28,8 +28,7 @@
                     android:layout_weight="1"
                     android:background="@color/color_primary"
                     android:minHeight="?attr/actionBarSize"
-                    android:theme="?attr/actionBarTheme"
-                    app:theme="@style/ToolBarStyle" />
+                    android:theme="?attr/actionBarTheme" />
 
                 <fragment
                     android:id="@+id/map"
