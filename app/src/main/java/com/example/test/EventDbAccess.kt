@@ -7,6 +7,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.util.UUID
 
+
 class EventDbAccess(private val context: Context) {
     // Function to fetch data from the events table
     fun getEventDataFromDatabase(): List<EventData> {
@@ -120,6 +121,7 @@ class EventDbAccess(private val context: Context) {
 
         return eventList
     }
+
     companion object{
         fun removeEventFromDatabase(context: Context, itemTitle: String){
             val dbHelper = EventDbHelper(context)
@@ -134,6 +136,8 @@ class EventDbAccess(private val context: Context) {
     }
 
     fun getEventById(eventId: UUID): EventData? {
+    @SuppressLint("SuspiciousIndentation")
+    fun getEventById(eventId: UUID): List<EventData> {
         val dbHelper = EventDbHelper(context)
         val db = dbHelper.readableDatabase
 

@@ -38,6 +38,7 @@ class DetailsActivity : AppCompatActivity() {
         }
         eventTitle = findViewById(R.id.detailTitle)
 
+
         interestButton = findViewById(R.id.interestButton)
         navigationButton = findViewById(R.id.navigationButton)
         menuButton = findViewById(R.id.menuButton)
@@ -48,6 +49,7 @@ class DetailsActivity : AppCompatActivity() {
         // Get event data from the database
         //val eventDataList = eventDbAccess.getEventDataFromDatabase()
         val eventDataList = eventDbAccess.getEventById(userId)
+
 
         for (eventData in eventDataList) {
             eventDescription = findViewById(R.id.eventdescriptiontext)
@@ -66,11 +68,10 @@ class DetailsActivity : AppCompatActivity() {
             eventTime.text = eventData.time
             eventLocation.text = eventData.buildingName
             eventAddress.text = eventData.address
-            //eventImage.image = eventData.imageUrl
+            // eventImage.image = eventData.imageUrl
 
             eventDescription.movementMethod = ScrollingMovementMethod()
 
-            // Create buttons dynamically based on categories
             for (category in categories) {
                 val button = Button(this)
                 button.text = category
@@ -81,10 +82,8 @@ class DetailsActivity : AppCompatActivity() {
                 linearLayout.addView(button)
             }
 
-
-            /*
         for (eventData in eventDataList) {
-            val audience = eventData.audience
+            val audiences = eventData.audience
 
             for (audience in audiences) {
                 val button = Button(this)
@@ -104,6 +103,7 @@ class DetailsActivity : AppCompatActivity() {
             navigationButton.setOnClickListener {
                 //sendLocationNavigation(selectedEvent)
             }
+
 
             menuButton.setOnClickListener {
                 // Open the menu activity when the menu button is clicked
@@ -135,5 +135,6 @@ class DetailsActivity : AppCompatActivity() {
             }
         }
         return null
+
     }
 }
