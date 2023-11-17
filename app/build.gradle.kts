@@ -67,5 +67,5 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.11.0")
     implementation ("com.google.code.gson:gson:2.8.9")
     implementation ("androidx.appcompat:appcompat:1.4.1")
-
+    implementation("io.coil-kt:coil:1.4.0")
 }

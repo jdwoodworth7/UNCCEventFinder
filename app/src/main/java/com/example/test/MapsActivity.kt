@@ -1,12 +1,22 @@
 package com.example.test
 
+import android.annotation.SuppressLint
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.media.metrics.Event
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.core.net.toUri
+import coil.load
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -66,6 +76,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    @SuppressLint("MissingInflatedId")
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
@@ -97,7 +108,43 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     val cameraUpdate = CameraUpdateFactory.newLatLngZoom(markerLatLng, 17.5f)
                     mMap.animateCamera(cameraUpdate)
 
-                    //TODO:to be implemented when button UI is available
+                    val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                    val overlayView = inflater.inflate(R.layout.activity_mapstest, null)
+
+                    val titleTextView : TextView = overlayView.findViewById(R.id.eventTitle)
+                    val authorTextView : TextView= overlayView.findViewById(R.id.eventAuthor)
+                    val addressTextView : TextView = overlayView.findViewById(R.id.eventAddress)
+                    val imageView : ImageView = overlayView.findViewById(R.id.eventImage)
+                    val moreDetailsButton : Button = overlayView.findViewById(R.id.btnMoreDetails)
+                    val navigateButton : Button = overlayView.findViewById(R.id.btnNavOverlay)
+
+                    val rootView = findViewById<RelativeLayout>(R.id.mapContainer)
+
+                    val params = RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT
+                    )
+
+                    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM) // Align to bottom of parent
+                    overlayView.layoutParams = params
+
+                    rootView.addView(overlayView)
+
+                    titleTextView.text = event.title
+                    //TODO: Add author column in DB
+                    // authorTextView.text = event.author
+                    addressTextView.text = event.address
+
+                    imageView.load(event.userUploadedImageUrl)
+
+                    moreDetailsButton.setOnClickListener {
+
+                    }
+
+                    navigateButton.setOnClickListener{
+                        sendLocationNavigation(event)
+                    }
+
                     //val navButton : Button = view.findViewById(R.id.${navButtonId})
                     //navButton.setOnClickListener {
                     //sendLocationNavigation(event)
