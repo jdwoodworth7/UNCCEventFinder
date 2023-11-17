@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import java.util.UUID
 
 class DetailsActivity : AppCompatActivity() {
 
@@ -29,23 +28,20 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_details)
 
-        val selectedEvent = intent.getParcelableExtra<EventData>("event")
-        if(selectedEvent != null){
-
-            }
+        // val selectedEvent = intent.getParcelableExtra<EventData>("event")
+        // if (selectedEvent != null) {
+        //    // You can put your code here if needed
+        // }
 
         interestButton = findViewById(R.id.interestButton)
         navigationButton = findViewById(R.id.navigationButton)
         menuButton = findViewById(R.id.menuButton)
         mapIcon = findViewById(R.id.mapIcon)
 
-        val eventId = UUID.fromString("your_event_id_here")
-        //val eventDataList = getEventById(eventId)
-
         // Initialize EventDbAccess
         val eventDbAccess = EventDbAccess(this)
         // Get event data from the database
-        val eventDataList  = eventDbAccess.getEventDataFromDatabase()
+        val eventDataList = eventDbAccess.getEventDataFromDatabase()
 
         for (eventData in eventDataList) {
             eventDescription = findViewById(R.id.eventdescriptiontext)
@@ -64,11 +60,10 @@ class DetailsActivity : AppCompatActivity() {
             eventTime.text = eventData.time.toString()
             eventLocation.text = eventData.buildingName
             eventAddress.text = eventData.address
-            //eventImage.image = eventData.imageUrl
+            // eventImage.image = eventData.imageUrl
 
             eventDescription.movementMethod = ScrollingMovementMethod()
 
-            // Create buttons dynamically based on categories
             for (category in categories) {
                 val button = Button(this)
                 button.text = category
@@ -80,9 +75,10 @@ class DetailsActivity : AppCompatActivity() {
             }
         }
 
+        // Uncomment this section if needed
         /*
         for (eventData in eventDataList) {
-            val audience = eventData.audience
+            val audiences = eventData.audience
 
             for (audience in audiences) {
                 val button = Button(this)
@@ -97,9 +93,11 @@ class DetailsActivity : AppCompatActivity() {
         */
 
         interestButton.setOnClickListener {
+            // Implement the click listener for the interest button
         }
 
         navigationButton.setOnClickListener {
+            // Implement the click listener for the navigation button
         }
 
         menuButton.setOnClickListener {
@@ -113,7 +111,5 @@ class DetailsActivity : AppCompatActivity() {
             val intent = Intent(this@DetailsActivity, MapsActivity::class.java)
             startActivity(intent)
         }
-
-
     }
 }

@@ -8,7 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 
-class EventAdapter(private val eventList: MutableList<EventData>) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
+class EventAdapter(private val eventList: MutableList<EventData>) :
+    RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
     // ViewHolder class to hold references to views in each item
     class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -18,12 +19,31 @@ class EventAdapter(private val eventList: MutableList<EventData>) : RecyclerView
         val photoImageView: ImageView = itemView.findViewById(R.id.photoImageView)
     }
 
+    private var onItemClickListener: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onItemClick(eventData: EventData)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        onItemClickListener = listener
+    }
+
     // Create a new ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         // Inflate the layout for each item
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_item, parent, false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.card_item, parent, false)
         // Return the ViewHolder
-        return EventViewHolder(itemView)
+        return EventViewHolder(itemView).apply {
+            // Set the click listener for the entire item view
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemClickListener?.onItemClick(eventList[position])
+                }
+            }
+        }
     }
 
     // Bind data to the views in each item
