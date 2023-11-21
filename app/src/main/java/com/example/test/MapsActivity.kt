@@ -1,29 +1,24 @@
 package com.example.test
 
 import android.annotation.SuppressLint
-import android.app.Dialog
-import android.content.Context
 import android.content.Intent
-import android.media.metrics.Event
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import coil.load
-
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
@@ -32,7 +27,10 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.firebase.storage.FirebaseStorage
+import java.io.File
 import java.util.UUID
+
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -48,6 +46,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
+        //initialize and create client for Places API
         Places.initialize(applicationContext, MAPS_API_KEY)
         placesClient = Places.createClient(this)
 
@@ -108,9 +107,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     val cameraUpdate = CameraUpdateFactory.newLatLngZoom(markerLatLng, 17.5f)
                     mMap.animateCamera(cameraUpdate)
 
+                    //inflates overlay layout
                     val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
                     val overlayView = inflater.inflate(R.layout.activity_mapstest, null)
 
+                    //finds and stores views from overlay layout
                     val titleTextView : TextView = overlayView.findViewById(R.id.eventTitle)
                     val authorTextView : TextView= overlayView.findViewById(R.id.eventAuthor)
                     val addressTextView : TextView = overlayView.findViewById(R.id.eventAddress)
@@ -118,14 +119,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     val moreDetailsButton : Button = overlayView.findViewById(R.id.btnMoreDetails)
                     val navigateButton : Button = overlayView.findViewById(R.id.btnNavOverlay)
 
+                    //initialize the main view that encompasses both Google Maps and the layout
                     val rootView = findViewById<RelativeLayout>(R.id.mapContainer)
 
+                    //assign parameter for the new layout
                     val params = RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.MATCH_PARENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT
                     )
 
-                    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM) // Align to bottom of parent
+                    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM) //align to bottom of parent
                     overlayView.layoutParams = params
 
                     rootView.addView(overlayView)
