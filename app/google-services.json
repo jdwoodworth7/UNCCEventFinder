@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "152589945463",
+    "project_id": "graphite-earth-403001",
+    "storage_bucket": "graphite-earth-403001.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152589945463:android:b91abb89a263d0c65b5472",
+        "android_client_info": {
+          "package_name": "com.example.test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqfva_CgE0gIXgNywRLAUY4lRo5O98M_M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

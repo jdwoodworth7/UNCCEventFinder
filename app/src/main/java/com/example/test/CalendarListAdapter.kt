@@ -1,6 +1,7 @@
 package com.example.test
 
 import android.app.Activity
+import android.content.Intent
 import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
@@ -70,5 +71,8 @@ class CalendarListAdapter (private val context : Activity, private val arrayList
 
         //removes the event
         EventDbAccess.removeEventFromDatabase(context, eventTitle)
+
+        val intent = Intent(context, CalendarViewActivity::class.java)
+        context.startActivity(intent)
     }
 }
