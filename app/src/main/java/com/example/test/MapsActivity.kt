@@ -92,86 +92,83 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             setZoomCameraBounds()
         }
 
-        fetchEventData()
+        fetchEventDataFireStore()
 
         //when marker is clicked
         mMap.setOnMarkerClickListener { clickedMarker ->
             markerSelected=true
-            val eventId = clickedMarker.tag as UUID?
+            val eventId = clickedMarker.tag as String
 
-            //if current marker's tag in UUID is not null
+            //if current marker's tag is not null
             if (eventId != null) {
-                val event = fetchEventByID(eventId) //Match clicked marker's event with event in db using id
+                    fetchEventByFireStoreID(eventId) //Match clicked marker's event with event in db using id
+                    { event ->
+                        if(event != null){
+                            //zooms the camera to the clicked marker position to a certain extent
+                            val markerLatLng = clickedMarker.position
+                            val cameraUpdate = CameraUpdateFactory.newLatLngZoom(markerLatLng, 17.5f)
+                            mMap.animateCamera(cameraUpdate)
 
-                //if an event of matching id is found
-                if(event != null) {
-                    //zooms the camera to the clicked marker position to a certain extent
-                    val markerLatLng = clickedMarker.position
-                    val cameraUpdate = CameraUpdateFactory.newLatLngZoom(markerLatLng, 17.5f)
-                    mMap.animateCamera(cameraUpdate)
+                            //inflates overlay layout
+                            val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                            val overlayView = inflater.inflate(R.layout.activity_mapstest, null)
 
-                    //inflates overlay layout
-                    val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-                    val overlayView = inflater.inflate(R.layout.activity_mapstest, null)
+                            //finds and stores views from overlay layout
+                            val titleTextView: TextView = overlayView.findViewById(R.id.eventTitle)
+                            val authorTextView: TextView = overlayView.findViewById(R.id.eventAuthor)
+                            val addressTextView: TextView = overlayView.findViewById(R.id.eventAddress)
+                            val imageView: ImageView = overlayView.findViewById(R.id.eventImage)
+                            val moreDetailsButton: Button = overlayView.findViewById(R.id.btnMoreDetails)
+                            val navigateButton: Button = overlayView.findViewById(R.id.btnNavOverlay)
 
-                    //finds and stores views from overlay layout
-                    val titleTextView : TextView = overlayView.findViewById(R.id.eventTitle)
-                    val authorTextView : TextView= overlayView.findViewById(R.id.eventAuthor)
-                    val addressTextView : TextView = overlayView.findViewById(R.id.eventAddress)
-                    val imageView : ImageView = overlayView.findViewById(R.id.eventImage)
-                    val moreDetailsButton : Button = overlayView.findViewById(R.id.btnMoreDetails)
-                    val navigateButton : Button = overlayView.findViewById(R.id.btnNavOverlay)
+                            //initialize the main view that encompasses both Google Maps and the layout
+                            val rootView = findViewById<RelativeLayout>(R.id.mapContainer)
 
-                    //initialize the main view that encompasses both Google Maps and the layout
-                    val rootView = findViewById<RelativeLayout>(R.id.mapContainer)
+                            //assign parameter for the new layout
+                            val params = RelativeLayout.LayoutParams(
+                                RelativeLayout.LayoutParams.MATCH_PARENT,
+                                RelativeLayout.LayoutParams.WRAP_CONTENT
+                            )
 
-                    //assign parameter for the new layout
-                    val params = RelativeLayout.LayoutParams(
-                        RelativeLayout.LayoutParams.MATCH_PARENT,
-                        RelativeLayout.LayoutParams.WRAP_CONTENT
-                    )
+                            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM) //align to bottom of parent
+                            overlayView.layoutParams = params
 
-                    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM) //align to bottom of parent
-                    overlayView.layoutParams = params
+                            rootView.addView(overlayView)
 
-                    rootView.addView(overlayView)
+                            titleTextView.text = event.title
+                            //TODO: Add author column in DB
+                            // authorTextView.text = event.author
+                            addressTextView.text = event.address
 
-                    titleTextView.text = event.title
-                    //TODO: Add author column in DB
-                    // authorTextView.text = event.author
-                    addressTextView.text = event.address
+                            //load event image
+                            imageView.load(event.userUploadedImageUrl)
 
-                    //load event image
-                    imageView.load(event.userUploadedImageUrl)
+                            moreDetailsButton.setOnClickListener {
+                                val intent = Intent(this@MapsActivity, DetailsActivity::class.java)
 
-                    moreDetailsButton.setOnClickListener {
-                        val intent = Intent(this@MapsActivity, DetailsActivity::class.java)
+                                //put the Event object (parcelized) as an extra in the intent
+                                intent.putExtra("event", event)
 
-                        //put the Event object (parcelized) as an extra in the intent
-                        intent.putExtra("event", event)
+                                // Start the next activity
+                                startActivity(intent)
+                            }
 
-                        // Start the next activity
-                        startActivity(intent)
-                    }
+                            navigateButton.setOnClickListener {
+                                sendLocationNavigation(event)
+                            }
 
-                    navigateButton.setOnClickListener{
-                        sendLocationNavigation(event)
-                    }
+                            //shows the marker title above the marker
+                            clickedMarker.title = event.title
+                            clickedMarker.showInfoWindow()
 
-                    //shows the marker title above the marker
-                    clickedMarker.title = event.title
-                    clickedMarker.showInfoWindow()
-
-                    mMap.setOnMapClickListener {
-                        if(markerSelected){
-                            markerSelected = false
-                            rootView.removeView(overlayView)
+                            mMap.setOnMapClickListener {
+                                if(markerSelected){
+                                    markerSelected = false
+                                    rootView.removeView(overlayView)
+                                }
+                            }
                         }
                     }
-
-                } else{
-                    Log.e("Event Not Found", "Event with ID $eventId not found")
-                }
             } else {
                 Log.e("Invalid Marker", "No valid event ID found for the clicked marker")
             }
@@ -210,41 +207,77 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.setLatLngBoundsForCameraTarget(newBounds)
     }
 
-    //Fetching Existing Event Data (TEMP: Local)
-    private fun fetchEventData() {
-        val eventDbAccess = EventDbAccess(this)
-        val eventList = eventDbAccess.getEventDataFromDatabase()
+    //Fetching all event data from the FireStore
+    private fun fetchEventDataFireStore() {
+        val firestore = FirebaseStorageUtil.getFirebaseFireStoreInstance()
+        val eventCollectionRef = firestore.collection("Events")
+        val eventList = mutableListOf<EventData>()
 
-        //iterates for each event inside eventList
-        for (event in eventList) {
-            //searches and fetches latitude and longitude from input address
-            fetchLatLngFromAddress(event) { lat, lng ->
-                val latLng = LatLng(lat, lng)
+        eventCollectionRef.get()
+            .addOnSuccessListener { querySnapshot ->
+                for (document in querySnapshot) {
+                    //eventId is not the id assigned to the data inside event (ID field),
+                    //but a id that is assigned to the document which contains the event data
+                    val eventId = document.id
+                    val eventData = document.toObject(EventData::class.java)
 
-                //adds marker on given coordinate
-                //TODO: automate alternate marker locations so that events of the same address won't stack on top
-                //Suggestion: If multiple events occur at the same address, display titles of multiple events in list view
-                runOnUiThread {
-                    val newMarker = mMap.addMarker(
-                        MarkerOptions().position(latLng).title(event.title)
-                    )
-                    //assign event's unique id to the marker
-                    newMarker?.tag = event.id
+                    eventList.add(eventData)
+
+                    fetchLatLngFromAddress(eventData) { lat, lng ->
+                        val latLng = LatLng(lat, lng)
+
+                        //adds marker on given coordinate
+                        //TODO: automate alternate marker locations so that events of the same address won't stack on top
+                        //Suggestion: If multiple events occur at the same address, display titles of multiple events in list view
+                        runOnUiThread {
+                            val newMarker = mMap.addMarker(
+                                MarkerOptions().position(latLng).title(eventData.title)
+                            )
+                            //assign event's unique id to the marker
+                            newMarker?.tag = eventData.id
+                        }
+                    }
+
                 }
             }
-        }
+            .addOnFailureListener { exception ->
+                Log.e(
+                    "Reference Fetch Failure",
+                    "Failed to fetch docuemnts from the collection reference: " + exception
+                )
+            }
     }
 
+    //Fetching event from local DB by eventID
     private fun fetchEventByID(id: UUID): EventData? {
         val eventDbAccess = EventDbAccess(this)
         val eventList = eventDbAccess.getEventDataFromDatabase()
 
         for (event in eventList) {
-            if (event.id == id) {
+            if (event.id == id.toString()) {
                 return event
             }
         }
         return null
+    }
+
+    private fun fetchEventByFireStoreID(id: String, callback: (EventData?) -> Unit) {
+        val firestore = FirebaseStorageUtil.getFirebaseFireStoreInstance()
+        val eventRef = firestore.collection("Events").document(id)
+
+        eventRef.get()
+            .addOnSuccessListener { querySnapShot ->
+                if (querySnapShot.exists()) {
+                    val eventData = querySnapShot.toObject(EventData::class.java)
+                    callback(eventData)
+                } else{
+                    Log.e("Event FetchById Request", "Following event does not exist")
+                    callback(null)
+                }
+            }
+            .addOnFailureListener{ exception ->
+                Log.e("Event FetchById Request", "Event Fetch Failed: " + exception)
+            }
     }
 
     //for future use, prediction address for better accuracy
@@ -300,4 +333,30 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             navigationAppIntegration.starNavigationToGoogleMap(lat, lng)
         }
     }
+
+    //Fetching Existing Event Data from DB
+    private fun fetchEventData() {
+        val eventDbAccess = EventDbAccess(this)
+        val eventList = eventDbAccess.getEventDataFromDatabase()
+
+        //iterates for each event inside eventList
+        for (event in eventList) {
+            //searches and fetches latitude and longitude from input address
+            fetchLatLngFromAddress(event) { lat, lng ->
+                val latLng = LatLng(lat, lng)
+
+                //adds marker on given coordinate
+                //TODO: automate alternate marker locations so that events of the same address won't stack on top
+                //Suggestion: If multiple events occur at the same address, display titles of multiple events in list view
+                runOnUiThread {
+                    val newMarker = mMap.addMarker(
+                        MarkerOptions().position(latLng).title(event.title)
+                    )
+                    //assign event's unique id to the marker
+                    newMarker?.tag = event.id
+                }
+            }
+        }
+    }
+
 }
