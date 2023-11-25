@@ -1,22 +1,26 @@
 package com.example.test
 
-import android.content.ContentValues
 import android.content.Intent
-import android.database.sqlite.SQLiteConstraintException
-import android.media.metrics.Event
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import android.util.Log
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import java.util.UUID
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 
 class CreateEventDetailsActivity : AppCompatActivity() {
+
+    // Firestore database
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event_details)
+
+        // Initialize Firebase
+        FirebaseApp.initializeApp(this)
 
         // Retrieve data from the previous activity
         val title = intent.getStringExtra("title")
@@ -66,8 +70,8 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             if (checkBoxVolunteering) categories.add("Volunteering")
             if (checkBoxStudentsOnly) categories.add("Students Only")
 
-            // Save event details to the database
-            saveEventToDatabase(
+            // Save event details to Firestore
+            saveEventToFirestore(
                 title ?: "",
                 description ?: "",
                 date ?: "",
@@ -112,11 +116,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         return checkBoxDetails.toString().removeSuffix(", ")
     }
 
-    private fun generateUUID(): UUID {
-        return UUID.randomUUID()
-    }
-
-    private fun saveEventToDatabase(
+    private fun saveEventToFirestore(
         title: String,
         description: String,
         date: String?,
@@ -126,85 +126,34 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         categories: List<String>,
         imageUrl: String?
     ) {
-        val dbHelper = EventDbHelper(this)
-        val db = dbHelper.writableDatabase
-        var id: UUID
+        // Create a new event document in the "Events" collection
+        val event = hashMapOf(
+            "title" to title,
+            "description" to description,
+            "date" to date,
+            "time" to time,
+            "building_name" to buildingName,
+            "address" to address,
+            "image_url" to imageUrl,
+            "category_academic" to categories.contains("Academic").toString(),
+            "category_clubs" to categories.contains("Clubs/Organizations").toString(),
+            "category_social" to categories.contains("Social").toString(),
+            "category_sports" to categories.contains("Sports").toString(),
+            "category_students_only" to categories.contains("Students Only").toString(),
+            "category_volunteering" to categories.contains("Volunteering").toString(),
+            "category_workshops" to categories.contains("Workshops/Seminars").toString(),
+            "timestamp" to FieldValue.serverTimestamp()
+        )
 
-        try {
-            id = generateUUID()
-
-            // Insert event details
-            val values = ContentValues().apply {
-            put(EventContract.EventEntry.COLUMN_ID, id.toString())
-            put(EventContract.EventEntry.COLUMN_TITLE, title)
-            put(EventContract.EventEntry.COLUMN_DESCRIPTION, description)
-            date?.let { put(EventContract.EventEntry.COLUMN_DATE, it) }
-            time?.let { put(EventContract.EventEntry.COLUMN_TIME, it) }
-            buildingName?.let { put(EventContract.EventEntry.COLUMN_BUILDING_NAME, it) }
-            address?.let { put(EventContract.EventEntry.COLUMN_ADDRESS, it) }
-            put(EventContract.EventEntry.COLUMN_IMAGE_URL, imageUrl)
-
-
-            // Set category columns
-            put(EventContract.EventEntry.COLUMN_CATEGORY_ACADEMIC, if ("Academic" in categories) 1 else 0)
-            put(EventContract.EventEntry.COLUMN_CATEGORY_SOCIAL, if ("Social" in categories) 1 else 0)
-            put(EventContract.EventEntry.COLUMN_CATEGORY_SPORTS, if ("Sports" in categories) 1 else 0)
-            put(EventContract.EventEntry.COLUMN_CATEGORY_CLUBS_ORG, if ("Clubs/Organizations" in categories) 1 else 0)
-            put(EventContract.EventEntry.COLUMN_CATEGORY_WORKSHOPS, if ("Workshops/Seminars" in categories) 1 else 0)
-            put(EventContract.EventEntry.COLUMN_CATEGORY_VOLUNTEERING, if ("Volunteering" in categories) 1 else 0)
-            put(EventContract.EventEntry.COLUMN_CATEGORY_STUDENTS_ONLY, if ("Students Only" in categories) 1 else 0)
-        }
-
-            val newRowId = db.insert(EventContract.EventEntry.TABLE_NAME, null, values)
-            if (newRowId != -1L) {
-                // The insertion was successful, and newRowId contains the ID of the new row
-                Log.d("Database", "Event row inserted successfully with ID: $newRowId")
-
-                // You can log or handle the success of category insertion here
-            } else {
-                Log.e("Database", "Error inserting event row")
-                // Handle the case where event insertion failed
+        // Add the event to the "Events" collection
+        db.collection("Events")
+            .document()
+            .set(event)
+            .addOnSuccessListener {
+                Log.d("Firestore", "Event document added successfully")
             }
-        } catch (e:SQLiteConstraintException) { //Uniqueness violation - UUID is already in use
-            Log.e("Database", "UUID already exists")
-            Log.e("Database", "Generating Another UUID")
-            Log.e("Database", "Reattempting Insertion")
-
-            id = generateUUID()
-
-            // Insert event details
-            val values = ContentValues().apply {
-                put(EventContract.EventEntry.COLUMN_ID, id.toString())
-                put(EventContract.EventEntry.COLUMN_TITLE, title)
-                put(EventContract.EventEntry.COLUMN_DESCRIPTION, description)
-                date?.let { put(EventContract.EventEntry.COLUMN_DATE, it) }
-                time?.let { put(EventContract.EventEntry.COLUMN_TIME, it) }
-                buildingName?.let { put(EventContract.EventEntry.COLUMN_BUILDING_NAME, it) }
-                address?.let { put(EventContract.EventEntry.COLUMN_ADDRESS, it) }
-                put(EventContract.EventEntry.COLUMN_IMAGE_URL, imageUrl)
-
-                // Set category columns
-                put(EventContract.EventEntry.COLUMN_CATEGORY_ACADEMIC, if ("Academic" in categories) 1 else 0)
-                put(EventContract.EventEntry.COLUMN_CATEGORY_SOCIAL, if ("Social" in categories) 1 else 0)
-                put(EventContract.EventEntry.COLUMN_CATEGORY_SPORTS, if ("Sports" in categories) 1 else 0)
-                put(EventContract.EventEntry.COLUMN_CATEGORY_CLUBS_ORG, if ("Clubs/Organizations" in categories) 1 else 0)
-                put(EventContract.EventEntry.COLUMN_CATEGORY_WORKSHOPS, if ("Workshops/Seminars" in categories) 1 else 0)
-                put(EventContract.EventEntry.COLUMN_CATEGORY_VOLUNTEERING, if ("Volunteering" in categories) 1 else 0)
-                put(EventContract.EventEntry.COLUMN_CATEGORY_STUDENTS_ONLY, if ("Students Only" in categories) 1 else 0)
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Error adding event document", e)
             }
-
-            val newRowId = db.insert(EventContract.EventEntry.TABLE_NAME, null, values)
-
-            if (newRowId != -1L) {
-                // The insertion was successful, and newRowId contains the ID of the new row
-                Log.d("Database", "Event row inserted successfully with ID: $newRowId")
-
-                // You can log or handle the success of category insertion here
-            } else {
-                Log.e("Database", "Error inserting event row")
-                // Handle the case where event insertion failed
-            }
-
-        }
     }
 }
