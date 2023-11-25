@@ -30,7 +30,7 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var menuButton: ImageView
     private lateinit var mapIcon: ImageView
 
-    private lateinit var eventId: UUID
+    private lateinit var eventId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
