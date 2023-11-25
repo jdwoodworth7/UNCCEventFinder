@@ -12,7 +12,7 @@ data class EventData(
         val time: String, // converted from LocalTime
         val buildingName: String?,
         val address: String?,
-        val userUploadedImageUrl: String?,
+        val imageUri: String?,
         val categories: List<String>
 ) : Parcelable {
 
@@ -49,7 +49,7 @@ data class EventData(
                 parcel.writeString(time)
                 parcel.writeString(buildingName)
                 parcel.writeString(address)
-                parcel.writeString(userUploadedImageUrl)
+                parcel.writeString(imageUri)
                 parcel.writeStringList(categories)
         }
 
