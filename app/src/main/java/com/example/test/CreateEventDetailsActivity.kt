@@ -165,7 +165,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         buildingName: String?,
         address: String?,
         categories: List<String>,
-        imageUrl: String
+        imageUri: String
     ) {
         // Create a new event document in the "Events" collection
         val event = hashMapOf(
@@ -173,9 +173,9 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             "description" to description,
             "date" to date,
             "time" to time,
-            "building_name" to buildingName,
+            "buildingName" to buildingName,
             "address" to address,
-            "image_uri" to imageUrl,
+            "imageUri" to imageUri,
             "category_academic" to categories.contains("Academic").toString(),
             "category_clubs" to categories.contains("Clubs/Organizations").toString(),
             "category_social" to categories.contains("Social").toString(),

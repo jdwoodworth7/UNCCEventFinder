@@ -1,9 +1,7 @@
 package com.example.test
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +13,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.test.EventAdapter
 import com.example.test.EventData
-import com.example.test.EventDbAccess
-import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class SearchResultsFragment : Fragment() {
 
@@ -48,8 +50,8 @@ class SearchResultsFragment : Fragment() {
 
         recyclerView.adapter = eventAdapter
 
-        allEvents = EventDbAccess(requireContext()).getEventDataFromDatabase()
-        eventAdapter.updateData(allEvents)
+        // Fetch and display data from Firestore
+        fetchEventDataFromFirestore()
 
         searchedButton = requireActivity().findViewById(R.id.searchedButton)
         searchedButton.setOnClickListener {
@@ -59,6 +61,40 @@ class SearchResultsFragment : Fragment() {
         searchEditText = requireActivity().findViewById(R.id.searchEditText)
 
         return view
+    }
+
+    private fun fetchEventDataFromFirestore() {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val querySnapshot: QuerySnapshot = FirebaseFirestore.getInstance()
+                    .collection("Events")
+                    .get()
+                    .await()
+
+                val events = querySnapshot.toObjects(EventData::class.java)
+                allEvents = events // Update the allEvents list
+                updateUI(events)
+            } catch (e: Exception) {
+                // Handle exceptions
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun updateUI(events: List<EventData>) {
+        requireActivity().runOnUiThread {
+            if (events.isNotEmpty()) {
+                recyclerView.visibility = View.VISIBLE
+                eventAdapter.updateData(events)
+            } else {
+                showNoResults()
+            }
+        }
+    }
+
+    private fun showNoResults() {
+        recyclerView.visibility = View.GONE
+        noResultsTextView.visibility = View.VISIBLE
     }
 
     private fun performSearch() {
@@ -76,34 +112,10 @@ class SearchResultsFragment : Fragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == FILTER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val filterData =
-                data?.getParcelableExtra<FilterData>("filterData") ?: FilterData(
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false
-                )
-            Log.d("SearchResultsFragment", "Received Filter Data: $filterData")
-
-            applyFilter(filterData)
-        }
-    }
-
     private fun showResults(results: List<EventData>) {
         recyclerView.visibility = View.VISIBLE
         noResultsTextView.visibility = View.GONE
         eventAdapter.updateData(results)
-    }
-
-    private fun showNoResults() {
-        recyclerView.visibility = View.GONE
-        noResultsTextView.visibility = View.VISIBLE
     }
 
     fun applyFilter(filterData: FilterData) {
@@ -123,7 +135,6 @@ class SearchResultsFragment : Fragment() {
         }
     }
 
-    // Open the event details activity
     private fun openEventDetails(eventData: EventData) {
         val intent = Intent(requireContext(), DetailsActivity::class.java)
         intent.putExtra("event", eventData)

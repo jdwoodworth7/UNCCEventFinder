@@ -1,23 +1,34 @@
 package com.example.test
 
-import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
-import java.time.LocalDate
-import java.time.LocalTime
 import java.util.UUID
 
 data class EventData(
         val id: UUID,
         val title: String,
         val description: String,
-        val date: String, //converted from LocalDate
-        val time: String, //converted from LocalTime
+        val date: String, // converted from LocalDate
+        val time: String, // converted from LocalTime
         val buildingName: String?,
         val address: String?,
         val userUploadedImageUrl: String?,
         val categories: List<String>
 ) : Parcelable {
+
+        // Add a no-argument constructor
+        constructor() : this(
+                UUID.randomUUID(),
+                "",
+                "",
+                "",
+                "",
+                null,
+                null,
+                null,
+                listOf()
+        )
+
         constructor(parcel: Parcel) : this(
                 UUID.fromString(parcel.readString() ?: ""),
                 parcel.readString() ?: "",
@@ -27,9 +38,8 @@ data class EventData(
                 parcel.readString(),
                 parcel.readString(),
                 parcel.readString(),
-                parcel.createStringArrayList() ?: listOf()
-        ) {
-        }
+                parcel.createStringArrayList()?.toList() ?: listOf()
+        )
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
                 parcel.writeString(id.toString())
