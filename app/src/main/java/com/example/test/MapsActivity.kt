@@ -37,6 +37,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private var initialBounds: LatLngBounds? = null
     private lateinit var placesClient: PlacesClient
+    private var markerSelected = false
 
 //    private lateinit var selectedEvent: Event
 
@@ -93,7 +94,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         fetchEventData()
 
+        //when marker is clicked
         mMap.setOnMarkerClickListener { clickedMarker ->
+            markerSelected=true
             val eventId = clickedMarker.tag as UUID?
 
             //if current marker's tag in UUID is not null
@@ -158,6 +161,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     //shows the marker title above the marker
                     clickedMarker.title = event.title
                     clickedMarker.showInfoWindow()
+
+                    mMap.setOnMapClickListener {
+                        if(markerSelected){
+                            markerSelected = false
+                            rootView.removeView(overlayView)
+                        }
+                    }
+
                 } else{
                     Log.e("Event Not Found", "Event with ID $eventId not found")
                 }
