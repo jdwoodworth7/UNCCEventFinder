@@ -1,7 +1,9 @@
 package com.example.test
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -9,11 +11,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 
 class CreateEventDetailsActivity : AppCompatActivity() {
 
-    // Firestore database 
+    // Firestore database
     private val db = FirebaseFirestore.getInstance()
+    private val storage = FirebaseStorage.getInstance()
+    private val storageRef = storage.reference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +34,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         val time = intent.getStringExtra("time")
         val buildingName = intent.getStringExtra("buildingName")
         val address = intent.getStringExtra("address")
-        val imageUrl = intent.getStringExtra("imageUrl")
+        val imageUri = intent.getStringExtra("imageUri")
 
         // Build a string to display checkbox details
         val checkBoxDetails = buildCheckBoxDetails()
@@ -45,7 +50,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                     "Building Name: $buildingName\n" +
                     "Address: $address\n" +
                     "Categories: $checkBoxDetails\n" +
-                    "Image URI: $imageUrl"
+                    "Image URI: $imageUri"
         )
 
         // Setup "Exit" button click listener
@@ -70,7 +75,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             if (checkBoxVolunteering) categories.add("Volunteering")
             if (checkBoxStudentsOnly) categories.add("Students Only")
 
-            // Save event details to Firestore
+            // Save event details to Firestore and upload image to Storage
             saveEventToFirestore(
                 title ?: "",
                 description ?: "",
@@ -79,16 +84,8 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                 buildingName ?: "",
                 address ?: "",
                 categories ?: emptyList(),  // Provide an empty list if null
-                imageUrl ?: ""
+                imageUri ?: ""
             )
-
-            val intent = Intent(this@CreateEventDetailsActivity, MapsActivity::class.java)
-
-            // Start the MapsActivity
-            startActivity(intent)
-
-            // Finish the current activity to remove it from the back stack
-            finish()
         }
     }
 
@@ -124,7 +121,51 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         buildingName: String?,
         address: String?,
         categories: List<String>,
-        imageUrl: String?
+        imageUri: String?
+    ) {
+        Log.d("Firestore", "Saving event to Firestore")
+
+        // Upload image to Firebase Storage
+        if (!imageUri.isNullOrBlank() && !imageUri.startsWith("gs://")) {
+            Log.d("Firestore", "Image URI is a local content URI, proceeding with Firestore upload")
+
+            // Get the file name from the imageUri
+            val fileName = "event_images/${System.currentTimeMillis()}_${Uri.parse(imageUri).lastPathSegment}"
+
+            // Get a reference to the storage location
+            val imageRef = storageRef.child(fileName)
+
+            // Upload the file
+            imageRef.putFile(Uri.parse(imageUri))
+                .addOnSuccessListener { taskSnapshot ->
+                    Log.d("FirebaseStorage", "Image uploaded successfully")
+
+                    // Get the download URL for the uploaded image
+                    imageRef.downloadUrl.addOnSuccessListener { uri ->
+                        // Continue with saving the event data to Firestore
+                        saveEventDataToFirestore(title, description, date, time, buildingName, address, categories, uri.toString())
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Log.e("FirebaseStorage", "Error uploading image", e)
+                }
+        } else {
+            Log.d("Firestore", "Image URI is null, blank, or already a Cloud Storage URI, proceeding with Firestore upload")
+
+            // Continue with saving the event data to Firestore
+            saveEventDataToFirestore(title, description, date, time, buildingName, address, categories, imageUri ?: "")
+        }
+    }
+
+    private fun saveEventDataToFirestore(
+        title: String,
+        description: String,
+        date: String?,
+        time: String?,
+        buildingName: String?,
+        address: String?,
+        categories: List<String>,
+        imageUrl: String
     ) {
         // Create a new event document in the "Events" collection
         val event = hashMapOf(
@@ -134,7 +175,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             "time" to time,
             "building_name" to buildingName,
             "address" to address,
-            "image_url" to imageUrl,
+            "image_uri" to imageUrl,
             "category_academic" to categories.contains("Academic").toString(),
             "category_clubs" to categories.contains("Clubs/Organizations").toString(),
             "category_social" to categories.contains("Social").toString(),
@@ -145,12 +186,24 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             "timestamp" to FieldValue.serverTimestamp()
         )
 
+        // Print out the event details
+        Log.d("Firestore", "Event Details:")
+        event.forEach { (key, value) ->
+            Log.d("Firestore", "$key: $value")
+        }
+
         // Add the event to the "Events" collection
         db.collection("Events")
-            .document()
-            .set(event)
-            .addOnSuccessListener {
-                Log.d("Firestore", "Event document added successfully")
+            .add(event)
+            .addOnSuccessListener { documentReference ->
+                Log.d("Firestore", "DocumentSnapshot added with ID: ${documentReference.id}")
+
+                // Start the MapsActivity
+                val intent = Intent(this@CreateEventDetailsActivity, MapsActivity::class.java)
+                startActivity(intent)
+
+                // Finish the current activity to remove it from the back stack
+                finish()
             }
             .addOnFailureListener { e ->
                 Log.e("Firestore", "Error adding event document", e)
