@@ -12,7 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class CreateEventDetailsActivity : AppCompatActivity() {
 
-    // Firestore database
+    // Firestore database 
     private val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
