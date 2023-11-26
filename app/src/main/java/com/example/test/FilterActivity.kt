@@ -40,13 +40,13 @@ class FilterActivity : AppCompatActivity() {
         submitButton.setOnClickListener {
             // Collect the selected filter data
             val filterData = FilterData(
-                academic = toggleAcademic.isChecked,
-                social = toggleSocial.isChecked,
-                sports = toggleSports.isChecked,
-                clubsOrg = toggleClubsOrg.isChecked,
-                workshops = toggleWorkshops.isChecked,
-                volunteering = toggleVolunteering.isChecked,
-                studentsOnly = toggleStudentsOnly.isChecked
+                category_academic = toggleAcademic.isChecked,
+                category_social = toggleSocial.isChecked,
+                category_sports = toggleSports.isChecked,
+                category_clubs = toggleClubsOrg.isChecked,
+                category_workshops = toggleWorkshops.isChecked,
+                category_volunteering = toggleVolunteering.isChecked,
+                category_students_only = toggleStudentsOnly.isChecked
             )
             // Log filter data
             Log.d("FilterActivity", "Filter Data: $filterData")

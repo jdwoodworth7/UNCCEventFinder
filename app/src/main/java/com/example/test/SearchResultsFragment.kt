@@ -120,12 +120,13 @@ class SearchResultsFragment : Fragment() {
 
     fun applyFilter(filterData: FilterData) {
         val filteredEvents = allEvents.filter { event ->
-            (event.categories.contains("Academic") && filterData.academic) ||
-                    (event.categories.contains("Social") && filterData.social) ||
-                    (event.categories.contains("Clubs/Organizations") && filterData.clubsOrg) ||
-                    (event.categories.contains("Workshops/Seminars") && filterData.workshops) ||
-                    (event.categories.contains("Volunteering") && filterData.volunteering) ||
-                    (event.categories.contains("Students Only") && filterData.studentsOnly)
+            (event.categories.contains("Academic") && filterData.category_academic) ||
+                    (event.categories.contains("Social") && filterData.category_social) ||
+                    (event.categories.contains("Sports") && filterData.category_sports) ||
+                    (event.categories.contains("Clubs/Organizations") && filterData.category_clubs) ||
+                    (event.categories.contains("Workshops/Seminars") && filterData.category_workshops) ||
+                    (event.categories.contains("Volunteering") && filterData.category_volunteering) ||
+                    (event.categories.contains("Students Only") && filterData.category_students_only)
         }
 
         if (filteredEvents.isNotEmpty()) {
