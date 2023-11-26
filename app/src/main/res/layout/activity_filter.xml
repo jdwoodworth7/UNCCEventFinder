@@ -70,7 +70,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp">
 
             <TextView
@@ -125,36 +125,6 @@
                 android:layout_alignParentEnd="true"
                 android:checked="false"/>
         </RelativeLayout>
-
-        <!-- Clubs/Organizations ToggleButton -->
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp">
-
-            <TextView
-                android:id="@+id/clubsOrgText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Clubs/Organizations"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="30dp"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-
-            <ToggleButton
-                android:id="@+id/toggleClubsOrg"
-                android:layout_width="70dp"
-                android:layout_height="60dp"
-                android:textOn=""
-                android:textOff=""
-                android:background="@drawable/toggle_selector"
-                android:button="@drawable/toggle_selector"
-                android:layout_alignParentEnd="true"
-                android:checked="false"/>
-        </RelativeLayout>
         <!-- Sports ToggleButton -->
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -184,6 +154,36 @@
                 android:layout_alignParentEnd="true"
                 android:checked="false"/>
         </RelativeLayout>
+        <!-- Clubs/Organizations ToggleButton -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:id="@+id/clubsOrgText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clubs/Organizations"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="30dp"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <ToggleButton
+                android:id="@+id/toggleClubsOrg"
+                android:layout_width="70dp"
+                android:layout_height="60dp"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/toggle_selector"
+                android:button="@drawable/toggle_selector"
+                android:layout_alignParentEnd="true"
+                android:checked="false"/>
+        </RelativeLayout>
+
 
         <!-- Workshops ToggleButton -->
         <RelativeLayout

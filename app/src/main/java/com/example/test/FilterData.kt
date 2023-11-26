@@ -7,6 +7,7 @@ import android.os.Parcelable
 data class FilterData(
         val academic: Boolean,
         val social: Boolean,
+        val sports: Boolean,
         val clubsOrg: Boolean,
         val workshops: Boolean,
         val volunteering: Boolean,
@@ -19,6 +20,7 @@ data class FilterData(
                 parcel.readByte() != 0.toByte(),
                 parcel.readByte() != 0.toByte(),
                 parcel.readByte() != 0.toByte(),
+                parcel.readByte() != 0.toByte(),
                 parcel.readByte() != 0.toByte()
         )
 
@@ -26,6 +28,7 @@ data class FilterData(
         override fun writeToParcel(parcel: Parcel, flags: Int) {
                 parcel.writeByte(if (academic) 1 else 0)
                 parcel.writeByte(if (social) 1 else 0)
+                parcel.writeByte(if (sports) 1 else 0)
                 parcel.writeByte(if (clubsOrg) 1 else 0)
                 parcel.writeByte(if (workshops) 1 else 0)
                 parcel.writeByte(if (volunteering) 1 else 0)

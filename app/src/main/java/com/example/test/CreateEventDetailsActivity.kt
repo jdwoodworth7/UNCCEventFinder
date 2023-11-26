@@ -176,13 +176,13 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             "buildingName" to buildingName,
             "address" to address,
             "imageUri" to imageUri,
-            "category_academic" to categories.contains("Academic").toString(),
-            "category_clubs" to categories.contains("Clubs/Organizations").toString(),
-            "category_social" to categories.contains("Social").toString(),
-            "category_sports" to categories.contains("Sports").toString(),
-            "category_students_only" to categories.contains("Students Only").toString(),
-            "category_volunteering" to categories.contains("Volunteering").toString(),
-            "category_workshops" to categories.contains("Workshops/Seminars").toString(),
+            "category_academic" to categories.contains("Academic"),
+            "category_clubs" to categories.contains("Clubs/Organizations"),
+            "category_social" to categories.contains("Social"),
+            "category_sports" to categories.contains("Sports"),
+            "category_students_only" to categories.contains("Students Only"),
+            "category_volunteering" to categories.contains("Volunteering"),
+            "category_workshops" to categories.contains("Workshops/Seminars"),
             "timestamp" to FieldValue.serverTimestamp()
         )
 

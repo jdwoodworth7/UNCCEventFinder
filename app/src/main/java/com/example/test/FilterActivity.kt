@@ -13,6 +13,7 @@ class FilterActivity : AppCompatActivity() {
     //Declare ToggleButtons and Buttons
     private lateinit var toggleAcademic: ToggleButton
     private lateinit var toggleSocial: ToggleButton
+    private lateinit var toggleSports: ToggleButton
     private lateinit var toggleClubsOrg: ToggleButton
     private lateinit var toggleWorkshops: ToggleButton
     private lateinit var toggleVolunteering: ToggleButton
@@ -28,6 +29,7 @@ class FilterActivity : AppCompatActivity() {
         toggleAcademic = findViewById(R.id.toggleAcademic)
         toggleSocial = findViewById(R.id.toggleSocial)
         toggleClubsOrg = findViewById(R.id.toggleClubsOrg)
+        toggleSports = findViewById(R.id.toggleSports)
         toggleWorkshops = findViewById(R.id.toggleWorkshops)
         toggleVolunteering = findViewById(R.id.toggleVolunteering)
         toggleStudentsOnly = findViewById(R.id.toggleStudentsOnly)
@@ -40,6 +42,7 @@ class FilterActivity : AppCompatActivity() {
             val filterData = FilterData(
                 academic = toggleAcademic.isChecked,
                 social = toggleSocial.isChecked,
+                sports = toggleSports.isChecked,
                 clubsOrg = toggleClubsOrg.isChecked,
                 workshops = toggleWorkshops.isChecked,
                 volunteering = toggleVolunteering.isChecked,
