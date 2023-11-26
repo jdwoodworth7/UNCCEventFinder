@@ -176,13 +176,6 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             "buildingName" to buildingName,
             "address" to address,
             "imageUri" to imageUri,
-            "title" to title,
-            "description" to description,
-            "date" to date,
-            "time" to time,
-            "buildingName" to buildingName,
-            "address" to address,
-            "imageUri" to imageUri,
             "categories" to categories,
             "timestamp" to FieldValue.serverTimestamp()
         )
