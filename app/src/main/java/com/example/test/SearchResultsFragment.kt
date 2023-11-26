@@ -74,6 +74,7 @@ class SearchResultsFragment : Fragment() {
                 val events = querySnapshot.toObjects(EventData::class.java)
                 allEvents = events // Update the allEvents list
                 updateUI(events)
+                println("Fetched ${events.size} events from Firestore")
             } catch (e: Exception) {
                 // Handle exceptions
                 e.printStackTrace()
@@ -93,6 +94,7 @@ class SearchResultsFragment : Fragment() {
     }
 
     private fun showNoResults() {
+        println("No results found")
         recyclerView.visibility = View.GONE
         noResultsTextView.visibility = View.VISIBLE
     }
@@ -113,27 +115,45 @@ class SearchResultsFragment : Fragment() {
     }
 
     private fun showResults(results: List<EventData>) {
+        println("Showing ${results.size} results")
         recyclerView.visibility = View.VISIBLE
         noResultsTextView.visibility = View.GONE
         eventAdapter.updateData(results)
     }
 
     fun applyFilter(filterData: FilterData) {
+        println("Before filtering: ${allEvents.size} events")
+
         val filteredEvents = allEvents.filter { event ->
-            (event.categories.contains("Academic") && filterData.category_academic) ||
-                    (event.categories.contains("Social") && filterData.category_social) ||
-                    (event.categories.contains("Sports") && filterData.category_sports) ||
-                    (event.categories.contains("Clubs/Organizations") && filterData.category_clubs) ||
-                    (event.categories.contains("Workshops/Seminars") && filterData.category_workshops) ||
-                    (event.categories.contains("Volunteering") && filterData.category_volunteering) ||
-                    (event.categories.contains("Students Only") && filterData.category_students_only)
+            val matches = event.categories.any { category ->
+                when {
+                    (category.equals("academic", ignoreCase = true) && filterData.category_academic) ||
+                            (category.equals("social", ignoreCase = true) && filterData.category_social) ||
+                            (category.equals("sports", ignoreCase = true) && filterData.category_sports) ||
+                            (category.equals("clubs/organizations", ignoreCase = true) && filterData.category_clubs) ||
+                            (category.equals("workshops/seminars", ignoreCase = true) && filterData.category_workshops) ||
+                            (category.equals("volunteering", ignoreCase = true) && filterData.category_volunteering) ||
+                            (category.equals("students only", ignoreCase = true) && filterData.category_students_only) -> true
+                    else -> false
+                }
+            }
+
+            if (!matches) {
+                println("Event ${event.title} did not pass the filter. Categories: ${event.categories}")
+            }
+
+            matches
         }
+
+        println("After filtering: ${filteredEvents.size} events")
 
         if (filteredEvents.isNotEmpty()) {
             showResults(filteredEvents)
         } else {
             showNoResults()
         }
+
+        println("Filtered events: $filteredEvents")
     }
 
     private fun openEventDetails(eventData: EventData) {
