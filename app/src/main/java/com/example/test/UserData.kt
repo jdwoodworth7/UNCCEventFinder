@@ -6,7 +6,6 @@ import com.google.firebase.firestore.DocumentSnapshot
 import java.util.UUID
 
 data class UserData (
-        val id: String,
         val email: String,
         val firstname: String,
         val lastname: String,
@@ -18,7 +17,6 @@ data class UserData (
     {
         // No-argument constructor for Firestore deserialization
         constructor() : this(
-        UUID.randomUUID().toString(),
         "",
         "",
         "",
@@ -30,7 +28,6 @@ data class UserData (
 
         // constructor for converting Firestore DocumentSnapshot to UserData object
         constructor(documentSnapshot: DocumentSnapshot) : this(
-        documentSnapshot.get("id") as? String ?: UUID.randomUUID().toString(),
         documentSnapshot.getString("email") ?: "",
         documentSnapshot.getString("firstname") ?: "",
         documentSnapshot.getString("lastname") ?: "",
@@ -48,13 +45,11 @@ data class UserData (
             parcel.readString() ?: "",
             parcel.readString() ?: "",
             parcel.readString() ?: "",
-            parcel.readString() ?: "",
             parcel.createStringArrayList()?.toList() ?: listOf()
         )
 
         //Parcelable Implementations
         override fun writeToParcel(parcel: Parcel, flags: Int) {
-            parcel.writeString(id)
             parcel.writeString(email)
             parcel.writeString(firstname)
             parcel.writeString(lastname)
