@@ -1,6 +1,5 @@
 package com.example.test
 
-import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.firebase.firestore.DocumentSnapshot
@@ -12,11 +11,11 @@ data class EventData(
         val id: String, //converted from UUID
         val title: String,
         val description: String,
-        val date: String, //converted from LocalDate
-        val time: String, //converted from LocalTime
+        val date: String, // converted from LocalDate
+        val time: String, // converted from LocalTime
         val buildingName: String?,
         val address: String?,
-        val userUploadedImageUrl: String?,
+        val imageUri: String?,
         val categories: List<String>
 ) : Parcelable {
         // No-argument constructor for Firestore deserialization - REQUIRED
@@ -29,7 +28,7 @@ data class EventData(
                 null,
                 null,
                 null,
-                mutableListOf()
+                listOf()
         )
 
         // constructor for converting Firestore DocumentSnapshot to EventData object
@@ -55,9 +54,8 @@ data class EventData(
                 parcel.readString(),
                 parcel.readString(),
                 parcel.readString(),
-                parcel.createStringArrayList() ?: listOf()
-        ) {
-        }
+                parcel.createStringArrayList()?.toList() ?: listOf()
+        )
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
                 parcel.writeString(id.toString())
@@ -67,7 +65,7 @@ data class EventData(
                 parcel.writeString(time)
                 parcel.writeString(buildingName)
                 parcel.writeString(address)
-                parcel.writeString(userUploadedImageUrl)
+                parcel.writeString(imageUri)
                 parcel.writeStringList(categories)
         }
 

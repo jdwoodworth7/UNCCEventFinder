@@ -58,7 +58,7 @@ class DetailsActivity : AppCompatActivity() {
             eventTime.text = selectedEvent.time
             eventLocation.text = selectedEvent.buildingName
             eventAddress.text = selectedEvent.address
-            eventImage.load(selectedEvent.userUploadedImageUrl)
+            eventImage.load(selectedEvent.imageUri)
 
             eventDescription.movementMethod = ScrollingMovementMethod()
 

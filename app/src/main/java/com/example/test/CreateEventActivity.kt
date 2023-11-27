@@ -10,11 +10,12 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import java.util.*
 import coil.load
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 class CreateEventActivity : AppCompatActivity() {
 
@@ -26,11 +27,29 @@ class CreateEventActivity : AppCompatActivity() {
     private lateinit var selectImageButton: Button
     private lateinit var userUploadedImageView: ImageView
     private val PICK_IMAGE_REQUEST = 1
-    private var selectedImageUrl: String = "" //changed lateinit variable to initialized variable with an empty string
+    private var selectedImageUrl: String = "" // changed lateinit variable to initialized variable with an empty string
+    private lateinit var storageReference: StorageReference
+    private lateinit var editTitle: EditText
+    private lateinit var editDescription: EditText
+    private lateinit var editBuildingName: EditText
+    private lateinit var editAddress: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event)
+
+        // Initialize Firebase Storage reference
+        storageReference = FirebaseStorage.getInstance().getReference("event_images")
+
+        // Other initializations...
+
+        // Initialize the EditText variables
+        editTitle = findViewById(R.id.titleEditText)
+        editDescription = findViewById(R.id.descriptionEditText)
+        editBuildingName = findViewById(R.id.locationEditText)
+        editAddress = findViewById(R.id.addressEditText)
+        // Initialize Firebase Storage reference
+        storageReference = FirebaseStorage.getInstance().getReference("event_images")
 
         dateButton = findViewById(R.id.datePickerButton)
         timeButton = findViewById(R.id.timePickerButton)
@@ -109,17 +128,13 @@ class CreateEventActivity : AppCompatActivity() {
                 // Display a message or toast indicating that all fields must be filled
                 // For example:
                 Toast.makeText(this@CreateEventActivity, "Please fill out all fields", Toast.LENGTH_SHORT).show()
-            }
-            else if (selectedImageUrl=="") {  //updated .isEmpty() to initialized empty string
+            } else if (selectedImageUrl == "") {  // updated .isEmpty() to initialized empty string
                 // Display a message or toast indicating that the user must upload an image
                 // For example:
                 Toast.makeText(this@CreateEventActivity, "Please upload an image", Toast.LENGTH_SHORT).show()
-            }
-            else {
+            } else {
                 // Create an Intent to start the next activity
                 val intent = Intent(this@CreateEventActivity, CreateEventCategoriesActivity::class.java)
-
-
 
                 // Pass the data to the next activity
                 intent.putExtra("title", title)
@@ -158,17 +173,33 @@ class CreateEventActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
-            // Get the selected image URL directly as a string
-            selectedImageUrl = data.data!!.toString()
+            // Get the selected image URI directly as a string
+            val imageUri: Uri = data.data!!
 
-            // Inflate the card_item.xml layout to find photoImageView
-            val cardView: View = layoutInflater.inflate(R.layout.card_item, null)
-            userUploadedImageView = cardView.findViewById(R.id.photoImageView)
+            // Pass the image URI to the next activity
+            val intent = Intent(this@CreateEventActivity, CreateEventCategoriesActivity::class.java)
 
-            // Use Coil to load the image from the URL into the ImageView
-            userUploadedImageView.load(selectedImageUrl)
+            // Continue with your other data passing logic...
 
-            userUploadedImageView.visibility = View.VISIBLE
+            // Get the entered data
+            val title = editTitle.text.toString()
+            val description = editDescription.text.toString()
+            val date = selectedDate
+            val time = selectedTime
+            val buildingName = editBuildingName.text.toString()
+            val address = editAddress.text.toString()
+
+            // Pass the image URI to the next activity
+            intent.putExtra("imageUri", imageUri.toString())
+            intent.putExtra("title", title)
+            intent.putExtra("description", description)
+            intent.putExtra("date", date.toString())
+            intent.putExtra("time", time.toString())
+            intent.putExtra("buildingName", buildingName)
+            intent.putExtra("address", address)
+
+            // Start the next activity
+            startActivity(intent)
         }
     }
 
@@ -180,13 +211,13 @@ class CreateEventActivity : AppCompatActivity() {
         val timePickerDialog = TimePickerDialog(
             this,
             TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-                //set the selectedTime to the user input value in LocalTime
-                selectedTime = LocalTime.of(hour,minute)
+                // set the selectedTime to the user input value in LocalTime
+                selectedTime = LocalTime.of(hour, minute)
 
                 // Convert 24-hour format to 12-hour format with AM/PM
-                 val amPm = if (hour < 12) "AM" else "PM"
-                 val displayHour = if (hour > 12) hour - 12 else if (hour == 0) 12 else hour
-                 val timeString = String.format(Locale.getDefault(), "%02d:%02d %s", displayHour, minute, amPm)
+                val amPm = if (hour < 12) "AM" else "PM"
+                val displayHour = if (hour > 12) hour - 12 else if (hour == 0) 12 else hour
+                val timeString = String.format(Locale.getDefault(), "%02d:%02d %s", displayHour, minute, amPm)
 
                 // Update the text of the timeButton
                 timeButton.text = timeString
@@ -205,14 +236,19 @@ class CreateEventActivity : AppCompatActivity() {
         val month = cal.get(Calendar.MONTH)
         val day = cal.get(Calendar.DAY_OF_MONTH)
 
-        datePickerDialog = DatePickerDialog(this,
-            DatePickerDialog.OnDateSetListener { _, year, month , day ->
-            //set the selectedDate to the user input value in LocalDate
-            selectedDate = LocalDate.of(year,month + 1,day)
+        datePickerDialog = DatePickerDialog(
+            this,
+            DatePickerDialog.OnDateSetListener { _, year, month, day ->
+                // set the selectedDate to the user input value in LocalDate
+                selectedDate = LocalDate.of(year, month + 1, day)
 
-            val dateString = makeDateString(day, month + 1, year)
-            dateButton.text = dateString
-        }, year, month, day)
+                val dateString = makeDateString(day, month + 1, year)
+                dateButton.text = dateString
+            },
+            year,
+            month,
+            day
+        )
 
         datePickerDialog.show()
     }
@@ -251,6 +287,7 @@ class CreateEventActivity : AppCompatActivity() {
     fun openDatePicker(view: View) {
         datePickerDialog.show()
     }
+
 
     private fun openImagePicker() {
         val intent = Intent()

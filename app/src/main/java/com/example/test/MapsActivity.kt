@@ -141,7 +141,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             addressTextView.text = event.address
 
                             //load event image
-                            imageView.load(event.userUploadedImageUrl)
+                            imageView.load(event.imageUri)
 
                             moreDetailsButton.setOnClickListener {
                                 val intent = Intent(this@MapsActivity, DetailsActivity::class.java)
