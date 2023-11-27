@@ -1,5 +1,6 @@
 package com.example.test
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -29,6 +30,14 @@ class RegisterActivity : AppCompatActivity() {
             if (TextUtils.isEmpty(firstName.text.toString()) || TextUtils.isEmpty(lastName.text.toString()) || TextUtils.isEmpty(email.text.toString()) || TextUtils.isEmpty(password.text.toString())) {
                 Toast.makeText(this, "Please fill out all of the prompts", Toast.LENGTH_SHORT).show()
             } else {
+                // Set a flag indicating that the user has just signed up
+                val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.putBoolean("justSignedUp", true)
+                // Add a key-value pair to indicate that the tutorial prompt hasn't been shown yet
+                editor.putBoolean("showTutorialPrompt", true)
+                editor.apply()
+
                 startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
             }
         }
