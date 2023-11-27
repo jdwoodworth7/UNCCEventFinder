@@ -13,6 +13,8 @@ data class EventData(
         val description: String,
         val date: String, // converted from LocalDate
         val time: String, // converted from LocalTime
+        // val startDate : String, // start date of the event for event duration
+        // val endDate: String, // end dat eof the event for event duration
         val buildingName: String?,
         val address: String?,
         val imageUri: String?,
