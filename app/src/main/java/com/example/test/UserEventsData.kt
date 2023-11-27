@@ -17,7 +17,7 @@ data class UserEventsData (
         "",
     )
 
-    // constructor for converting Firestore DocumentSnapshot to UserData object
+    // constructor for converting Firestore DocumentSnapshot to UserEventsData object
     constructor(documentSnapshot: DocumentSnapshot) : this(
         documentSnapshot.getString("userId") ?: "",
         documentSnapshot.getString("eventId") ?: "",
