@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -67,4 +68,8 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.8.9")
     implementation ("androidx.appcompat:appcompat:1.6.1")
     implementation("io.coil-kt:coil:1.4.0")
+    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+    implementation("com.google.firebase:firebase-storage")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.squareup.picasso:picasso:2.8")
 }

@@ -1,25 +1,54 @@
 package com.example.test
 
-import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.firebase.firestore.DocumentSnapshot
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.UUID
 
 data class EventData(
-        val id: UUID,
+        val id: String, //converted from UUID
         val title: String,
         val description: String,
-        val date: String, //converted from LocalDate
-        val time: String, //converted from LocalTime
+        val date: String, // converted from LocalDate
+        val time: String, // converted from LocalTime
+        // val startDate : String, // start date of the event for event duration
+        // val endDate: String, // end dat eof the event for event duration
         val buildingName: String?,
         val address: String?,
-        val userUploadedImageUrl: String?,
+        val imageUri: String?,
         val categories: List<String>
 ) : Parcelable {
+        // No-argument constructor for Firestore deserialization - REQUIRED
+        constructor() : this(
+                UUID.randomUUID().toString(),
+                "",
+                "",
+                "",
+                "",
+                null,
+                null,
+                null,
+                listOf()
+        )
+
+        // constructor for converting Firestore DocumentSnapshot to EventData object
+        constructor(documentSnapshot: DocumentSnapshot) : this(
+                documentSnapshot.get("id") as? String ?: UUID.randomUUID().toString(),
+                documentSnapshot.getString("title") ?: "",
+                documentSnapshot.getString("description") ?: "",
+                documentSnapshot.getString("date") ?: "",
+                documentSnapshot.getString("time") ?: "",
+                documentSnapshot.getString("buildingName"),
+                documentSnapshot.getString("address"),
+                documentSnapshot.getString("userUploadedImageUrl"),
+                documentSnapshot.get("categories") as? List<String> ?: listOf()
+        )
+
+        // constructor for Parcelable EventData object to send between activities as Intent attribute
         constructor(parcel: Parcel) : this(
-                UUID.fromString(parcel.readString() ?: ""),
+                parcel.readString() ?: "",
                 parcel.readString() ?: "",
                 parcel.readString() ?: "",
                 parcel.readString() ?: "",
@@ -27,9 +56,8 @@ data class EventData(
                 parcel.readString(),
                 parcel.readString(),
                 parcel.readString(),
-                parcel.createStringArrayList() ?: listOf()
-        ) {
-        }
+                parcel.createStringArrayList()?.toList() ?: listOf()
+        )
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
                 parcel.writeString(id.toString())
@@ -39,7 +67,7 @@ data class EventData(
                 parcel.writeString(time)
                 parcel.writeString(buildingName)
                 parcel.writeString(address)
-                parcel.writeString(userUploadedImageUrl)
+                parcel.writeString(imageUri)
                 parcel.writeStringList(categories)
         }
 

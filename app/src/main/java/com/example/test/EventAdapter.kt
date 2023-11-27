@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import com.squareup.picasso.Picasso
 
 class EventAdapter(private val eventList: MutableList<EventData>) :
     RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
@@ -57,11 +57,13 @@ class EventAdapter(private val eventList: MutableList<EventData>) :
 
         // Change from "userUploadedImageUri" to "userUploadedImageUrl"
         try {
-            currentItem.userUploadedImageUrl?.let { imageUrl ->
-                // Use Coil to load the image from the URL into the ImageView
-                holder.photoImageView.load(imageUrl) {
-                    // You can customize image loading options if needed
-                }
+            currentItem.imageUri?.let { imageUri ->
+                // Use Picasso to load the image from the URL into the ImageView
+                Picasso.get()
+                    .load(imageUri)
+                    .placeholder(R.drawable.baseline_image_24)
+                    .error(R.drawable.baseline_image_24)
+                    .into(holder.photoImageView)
             }
         } catch (e: SecurityException) {
             e.printStackTrace()

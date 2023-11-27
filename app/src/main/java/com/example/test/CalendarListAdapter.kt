@@ -26,7 +26,7 @@ class CalendarListAdapter (private val context : Activity, private val arrayList
         val view: View = inflater.inflate(R.layout.activity_calendar_list_view, null)
 
         //Used for event image
-        val imageUrl: String? = arrayList[position].userUploadedImageUrl
+        val imageUrl: String? = arrayList[position].imageUri
 
         //Finds the listview parts
         val icon : ImageView = view.findViewById(R.id.calendarListIcon)

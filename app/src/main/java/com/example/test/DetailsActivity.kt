@@ -27,10 +27,11 @@ class DetailsActivity : AppCompatActivity() {
 
     private lateinit var interestButton: Button
     private lateinit var navigationButton: Button
+    private lateinit var shareButton: Button
     private lateinit var menuButton: ImageView
     private lateinit var mapIcon: ImageView
 
-    private lateinit var eventId: UUID
+    private lateinit var eventId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +49,7 @@ class DetailsActivity : AppCompatActivity() {
         eventTime = findViewById(R.id.eventTime)
         eventDate = findViewById(R.id.eventDate)
         eventImage = findViewById(R.id.eventImage)
+        shareButton = findViewById(R.id.shareButton)
 
         val selectedEvent = intent.getParcelableExtra<EventData>("event")
         if (selectedEvent != null) {
@@ -58,7 +60,7 @@ class DetailsActivity : AppCompatActivity() {
             eventTime.text = selectedEvent.time
             eventLocation.text = selectedEvent.buildingName
             eventAddress.text = selectedEvent.address
-            eventImage.load(selectedEvent.userUploadedImageUrl)
+            eventImage.load(selectedEvent.imageUri)
 
             eventDescription.movementMethod = ScrollingMovementMethod()
 
@@ -80,6 +82,9 @@ class DetailsActivity : AppCompatActivity() {
                 sendLocationNavigation(selectedEvent)
             }
 
+            shareButton.setOnClickListener {
+                shareEventDetails(selectedEvent)
+            }
         }
 
 
@@ -108,6 +113,28 @@ class DetailsActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+
+    private fun shareEventDetails(event: EventData) {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, event.title)
+        shareIntent.putExtra(Intent.EXTRA_TEXT, buildEventDetailsText(event))
+
+        startActivity(Intent.createChooser(shareIntent, "Share Event Details"))
+    }
+
+    private fun buildEventDetailsText(event: EventData): String {
+        return """
+            UNCC Event Finder
+            ${event.title}
+            ${event.description}
+            ${event.date}
+            ${event.time}
+            ${event.buildingName}
+            ${event.address}
+            """.trimIndent()
+    }
+
     private fun sendLocationNavigation(event: EventData) {
         fetchLatLngFromAddress(event) { lat, lng ->
             val navigationAppIntegration = NavigationAppIntegration(this)

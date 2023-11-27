@@ -5,15 +5,17 @@ import android.os.Parcelable
 
 //Data class representing filter criteria for event search
 data class FilterData(
-        val academic: Boolean,
-        val social: Boolean,
-        val clubsOrg: Boolean,
-        val workshops: Boolean,
-        val volunteering: Boolean,
-        val studentsOnly: Boolean
+        val category_academic: Boolean,
+        val category_social: Boolean,
+        val category_sports: Boolean,
+        val category_clubs: Boolean,
+        val category_workshops: Boolean,
+        val category_volunteering: Boolean,
+        val category_students_only: Boolean
 ) : Parcelable {
         //Parcel constructor to create a FilterData instance from a Parcel.
         constructor(parcel: Parcel) : this(
+                parcel.readByte() != 0.toByte(),
                 parcel.readByte() != 0.toByte(),
                 parcel.readByte() != 0.toByte(),
                 parcel.readByte() != 0.toByte(),
@@ -24,12 +26,13 @@ data class FilterData(
 
         //Write object values to a Parcel
         override fun writeToParcel(parcel: Parcel, flags: Int) {
-                parcel.writeByte(if (academic) 1 else 0)
-                parcel.writeByte(if (social) 1 else 0)
-                parcel.writeByte(if (clubsOrg) 1 else 0)
-                parcel.writeByte(if (workshops) 1 else 0)
-                parcel.writeByte(if (volunteering) 1 else 0)
-                parcel.writeByte(if (studentsOnly) 1 else 0)
+                parcel.writeByte(if (category_academic) 1 else 0)
+                parcel.writeByte(if (category_social) 1 else 0)
+                parcel.writeByte(if (category_sports) 1 else 0)
+                parcel.writeByte(if (category_clubs) 1 else 0)
+                parcel.writeByte(if (category_workshops) 1 else 0)
+                parcel.writeByte(if (category_volunteering) 1 else 0)
+                parcel.writeByte(if (category_students_only) 1 else 0)
         }
 
         //Describe special types of objects contained in this Parcelable instance
