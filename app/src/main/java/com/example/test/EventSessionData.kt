@@ -21,7 +21,7 @@ data class EventSessionData (
         ""
     )
 
-    // constructor for converting Firestore DocumentSnapshot to UserData object
+    // constructor for converting Firestore DocumentSnapshot to EventSessionData object
     constructor(documentSnapshot: DocumentSnapshot) : this(
         documentSnapshot.getString("eventId") ?: "",
         documentSnapshot.getString("sessionDate") ?: "",
@@ -30,7 +30,7 @@ data class EventSessionData (
 
     )
 
-    // constructor for Parcelable UserData object to send between activities as Intent attribute
+    // constructor for Parcelable EventSessionData object to send between activities as Intent attribute
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
