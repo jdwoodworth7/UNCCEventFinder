@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startTutorial() {
-        val tutorialIntent = Intent(this, CalendarViewActivity::class.java)
+        val tutorialIntent = Intent(this, TutorialActivity::class.java)
         startActivity(tutorialIntent)
     }
 
