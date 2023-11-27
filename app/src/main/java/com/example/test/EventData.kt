@@ -20,7 +20,7 @@ data class EventData(
 ) : Parcelable {
         // No-argument constructor for Firestore deserialization - REQUIRED
         constructor() : this(
-                "",
+                UUID.randomUUID().toString(),
                 "",
                 "",
                 "",
@@ -33,7 +33,7 @@ data class EventData(
 
         // constructor for converting Firestore DocumentSnapshot to EventData object
         constructor(documentSnapshot: DocumentSnapshot) : this(
-                documentSnapshot.getString("id") ?: "",
+                documentSnapshot.get("id") as? String ?: UUID.randomUUID().toString(),
                 documentSnapshot.getString("title") ?: "",
                 documentSnapshot.getString("description") ?: "",
                 documentSnapshot.getString("date") ?: "",
