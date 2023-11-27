@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
@@ -37,7 +39,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private var initialBounds: LatLngBounds? = null
     private lateinit var placesClient: PlacesClient
+
     private var markerSelected = false
+    var currentOverlayView: View? = null
 
 //    private lateinit var selectedEvent: Event
 
@@ -96,83 +100,101 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //when marker is clicked
         mMap.setOnMarkerClickListener { clickedMarker ->
-            markerSelected=true
-            val eventId = clickedMarker.tag as String
+            val eventId = clickedMarker.tag as String  //eventId fetched from the clickedMarker's tag, initialized during marker create
+            val rootView = findViewById<RelativeLayout>(R.id.mapContainer) //find the root container view which contains map and overlay
+
+            //when a different marker is selected
+            if(markerSelected){
+                //removes current overlay from the container view
+                rootView.removeView(currentOverlayView)
+            }
 
             //if current marker's tag is not null
             if (eventId != null) {
                     fetchEventByFireStoreID(eventId) //Match clicked marker's event with event in db using id
                     { event ->
                         if(event != null){
-                            //zooms the camera to the clicked marker position to a certain extent
-                            val markerLatLng = clickedMarker.position
-                            val cameraUpdate = CameraUpdateFactory.newLatLngZoom(markerLatLng, 17.5f)
-                            mMap.animateCamera(cameraUpdate)
-
-                            //inflates overlay layout
-                            val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-                            val overlayView = inflater.inflate(R.layout.activity_mapstest, null)
-
-                            //finds and stores views from overlay layout
-                            val titleTextView: TextView = overlayView.findViewById(R.id.eventTitle)
-                            val authorTextView: TextView = overlayView.findViewById(R.id.eventAuthor)
-                            val addressTextView: TextView = overlayView.findViewById(R.id.eventAddress)
-                            val imageView: ImageView = overlayView.findViewById(R.id.eventImage)
-                            val moreDetailsButton: Button = overlayView.findViewById(R.id.btnMoreDetails)
-                            val navigateButton: Button = overlayView.findViewById(R.id.btnNavOverlay)
-
-                            //initialize the main view that encompasses both Google Maps and the layout
-                            val rootView = findViewById<RelativeLayout>(R.id.mapContainer)
-
-                            //assign parameter for the new layout
-                            val params = RelativeLayout.LayoutParams(
-                                RelativeLayout.LayoutParams.MATCH_PARENT,
-                                RelativeLayout.LayoutParams.WRAP_CONTENT
-                            )
-
-                            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM) //align to bottom of parent
-                            overlayView.layoutParams = params
-
-                            rootView.addView(overlayView)
-
-                            titleTextView.text = event.title
-                            //TODO: Add author column in DB
-                            // authorTextView.text = event.author
-                            addressTextView.text = event.address
-
-                            //load event image
-                            imageView.load(event.imageUri)
-
-                            moreDetailsButton.setOnClickListener {
-                                val intent = Intent(this@MapsActivity, DetailsActivity::class.java)
-
-                                //put the Event object (parcelized) as an extra in the intent
-                                intent.putExtra("event", event)
-
-                                // Start the next activity
-                                startActivity(intent)
-                            }
-
-                            navigateButton.setOnClickListener {
-                                sendLocationNavigation(event)
-                            }
-
-                            //shows the marker title above the marker
-                            clickedMarker.title = event.title
-                            clickedMarker.showInfoWindow()
-
-                            mMap.setOnMapClickListener {
-                                if(markerSelected){
-                                    markerSelected = false
-                                    rootView.removeView(overlayView)
-                                }
-                            }
+                            zoomCameraToMarker(clickedMarker)
+                            createEventOverlay(clickedMarker, event, rootView)
                         }
                     }
             } else {
                 Log.e("Invalid Marker", "No valid event ID found for the clicked marker")
             }
             true//consumes the click event
+        }
+    }
+
+    private fun zoomCameraToMarker(clickedMarker: Marker){
+        //zooms the camera to the clicked marker position to a certain extent
+        val markerLatLng = clickedMarker.position
+        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(markerLatLng, 17.5f)
+        mMap.animateCamera(cameraUpdate)
+    }
+
+    private fun createEventOverlay(clickedMarker: Marker, event:EventData, rootView: RelativeLayout){
+        //inflates overlay layout
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val overlayView = inflater.inflate(R.layout.activity_mapstest, null)
+
+
+        //finds and stores views from overlay layout
+        val titleTextView: TextView = overlayView.findViewById(R.id.eventTitle)
+        val authorTextView: TextView = overlayView.findViewById(R.id.eventAuthor)
+        val addressTextView: TextView = overlayView.findViewById(R.id.eventAddress)
+        val imageView: ImageView = overlayView.findViewById(R.id.eventImage)
+        val moreDetailsButton: Button = overlayView.findViewById(R.id.btnMoreDetails)
+        val navigateButton: Button = overlayView.findViewById(R.id.btnNavOverlay)
+
+        //assign parameter for the new layout
+        val params = RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.MATCH_PARENT,
+            RelativeLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM) //align to bottom of parent
+        overlayView.layoutParams = params
+
+        currentOverlayView = overlayView
+
+        rootView.addView(overlayView)
+
+        titleTextView.text = event.title
+        //TODO: Add author column in DB
+        // authorTextView.text = event.author
+        addressTextView.text = event.address
+
+        //load event image
+        imageView.load(event.imageUri)
+
+        markerSelected = true
+
+        moreDetailsButton.setOnClickListener {
+            val intent = Intent(this@MapsActivity, DetailsActivity::class.java)
+
+            //put the Event object (parcelized) as an extra in the intent
+            intent.putExtra("event", event)
+
+            // Start the next activity
+            startActivity(intent)
+        }
+
+        navigateButton.setOnClickListener {
+            sendLocationNavigation(event)
+        }
+
+        //shows the marker title above the marker
+        clickedMarker.title = event.title
+        clickedMarker.showInfoWindow()
+
+        //when user clicks on the map during markerSelected
+        mMap.setOnMapClickListener {
+            if(markerSelected){
+                markerSelected = false
+
+                //removes current overlay from the container view
+                rootView.removeView(currentOverlayView)
+            }
         }
     }
 
@@ -234,7 +256,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                                 MarkerOptions().position(latLng).title(eventData.title)
                             )
                             //assign event's unique id to the marker
-                            newMarker?.tag = eventData.id
+                            newMarker?.tag = eventId
                         }
                     }
 
