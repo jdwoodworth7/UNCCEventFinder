@@ -13,6 +13,8 @@ data class EventData(
         val description: String,
         val date: String, // converted from LocalDate
         val time: String, // converted from LocalTime
+        // val startDate : String, // start date of the event for event duration
+        // val endDate: String, // end dat eof the event for event duration
         val buildingName: String?,
         val address: String?,
         val imageUri: String?,
@@ -20,7 +22,7 @@ data class EventData(
 ) : Parcelable {
         // No-argument constructor for Firestore deserialization - REQUIRED
         constructor() : this(
-                "",
+                UUID.randomUUID().toString(),
                 "",
                 "",
                 "",
@@ -33,7 +35,7 @@ data class EventData(
 
         // constructor for converting Firestore DocumentSnapshot to EventData object
         constructor(documentSnapshot: DocumentSnapshot) : this(
-                documentSnapshot.getString("id") ?: "",
+                documentSnapshot.get("id") as? String ?: UUID.randomUUID().toString(),
                 documentSnapshot.getString("title") ?: "",
                 documentSnapshot.getString("description") ?: "",
                 documentSnapshot.getString("date") ?: "",
