@@ -2,10 +2,13 @@ package com.example.test
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.firebase.firestore.DocumentSnapshot
+import java.time.LocalDate
+import java.time.LocalTime
 import java.util.UUID
 
 data class EventData(
-        val id: UUID,
+        val id: String, //converted from UUID
         val title: String,
         val description: String,
         val date: String, // converted from LocalDate
@@ -15,10 +18,9 @@ data class EventData(
         val imageUri: String?,
         val categories: List<String>
 ) : Parcelable {
-
-        // Add a no-argument constructor
+        // No-argument constructor for Firestore deserialization - REQUIRED
         constructor() : this(
-                UUID.randomUUID(),
+                "",
                 "",
                 "",
                 "",
@@ -29,8 +31,22 @@ data class EventData(
                 listOf()
         )
 
+        // constructor for converting Firestore DocumentSnapshot to EventData object
+        constructor(documentSnapshot: DocumentSnapshot) : this(
+                documentSnapshot.getString("id") ?: "",
+                documentSnapshot.getString("title") ?: "",
+                documentSnapshot.getString("description") ?: "",
+                documentSnapshot.getString("date") ?: "",
+                documentSnapshot.getString("time") ?: "",
+                documentSnapshot.getString("buildingName"),
+                documentSnapshot.getString("address"),
+                documentSnapshot.getString("userUploadedImageUrl"),
+                documentSnapshot.get("categories") as? List<String> ?: listOf()
+        )
+
+        // constructor for Parcelable EventData object to send between activities as Intent attribute
         constructor(parcel: Parcel) : this(
-                UUID.fromString(parcel.readString() ?: ""),
+                parcel.readString() ?: "",
                 parcel.readString() ?: "",
                 parcel.readString() ?: "",
                 parcel.readString() ?: "",
