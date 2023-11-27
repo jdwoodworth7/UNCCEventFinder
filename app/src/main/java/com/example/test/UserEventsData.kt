@@ -6,8 +6,8 @@ import com.google.firebase.firestore.DocumentSnapshot
 
 data class UserEventsData (
     val userId: String,
-    val eventId: String,
-    val eventSession: String //LocalDateTime to String
+    val eventId: String, //unique identifier from EventDat data class
+    val eventSessionId: String //unique identifier from EventSessionData data class
 ) : Parcelable
 {
     // No-argument constructor for Firestore deserialization
@@ -21,7 +21,7 @@ data class UserEventsData (
     constructor(documentSnapshot: DocumentSnapshot) : this(
         documentSnapshot.getString("userId") ?: "",
         documentSnapshot.getString("eventId") ?: "",
-        documentSnapshot.getString("eventSession") ?: "",
+        documentSnapshot.getString("eventSessionId") ?: "",
     )
 
     // constructor for Parcelable UserData object to send between activities as Intent attribute
@@ -34,7 +34,7 @@ data class UserEventsData (
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(userId)
         parcel.writeString(eventId)
-        parcel.writeString(eventSession)
+        parcel.writeString(eventSessionId)
     }
 
     override fun describeContents(): Int {
