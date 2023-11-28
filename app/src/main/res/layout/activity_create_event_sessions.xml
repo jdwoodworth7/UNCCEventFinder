@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--Green Banner -->
+    <RelativeLayout
+        android:id="@+id/bannerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/color_primary"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Menu and Map Icons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Menu Button -->
+            <ImageView
+                android:id="@+id/menuButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/baseline_menu_24"
+                android:layout_marginEnd="10dp"/>
+
+            <!-- Map Icon -->
+            <ImageView
+                android:id="@+id/mapIcon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/baseline_map_24" />
+
+        </LinearLayout>
+
+        <!-- Text: Create a new event -->
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Create a New Event"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <!-- Content Section -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bannerLayout"
+        android:background="#FFFFFF"
+        android:padding="16dp">
+
+        <!-- "Tell us about your event!" -->
+
+        <!-- "Give it a cool title" -->
+        <TextView
+            android:id="@+id/tellUsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tell us about your event!"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/startDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Date:"
+            android:textSize="16sp"
+            android:textColor="#888888"
+            android:layout_below="@id/tellUsText"
+            android:layout_marginTop="20dp"/>
+
+        <!-- Title Textbox -->
+        <EditText
+            android:id="@+id/startDateEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tellUsText"
+            android:layout_marginTop="42dp"
+            android:background="#F0F0F0"
+            android:padding="5dp"
+            android:maxLength="100"/>
+
+        <TextView
+            android:id="@+id/startTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Time:"
+            android:textSize="16sp"
+            android:textColor="#888888"
+            android:layout_below="@id/startDateEditText"
+            android:layout_marginTop="20dp"/>
+
+        <!-- Description Textbox -->
+        <EditText
+            android:id="@+id/startTimeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/startDateEditText"
+            android:layout_marginTop="42dp"
+            android:background="#F0F0F0"
+            android:padding="8dp"
+            android:maxLength="200"/>
+
+        <TextView
+            android:id="@+id/endDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="End Date:"
+            android:textSize="16sp"
+            android:textColor="#888888"
+            android:layout_below="@id/startTimeEditText"
+            android:layout_marginTop="20dp"/>
+
+        <!-- Location Textbox -->
+        <EditText
+            android:id="@+id/endDateEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/endDateText"
+            android:layout_marginTop="1dp"
+            android:background="#F0F0F0"
+            android:padding="8dp"
+            android:maxLength="80"/>
+
+        <TextView
+            android:id="@+id/endTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="End Time:"
+            android:textSize="16sp"
+            android:textColor="#888888"
+            android:layout_below="@id/endDateEditText"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:id="@+id/endTimeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/endTimeText"
+            android:layout_marginTop="1dp"
+            android:background="#F0F0F0"
+            android:padding="8dp"
+            android:maxLength="100"/>
+
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/endTimeEditText"
+            android:layout_marginTop="20dp"
+            android:background="#FFFFFF"
+            android:padding="8dp"
+            android:text="Submit Session"/>
+
+        <TextView
+            android:id="@+id/currentSessions"
+            android:layout_width="380dp"
+            android:layout_height="120dp"
+            android:textSize="16sp"
+            android:textColor="#888888"
+            android:layout_below="@id/submitButton"
+            android:layout_marginTop="20dp"/>
+
+        <!-- Cancel and Continue Buttons -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/endTimeEditText"
+            android:layout_marginTop="110dp">
+
+            <!-- Cancel Button -->
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="   Cancel   "
+                android:textColor="#FFFFFF"
+                android:background="#005035"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:textStyle="bold"/>
+
+            <!-- Continue Button -->
+            <Button
+                android:id="@+id/continueButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  Continue  "
+                android:textColor="#FFFFFF"
+                android:background="#00FF00"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
