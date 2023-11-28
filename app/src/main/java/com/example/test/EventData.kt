@@ -13,6 +13,7 @@ data class EventData(
         val description: String,
         val date: String, // converted from LocalDate
         val time: String, // converted from LocalTime
+        val eventSessionIds: List<List<String>>, // holds session Ids of corresponding event
         // val startDate : String, // start date of the event for event duration
         // val endDate: String, // end dat eof the event for event duration
         val buildingName: String?,
@@ -28,6 +29,7 @@ data class EventData(
                 "",
                 "",
                 "",
+                listOf(listOf()),
                 null,
                 null,
                 null,
@@ -42,6 +44,7 @@ data class EventData(
                 documentSnapshot.getString("description") ?: "",
                 documentSnapshot.getString("date") ?: "",
                 documentSnapshot.getString("time") ?: "",
+                documentSnapshot.get("eventSessionIds") as? List<List<String>> ?: listOf(),
                 documentSnapshot.getString("buildingName"),
                 documentSnapshot.getString("address"),
                 documentSnapshot.getString("userUploadedImageUrl"),
@@ -56,6 +59,7 @@ data class EventData(
                 parcel.readString() ?: "",
                 parcel.readString() ?: "",
                 parcel.readString() ?: "",
+                (parcel.createStringArrayList() ?: listOf()).chunked(4),
                 parcel.readString(),
                 parcel.readString(),
                 parcel.readString(),
@@ -69,6 +73,7 @@ data class EventData(
                 parcel.writeString(description)
                 parcel.writeString(date)
                 parcel.writeString(time)
+                parcel.writeStringList(eventSessionIds.flatten())
                 parcel.writeString(buildingName)
                 parcel.writeString(address)
                 parcel.writeString(imageUri)
