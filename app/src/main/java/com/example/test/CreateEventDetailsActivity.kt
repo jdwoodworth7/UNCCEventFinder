@@ -40,6 +40,11 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         val categoriesCheckBoxDetails = buildCategoriesCheckBoxDetails()
         val audienceCheckBoxDetails = buildAudienceCheckBoxDetails()
 
+        // Retrieve the sessions list from the intent
+        val sessionsList = intent.getSerializableExtra("sessionsList") as? Array<Array<String>> ?: emptyArray()
+        // Build string representation for sessions list
+        val sessionsDetails = buildSessionsDetails(sessionsList)
+
         // Display the data in detailsEditText
         val detailsEditText = findViewById<EditText>(R.id.detailsEditText)
         detailsEditText.setText(
@@ -52,7 +57,8 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                     "Address: $address\n" +
                     "Categories: $categoriesCheckBoxDetails\n" +
                     "Audiences: $audienceCheckBoxDetails\n" +
-                    "Image URI: $imageUri"
+                    "Image URI: $imageUri\n" +
+                    "Sessions:\n$sessionsDetails"
         )
 
         // Setup "Exit" button click listener
@@ -252,4 +258,16 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                 Log.e("Firestore", "Error adding event document", e)
             }
     }
+
+    private fun buildSessionsDetails(sessionsList: Array<Array<String>>): String {
+        val sessionsDetails = StringBuilder()
+
+        sessionsList.forEachIndexed { index, session ->
+            val sessionDetails = session.joinToString(", ")
+            sessionsDetails.append("${index + 1}. $sessionDetails\n")
+        }
+
+        return sessionsDetails.toString()
+    }
+
 }

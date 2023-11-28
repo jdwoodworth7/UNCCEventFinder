@@ -177,7 +177,7 @@ class CreateEventActivity : AppCompatActivity() {
             val imageUri: Uri = data.data!!
 
             // Pass the image URI to the next activity
-            val intent = Intent(this@CreateEventActivity, CreateEventCategoriesActivity::class.java)
+            val intent = Intent(this@CreateEventActivity, CreateEventSessionsActivity::class.java)
 
             // Continue with your other data passing logic...
 

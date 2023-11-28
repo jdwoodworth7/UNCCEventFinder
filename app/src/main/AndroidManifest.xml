@@ -54,6 +54,9 @@
             android:name=".CreateEventAudienceActivity"
             android:exported="false" />
         <activity
+            android:name=".CreateEventSessionsActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreateEventDetailsActivity"
             android:exported="false" />
         <activity

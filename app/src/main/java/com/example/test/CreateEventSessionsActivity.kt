@@ -4,10 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class CreateEventSessionsActivity : AppCompatActivity() {
+
+    private val sessionsList = mutableListOf<List<String>>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event_sessions)
@@ -17,15 +21,50 @@ class CreateEventSessionsActivity : AppCompatActivity() {
         val cancelButton = findViewById<Button>(R.id.cancelButton)
         val menuButton = findViewById<ImageView>(R.id.menuButton)
         val mapIcon = findViewById<ImageView>(R.id.mapIcon)
+        val startDateEditText = findViewById<EditText>(R.id.startDateEditText)
+        val startTimeEditText = findViewById<EditText>(R.id.startTimeEditText)
+        val endDateEditText = findViewById<EditText>(R.id.endDateEditText)
+        val endTimeEditText = findViewById<EditText>(R.id.endTimeEditText)
+        val currentSessionsTextView = findViewById<TextView>(R.id.currentSessions)
 
         submitButton.setOnClickListener {
+            // Get values from EditText fields
+            val startDate = startDateEditText.text.toString()
+            val startTime = startTimeEditText.text.toString()
+            val endDate = endDateEditText.text.toString()
+            val endTime = endTimeEditText.text.toString()
 
+            // Create a session array and add it to the sessionsList
+            val session = listOf(startDate, startTime, endDate, endTime)
+            sessionsList.add(session)
+
+            // Update the currentSessions TextView with the formatted array
+            updateCurrentSessionsTextView(currentSessionsTextView)
         }
 
         continueButton.setOnClickListener {
+            // Retrieve data from the previous activity
+            val title = intent.getStringExtra("title")
+            val description = intent.getStringExtra("description")
+            val date = intent.getStringExtra("date")
+            val time = intent.getStringExtra("time")
+            val buildingName = intent.getStringExtra("buildingName")
+            val address = intent.getStringExtra("address")
+            val imageUri = intent.getStringExtra("imageUri")
 
             val intent = Intent(this@CreateEventSessionsActivity, CreateEventCategoriesActivity::class.java)
 
+            // Pass the data to the next activity
+            intent.putExtra("title", title)
+            intent.putExtra("description", description)
+            intent.putExtra("date", date)
+            intent.putExtra("time", time)
+            intent.putExtra("buildingName", buildingName)
+            intent.putExtra("address", address)
+            intent.putExtra("imageUri", imageUri)
+
+            // Pass the sessionsList to the next activity
+            intent.putExtra("sessionsList", sessionsList.map { it.toTypedArray() }.toTypedArray())
 
             // Start the next activity
             startActivity(intent)
@@ -49,4 +88,13 @@ class CreateEventSessionsActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun updateCurrentSessionsTextView(textView: TextView) {
+        // Format the sessionsList and update the TextView
+        val formattedSessions = sessionsList.joinToString("\n") { session ->
+            session.joinToString(", ")
+        }
+        textView.text = formattedSessions
+    }
+
 }
