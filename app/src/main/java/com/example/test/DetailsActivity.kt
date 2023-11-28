@@ -12,6 +12,14 @@ import androidx.appcompat.app.AppCompatActivity
 import coil.load
 import com.google.android.gms.maps.model.LatLng
 import java.util.UUID
+import android.content.Context
+import androidx.core.content.FileProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.io.File
+import java.io.InputStream
+import java.net.URL
 
 class DetailsActivity : AppCompatActivity() {
     private lateinit var userIdS: String
@@ -96,42 +104,21 @@ class DetailsActivity : AppCompatActivity() {
             }
 
             shareButton.setOnClickListener {
-                shareEventDetails(selectedEvent)
+                shareEventDetails(selectedEvent, this@DetailsActivity)
             }
         }
 
-            menuButton.setOnClickListener {
-                // Open the menu activity when the menu button is clicked
-                val intent = Intent(this@DetailsActivity, MenuActivity::class.java)
-                startActivity(intent)
-            }
-
-            mapIcon.setOnClickListener {
-                // Open the map activity when the map button is clicked
-                val intent = Intent(this@DetailsActivity, MapsActivity::class.java)
-                startActivity(intent)
-            }
+        menuButton.setOnClickListener {
+            // Open the menu activity when the menu button is clicked
+            val intent = Intent(this@DetailsActivity, MenuActivity::class.java)
+            startActivity(intent)
         }
 
-    private fun shareEventDetails(event: EventData) {
-        val shareIntent = Intent(Intent.ACTION_SEND)
-        shareIntent.type = "text/plain"
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, event.title)
-        shareIntent.putExtra(Intent.EXTRA_TEXT, buildEventDetailsText(event))
-
-        startActivity(Intent.createChooser(shareIntent, "Share Event Details"))
-    }
-
-    private fun buildEventDetailsText(event: EventData): String {
-        return """
-            UNCC Event Finder
-            ${event.title}
-            ${event.description}
-            ${event.date}
-            ${event.time}
-            ${event.buildingName}
-            ${event.address}
-            """.trimIndent()
+        mapIcon.setOnClickListener {
+            // Open the map activity when the map button is clicked
+            val intent = Intent(this@DetailsActivity, MapsActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun sendLocationNavigation(event: EventData) {
@@ -140,4 +127,61 @@ class DetailsActivity : AppCompatActivity() {
             navigationAppIntegration.starNavigationToGoogleMap(lat, lng)
         }
     }
+
+    private fun shareEventDetails(event: EventData, context: Context) {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                // Download the image to a file if the imageUri is not null
+                val imageFile = event.imageUri?.let { downloadImage(it, context) }
+
+                // Create a tweet text
+                val tweetText = "📅 Exciting Event Alert! 🎉 Check out ${event.title} on UNCC Event Finder 📱 #UNCCEventFinder\n" +
+                        "\n" +
+                        "📍 ${event.buildingName}\n" +
+                        "📆 ${event.date}\n" +
+                        "🕒 ${event.time}\n" +
+                        "\n" +
+                        "📝 ${event.description}\n" +
+                        "\n" +
+                        "#Event #UNCC #UNCCEventFinder"
+
+                // Create an ACTION_SEND intent
+                val shareIntent = Intent(Intent.ACTION_SEND)
+
+                // Set the type of content to "text/plain"
+                shareIntent.type = "text/plain"
+
+                // Attach the tweet text
+                shareIntent.putExtra(Intent.EXTRA_TEXT, tweetText)
+
+                // Attach the image URI to the intent (if available)
+                imageFile?.let {
+                    // Use a FileProvider to get the content URI for the file
+                    val contentUri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", it)
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
+                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) // Grant read permission to the receiving app
+                }
+
+                // Start the activity with the chooser dialog
+                context.startActivity(Intent.createChooser(shareIntent, "Share event details"))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun downloadImage(url: String, context: Context): File {
+        val connection = URL(url).openConnection()
+        connection.connect()
+
+        val inputStream: InputStream = connection.getInputStream()
+        val file = File(context.cacheDir, UUID.randomUUID().toString() + ".jpg")
+        file.outputStream().use { fileOutputStream ->
+            inputStream.copyTo(fileOutputStream)
+        }
+
+        return file
+    }
+
+
 }
