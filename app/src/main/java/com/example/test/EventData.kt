@@ -18,7 +18,8 @@ data class EventData(
         val buildingName: String?,
         val address: String?,
         val imageUri: String?,
-        val categories: List<String>
+        val categories: List<String>,
+        val audience: List<String>
 ) : Parcelable {
         // No-argument constructor for Firestore deserialization - REQUIRED
         constructor() : this(
@@ -30,6 +31,7 @@ data class EventData(
                 null,
                 null,
                 null,
+                listOf(),
                 listOf()
         )
 
@@ -43,7 +45,8 @@ data class EventData(
                 documentSnapshot.getString("buildingName"),
                 documentSnapshot.getString("address"),
                 documentSnapshot.getString("userUploadedImageUrl"),
-                documentSnapshot.get("categories") as? List<String> ?: listOf()
+                documentSnapshot.get("categories") as? List<String> ?: listOf(),
+                documentSnapshot.get("audience") as? List<String> ?: listOf()
         )
 
         // constructor for Parcelable EventData object to send between activities as Intent attribute
@@ -56,6 +59,7 @@ data class EventData(
                 parcel.readString(),
                 parcel.readString(),
                 parcel.readString(),
+                parcel.createStringArrayList()?.toList() ?: listOf(),
                 parcel.createStringArrayList()?.toList() ?: listOf()
         )
 
@@ -69,6 +73,7 @@ data class EventData(
                 parcel.writeString(address)
                 parcel.writeString(imageUri)
                 parcel.writeStringList(categories)
+                parcel.writeStringList(audience)
         }
 
         override fun describeContents(): Int {

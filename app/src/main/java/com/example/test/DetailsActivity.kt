@@ -75,6 +75,19 @@ class DetailsActivity : AppCompatActivity() {
                 val linearLayout = findViewById<LinearLayout>(R.id.categoryButtonsLayout)
                 linearLayout.addView(button)
             }
+
+            val audiencesList = selectedEvent.audience
+
+            for (audience in audiencesList) {
+                val button = Button(this)
+                button.text = audience
+                // Set any additional properties or click listeners for the button as needed
+
+                // Add the button to your layout
+                val linearLayout = findViewById<LinearLayout>(R.id.audienceButtonsLayout)
+                linearLayout.addView(button)
+            }
+
             interestButton.setOnClickListener {
             }
 
@@ -86,20 +99,6 @@ class DetailsActivity : AppCompatActivity() {
                 shareEventDetails(selectedEvent)
             }
         }
-
-
-//            val audiences = selectedEvent.audience
-//
-//            for (audience in audiences) {
-//                val button = Button(this)
-//                button.text = audience
-//                // Set any additional properties or click listeners for the button as needed
-//
-//                // Add the button to your layout
-//                val linearLayout = findViewById<LinearLayout>(R.id.audienceButtonsLayout)
-//                linearLayout.addView(button)
-//            }
-
 
             menuButton.setOnClickListener {
                 // Open the menu activity when the menu button is clicked

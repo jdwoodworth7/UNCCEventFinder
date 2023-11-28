@@ -34,17 +34,7 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
             val address = intent.getStringExtra("address")
             val imageUri = intent.getStringExtra("imageUri")
 
-            // Retrieve checkbox information
-            val isAcademicChecked = checkBoxAcademic.isChecked
-            val isSocialChecked = checkBoxSocial.isChecked
-            val isSportsChecked = checkBoxSports.isChecked
-            val isClubsOrgChecked = checkBoxClubsOrg.isChecked
-            val isWorkshopsChecked = checkBoxWorkshops.isChecked
-            val isVolunteeringChecked = checkBoxVolunteering.isChecked
-            val isStudentsOnlyChecked = checkBoxStudentsOnly.isChecked
-
-
-            val intent = Intent(this@CreateEventCategoriesActivity, CreateEventDetailsActivity::class.java)
+            val intent = Intent(this@CreateEventCategoriesActivity, CreateEventAudienceActivity::class.java)
 
             // Pass the data to the next activity
             intent.putExtra("title", title)
