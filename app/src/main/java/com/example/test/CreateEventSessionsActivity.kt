@@ -10,6 +10,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.time.LocalDate
 import java.time.LocalTime
@@ -22,6 +23,8 @@ class CreateEventSessionsActivity : AppCompatActivity() {
     private lateinit var selectedTimeEnd: LocalTime
     private lateinit var datePickerDialogStart: DatePickerDialog
     private lateinit var datePickerDialogEnd: DatePickerDialog
+    private lateinit var timePickerDialogStart: TimePickerDialog
+    private lateinit var timePickerDialogEnd: TimePickerDialog
     private lateinit var firstDateButton: Button
     private lateinit var secondDateButton: Button
     private lateinit var firstTimeButton: Button
@@ -70,40 +73,52 @@ class CreateEventSessionsActivity : AppCompatActivity() {
             val endDate = endDateButton.text.toString()
             val endTime = endTimeButton.text.toString()
 
-            // Create a session array and add it to the sessionsList
-            val session = listOf(startDate, startTime, endDate, endTime)
-            sessionsList.add(session)
+            // Check if any field is empty
+            if (startDate.isEmpty() || startTime.isEmpty() || endDate.isEmpty() || endTime.isEmpty()) {
+                // Show a toast message indicating that all fields must be filled out
+                Toast.makeText(this@CreateEventSessionsActivity, "Please fill out all fields", Toast.LENGTH_SHORT).show()
+            } else {
+                // Create a session array and add it to the sessionsList
+                val session = listOf(startDate, startTime, endDate, endTime)
+                sessionsList.add(session)
 
-            // Update the currentSessions TextView with the formatted array
-            updateCurrentSessionsTextView(currentSessionsTextView)
+                // Update the currentSessions TextView with the formatted array
+                updateCurrentSessionsTextView(currentSessionsTextView)
+            }
         }
 
         continueButton.setOnClickListener {
-            // Retrieve data from the previous activity
-            val title = intent.getStringExtra("title")
-            val description = intent.getStringExtra("description")
-            val date = intent.getStringExtra("date")
-            val time = intent.getStringExtra("time")
-            val buildingName = intent.getStringExtra("buildingName")
-            val address = intent.getStringExtra("address")
-            val imageUri = intent.getStringExtra("imageUri")
+            // Check if sessionsList is not empty
+            if (sessionsList.isNotEmpty()) {
+                // Retrieve data from the previous activity
+                val title = intent.getStringExtra("title")
+                val description = intent.getStringExtra("description")
+                val date = intent.getStringExtra("date")
+                val time = intent.getStringExtra("time")
+                val buildingName = intent.getStringExtra("buildingName")
+                val address = intent.getStringExtra("address")
+                val imageUri = intent.getStringExtra("imageUri")
 
-            val intent = Intent(this@CreateEventSessionsActivity, CreateEventCategoriesActivity::class.java)
+                val intent = Intent(this@CreateEventSessionsActivity, CreateEventCategoriesActivity::class.java)
 
-            // Pass the data to the next activity
-            intent.putExtra("title", title)
-            intent.putExtra("description", description)
-            intent.putExtra("date", date)
-            intent.putExtra("time", time)
-            intent.putExtra("buildingName", buildingName)
-            intent.putExtra("address", address)
-            intent.putExtra("imageUri", imageUri)
+                // Pass the data to the next activity
+                intent.putExtra("title", title)
+                intent.putExtra("description", description)
+                intent.putExtra("date", date)
+                intent.putExtra("time", time)
+                intent.putExtra("buildingName", buildingName)
+                intent.putExtra("address", address)
+                intent.putExtra("imageUri", imageUri)
 
-            // Pass the sessionsList to the next activity
-            intent.putExtra("sessionsList", sessionsList.map { it.toTypedArray() }.toTypedArray())
+                // Pass the sessionsList to the next activity
+                intent.putExtra("sessionsList", sessionsList.map { it.toTypedArray() }.toTypedArray())
 
-            // Start the next activity
-            startActivity(intent)
+                // Start the next activity
+                startActivity(intent)
+            } else {
+                // Show a toast message indicating that sessionsList is empty
+                Toast.makeText(this@CreateEventSessionsActivity, "Please add at least one session", Toast.LENGTH_SHORT).show()
+            }
         }
 
         cancelButton.setOnClickListener {
@@ -206,7 +221,7 @@ class CreateEventSessionsActivity : AppCompatActivity() {
         val hourOfDay = cal.get(Calendar.HOUR_OF_DAY)
         val minute = cal.get(Calendar.MINUTE)
 
-        val timePickerDialogStart = TimePickerDialog(
+        timePickerDialogStart = TimePickerDialog(
             this,
             TimePickerDialog.OnTimeSetListener { _, hour, minute ->
                 // set the selectedTime to the user input value in LocalTime
@@ -233,7 +248,7 @@ class CreateEventSessionsActivity : AppCompatActivity() {
         val hourOfDay = cal.get(Calendar.HOUR_OF_DAY)
         val minute = cal.get(Calendar.MINUTE)
 
-        val timePickerDialogEnd = TimePickerDialog(
+        timePickerDialogEnd = TimePickerDialog(
             this,
             TimePickerDialog.OnTimeSetListener { _, hour, minute ->
                 // set the selectedTime to the user input value in LocalTime

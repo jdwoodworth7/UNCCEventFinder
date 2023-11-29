@@ -88,7 +88,8 @@
             android:layout_marginTop="42dp"
             android:padding="5dp"
             android:maxLength="100"
-            android:text="Select Date"
+            android:text=""
+            android:hint="Select Date"
             android:textColor="@color/black"
             style="?android:spinnerStyle"
             android:onClick='openDatePicker'/>
@@ -112,7 +113,8 @@
             android:layout_marginTop="42dp"
             android:padding="8dp"
             android:maxLength="200"
-            android:text="Select Time"
+            android:text=""
+            android:hint="Select Time"
             style="?android:spinnerStyle"
             android:textColor="@color/black"
             android:onClick='openTimePicker'/>/>
@@ -136,7 +138,8 @@
             android:layout_marginTop="1dp"
             android:padding="8dp"
             android:maxLength="80"
-            android:text="Select Date"
+            android:text=""
+            android:hint="Select Date"
             android:textColor="@color/black"
             style="?android:spinnerStyle"
             android:onClick='openDatePicker'/>/>
@@ -159,7 +162,8 @@
             android:layout_marginTop="1dp"
             android:padding="8dp"
             android:maxLength="100"
-            android:text="Select Time"
+            android:text=""
+            android:hint="Select Time"
             style="?android:spinnerStyle"
             android:textColor="@color/black"
             android:onClick='openTimePicker'/>/>
