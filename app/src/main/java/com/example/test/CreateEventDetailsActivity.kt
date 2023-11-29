@@ -37,7 +37,8 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         val imageUri = intent.getStringExtra("imageUri")
 
         // Build a string to display checkbox details
-        val checkBoxDetails = buildCheckBoxDetails()
+        val categoriesCheckBoxDetails = buildCategoriesCheckBoxDetails()
+        val audienceCheckBoxDetails = buildAudienceCheckBoxDetails()
 
         // Display the data in detailsEditText
         val detailsEditText = findViewById<EditText>(R.id.detailsEditText)
@@ -49,7 +50,8 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                     "Time: $time\n" +   // Separate time
                     "Building Name: $buildingName\n" +
                     "Address: $address\n" +
-                    "Categories: $checkBoxDetails\n" +
+                    "Categories: $categoriesCheckBoxDetails\n" +
+                    "Audiences: $audienceCheckBoxDetails\n" +
                     "Image URI: $imageUri"
         )
 
@@ -75,6 +77,25 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             if (checkBoxVolunteering) categories.add("Volunteering")
             if (checkBoxStudentsOnly) categories.add("Students Only")
 
+            // Retrieve checkbox states for audiences from the intent
+            val checkBoxUndergrad = intent.getBooleanExtra("checkboxUndergrad", false)
+            val checkBoxGrad = intent.getBooleanExtra("checkboxGrad", false)
+            val checkBoxFacultyStaff = intent.getBooleanExtra("checkboxFacultyStaff", false)
+            val checkBoxAlumni = intent.getBooleanExtra("checkboxAlumni", false)
+            val checkBoxPublicCommunity = intent.getBooleanExtra("checkboxPublicCommunity", false)
+            val checkBoxFamily = intent.getBooleanExtra("checkboxFamily", false)
+            val checkBoxProspecStudents = intent.getBooleanExtra("checkboxProspecStudents", false)
+
+            // Create a list of audiences based on checkbox states
+            val audience = mutableListOf<String>()
+            if (checkBoxUndergrad) audience.add("Undergraduate Students")
+            if (checkBoxGrad) audience.add("Graduate Students")
+            if (checkBoxFacultyStaff) audience.add("Faculty & Staff")
+            if (checkBoxAlumni) audience.add("Alumni")
+            if (checkBoxPublicCommunity) audience.add("Public & Community")
+            if (checkBoxFamily) audience.add("Family")
+            if (checkBoxProspecStudents) audience.add("Prospective Students")
+
             // Save event details to Firestore and upload image to Storage
             saveEventToFirestore(
                 title ?: "",
@@ -84,13 +105,14 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                 buildingName ?: "",
                 address ?: "",
                 categories ?: emptyList(),  // Provide an empty list if null
+                audience ?: emptyList(),
                 imageUri ?: ""
             )
         }
     }
 
-    private fun buildCheckBoxDetails(): String {
-        val checkBoxDetails = StringBuilder()
+    private fun buildCategoriesCheckBoxDetails(): String {
+        val categoriesCheckBoxDetails = StringBuilder()
 
         // Retrieve checkbox states from the intent
         val checkBoxAcademic = intent.getBooleanExtra("checkboxAcademic", false)
@@ -101,16 +123,40 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         val checkBoxVolunteering = intent.getBooleanExtra("checkboxVolunteering", false)
         val checkBoxStudentsOnly = intent.getBooleanExtra("checkboxStudentsOnly", false)
 
-        if (checkBoxAcademic) checkBoxDetails.append("Academic, ")
-        if (checkBoxSocial) checkBoxDetails.append("Social, ")
-        if (checkBoxSports) checkBoxDetails.append("Sports, ")
-        if (checkBoxClubsOrg) checkBoxDetails.append("Clubs/Organizations, ")
-        if (checkBoxWorkshops) checkBoxDetails.append("Workshops/Seminars, ")
-        if (checkBoxVolunteering) checkBoxDetails.append("Volunteering, ")
-        if (checkBoxStudentsOnly) checkBoxDetails.append("Students Only, ")
+        if (checkBoxAcademic) categoriesCheckBoxDetails.append("Academic, ")
+        if (checkBoxSocial) categoriesCheckBoxDetails.append("Social, ")
+        if (checkBoxSports) categoriesCheckBoxDetails.append("Sports, ")
+        if (checkBoxClubsOrg) categoriesCheckBoxDetails.append("Clubs/Organizations, ")
+        if (checkBoxWorkshops) categoriesCheckBoxDetails.append("Workshops/Seminars, ")
+        if (checkBoxVolunteering) categoriesCheckBoxDetails.append("Volunteering, ")
+        if (checkBoxStudentsOnly) categoriesCheckBoxDetails.append("Students Only, ")
 
         // Remove the trailing comma and space
-        return checkBoxDetails.toString().removeSuffix(", ")
+        return categoriesCheckBoxDetails.toString().removeSuffix(", ")
+    }
+
+    private fun buildAudienceCheckBoxDetails(): String {
+        val audienceCheckBoxDetails = StringBuilder()
+
+        // Retrieve checkbox states from the intent
+        val checkBoxUndergrad = intent.getBooleanExtra("checkboxUndergrad", false)
+        val checkBoxGrad = intent.getBooleanExtra("checkboxGrad", false)
+        val checkBoxFacultyStaff = intent.getBooleanExtra("checkboxFacultyStaff", false)
+        val checkBoxAlumni = intent.getBooleanExtra("checkboxAlumni", false)
+        val checkBoxPublicCommunity = intent.getBooleanExtra("checkboxPublicCommunity", false)
+        val checkBoxFamily = intent.getBooleanExtra("checkboxFamily", false)
+        val checkBoxProspecStudents = intent.getBooleanExtra("checkboxProspecStudents", false)
+
+        if (checkBoxUndergrad) audienceCheckBoxDetails.append("Undergraduate Students, ")
+        if (checkBoxGrad) audienceCheckBoxDetails.append("Graduate Students, ")
+        if (checkBoxFacultyStaff) audienceCheckBoxDetails.append("Faculty & Staff, ")
+        if (checkBoxAlumni) audienceCheckBoxDetails.append("Alumni, ")
+        if (checkBoxPublicCommunity) audienceCheckBoxDetails.append("Public & Community, ")
+        if (checkBoxFamily) audienceCheckBoxDetails.append("Family, ")
+        if (checkBoxProspecStudents) audienceCheckBoxDetails.append("Prospective Students, ")
+
+        // Remove the trailing comma and space
+        return audienceCheckBoxDetails.toString().removeSuffix(", ")
     }
 
     private fun saveEventToFirestore(
@@ -121,6 +167,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         buildingName: String?,
         address: String?,
         categories: List<String>,
+        audience: List<String>,
         imageUri: String?
     ) {
         Log.d("Firestore", "Saving event to Firestore")
@@ -143,7 +190,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                     // Get the download URL for the uploaded image
                     imageRef.downloadUrl.addOnSuccessListener { uri ->
                         // Continue with saving the event data to Firestore
-                        saveEventDataToFirestore(title, description, date, time, buildingName, address, categories, uri.toString())
+                        saveEventDataToFirestore(title, description, date, time, buildingName, address, categories, audience, uri.toString())
                     }
                 }
                 .addOnFailureListener { e ->
@@ -153,7 +200,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             Log.d("Firestore", "Image URI is null, blank, or already a Cloud Storage URI, proceeding with Firestore upload")
 
             // Continue with saving the event data to Firestore
-            saveEventDataToFirestore(title, description, date, time, buildingName, address, categories, imageUri ?: "")
+            saveEventDataToFirestore(title, description, date, time, buildingName, address, categories, audience,imageUri ?: "")
         }
     }
 
@@ -165,6 +212,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         buildingName: String?,
         address: String?,
         categories: List<String>,
+        audience: List<String>,
         imageUri: String
     ) {
         // Create a new event document in the "Events" collection
@@ -177,6 +225,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             "address" to address,
             "imageUri" to imageUri,
             "categories" to categories,
+            "audience" to audience,
             "timestamp" to FieldValue.serverTimestamp()
         )
 

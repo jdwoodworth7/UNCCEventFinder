@@ -21,6 +21,13 @@ object EventContract {
         const val COLUMN_CATEGORY_WORKSHOPS = "category_workshops"
         const val COLUMN_CATEGORY_VOLUNTEERING = "category_volunteering"
         const val COLUMN_CATEGORY_STUDENTS_ONLY = "category_students_only"
+        const val COLUMN_AUDIENCE_UNDERGRAD = "audience_grad"
+        const val COLUMN_AUDIENCE_GRAD = "audience_grad"
+        const val COLUMN_AUDIENCE_FACULTYSTAFF = "audience_grad"
+        const val COLUMN_AUDIENCE_ALUMNI = "audience_grad"
+        const val COLUMN_AUDIENCE_PUBLICCOMMUNITY = "audience_grad"
+        const val COLUMN_AUDIENCE_FAMILY = "audience_grad"
+        const val COLUMN_AUDIENCE_PROSPECTIVE = "audience_grad"
     }
 
     // Define SQL statements for creating and deleting tables
@@ -41,6 +48,13 @@ object EventContract {
                     "${EventEntry.COLUMN_CATEGORY_WORKSHOPS} INTEGER," +
                     "${EventEntry.COLUMN_CATEGORY_VOLUNTEERING} INTEGER," +
                     "${EventEntry.COLUMN_CATEGORY_STUDENTS_ONLY} INTEGER" +
+                    "${EventEntry.COLUMN_AUDIENCE_UNDERGRAD} INTEGER," +
+                    "${EventEntry.COLUMN_AUDIENCE_GRAD} INTEGER," +
+                    "${EventEntry.COLUMN_AUDIENCE_FACULTYSTAFF} INTEGER," +
+                    "${EventEntry.COLUMN_AUDIENCE_ALUMNI} INTEGER," +
+                    "${EventEntry.COLUMN_AUDIENCE_PUBLICCOMMUNITY} INTEGER," +
+                    "${EventEntry.COLUMN_AUDIENCE_FAMILY} INTEGER," +
+                    "${EventEntry.COLUMN_AUDIENCE_PROSPECTIVE} INTEGER," +
                     ")"
 
 

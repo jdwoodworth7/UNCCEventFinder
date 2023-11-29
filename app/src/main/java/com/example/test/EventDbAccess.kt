@@ -93,6 +93,21 @@ class EventDbAccess(private val context: Context) {
             val studentsOnly =
                 cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_STUDENTS_ONLY)) == 1
 
+            val undergraduate =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_AUDIENCE_UNDERGRAD)) == 1
+            val graduate =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_AUDIENCE_GRAD)) == 1
+            val facultyStaff =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_AUDIENCE_FACULTYSTAFF)) == 1
+            val alumni =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_AUDIENCE_ALUMNI)) == 1
+            val publicCommunity =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_AUDIENCE_PUBLICCOMMUNITY)) == 1
+            val family =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_AUDIENCE_FAMILY)) == 1
+            val propective =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_AUDIENCE_PROSPECTIVE)) == 1
+
             val categories = mutableListOf<String>()
             if (academic) categories.add("Academic")
             if (social) categories.add("Social")
@@ -101,6 +116,15 @@ class EventDbAccess(private val context: Context) {
             if (workshops) categories.add("Workshops/Seminars")
             if (volunteering) categories.add("Volunteering")
             if (studentsOnly) categories.add("Students Only")
+
+            val audience = mutableListOf<String>()
+            if (undergraduate) categories.add("Undergraduate")
+            if (graduate) categories.add("Graduate")
+            if (facultyStaff) categories.add("FacultyStaff")
+            if (alumni) categories.add("Alumni")
+            if (publicCommunity) categories.add("PublicCommunity")
+            if (family) categories.add("Family")
+            if (propective) categories.add("Propective")
 
             val eventData = EventData(
                 id.toString(),
@@ -111,7 +135,8 @@ class EventDbAccess(private val context: Context) {
                 buildingName,
                 address,
                 imageUrl,
-                categories
+                categories,
+                audience
             )
             eventList.add(eventData)
         }
@@ -216,15 +241,39 @@ class EventDbAccess(private val context: Context) {
             cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_VOLUNTEERING)) == 1
         val studentsOnly =
             cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_CATEGORY_STUDENTS_ONLY)) == 1
+            val undergraduate =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_AUDIENCE_UNDERGRAD)) == 1
+            val graduate =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_AUDIENCE_GRAD)) == 1
+            val facultyStaff =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_AUDIENCE_FACULTYSTAFF)) == 1
+            val alumni =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_AUDIENCE_ALUMNI)) == 1
+            val publicCommunity =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_AUDIENCE_PUBLICCOMMUNITY)) == 1
+            val family =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_AUDIENCE_FAMILY)) == 1
+            val propective =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_AUDIENCE_PROSPECTIVE)) == 1
 
-        val categories = mutableListOf<String>()
-        if (academic) categories.add("Academic")
-        if (social) categories.add("Social")
-        if (sports) categories.add("Sports")
-        if (clubsOrg) categories.add("Clubs/Organizations")
-        if (workshops) categories.add("Workshops/Seminars")
-        if (volunteering) categories.add("Volunteering")
-        if (studentsOnly) categories.add("Students Only")
+            val categories = mutableListOf<String>()
+            if (academic) categories.add("Academic")
+            if (social) categories.add("Social")
+            if (sports) categories.add("Sports")
+            if (clubsOrg) categories.add("Clubs/Organizations")
+            if (workshops) categories.add("Workshops/Seminars")
+            if (volunteering) categories.add("Volunteering")
+            if (studentsOnly) categories.add("Students Only")
+
+            val audience = mutableListOf<String>()
+            if (undergraduate) categories.add("Undergraduate")
+            if (graduate) categories.add("Graduate")
+            if (facultyStaff) categories.add("FacultyStaff")
+            if (alumni) categories.add("Alumni")
+            if (publicCommunity) categories.add("PublicCommunity")
+            if (family) categories.add("Family")
+            if (propective) categories.add("Propective")
+
 
             // Create an EventData object for the retrieved row
             val eventData = EventData(
@@ -236,7 +285,8 @@ class EventDbAccess(private val context: Context) {
                 buildingName,
                 address,
                 imageUrl,
-                categories
+                categories,
+                audience
             )
         }
         cursor.close()
