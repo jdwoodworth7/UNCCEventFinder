@@ -1,5 +1,6 @@
 package com.example.test
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,7 +12,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.button.MaterialButton
 import android.widget.Button
-
+import androidx.appcompat.app.AlertDialog
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +23,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        if (sharedPreferences.getBoolean("justSignedUp", false) && sharedPreferences.getBoolean("showTutorialPrompt", false)) {
+            // Show the tutorial prompt
+            showTutorialPrompt()
+
+            // Clear the flag after showing the tutorial prompt
+            clearJustSignedUpFlag()
+        }
 
         val SignUpUnderline = findViewById<TextView>(R.id.SignUpUnderline)
         val EmailButton = findViewById<Button>(R.id.EmailButton)
@@ -72,4 +82,54 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, GoogleActivity::class.java)
             startActivity(intent)
         }
+
+    private fun showTutorialPrompt() {
+        // Inflate the custom layout
+        val view = layoutInflater.inflate(R.layout.tutorial_prompt, null)
+
+        // Initialize the AlertDialog
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(view)
+            .setCancelable(false)
+            .create()
+
+        // Set click listeners for the buttons in your custom layout
+        val buttonStartTutorial = view.findViewById<Button>(R.id.buttonStartTutorial)
+        val buttonSkip = view.findViewById<Button>(R.id.buttonSkip)
+
+        buttonStartTutorial.setOnClickListener {
+            // Start the tutorial
+            startTutorial()
+            alertDialog.dismiss()
+        }
+
+        buttonSkip.setOnClickListener {
+            // Skip the tutorial
+            skipTutorial()
+            alertDialog.dismiss()
+        }
+
+        // Show the AlertDialog
+        alertDialog.show()
+    }
+
+    private fun startTutorial() {
+        val tutorialIntent = Intent(this, TutorialActivity::class.java)
+        startActivity(tutorialIntent)
+    }
+
+    private fun skipTutorial() {
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("showTutorialPrompt", false)
+        editor.apply()
+    }
+
+    private fun clearJustSignedUpFlag() {
+        // Clear the flag after checking it
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("justSignedUp", false)
+        editor.apply()
+    }
 }

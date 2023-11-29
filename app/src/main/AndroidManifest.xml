@@ -42,6 +42,9 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
+            android:name=".TutorialActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreateEventActivity"
             android:exported="true" />
         <activity

@@ -1,5 +1,6 @@
 package com.example.test
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -69,6 +70,16 @@ class RegisterActivity : AppCompatActivity() {
                     blankTemp ?: "",
                     blankList ?: emptyList(),
                 )
+
+                // Set a flag indicating that the user has just signed up
+                val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.putBoolean("justSignedUp", true)
+                // Add a key-value pair to indicate that the tutorial prompt hasn't been shown yet
+                editor.putBoolean("showTutorialPrompt", true)
+                editor.apply()
+
+
                 startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
             }
         }
