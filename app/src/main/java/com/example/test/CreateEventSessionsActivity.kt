@@ -13,7 +13,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.Calendar
 import java.util.Locale
 
@@ -68,22 +71,34 @@ class CreateEventSessionsActivity : AppCompatActivity() {
 
         submitButton.setOnClickListener {
             // Get values from EditText fields
-            val startDate = startDateButton.text.toString()
-            val startTime = startTimeButton.text.toString()
-            val endDate = endDateButton.text.toString()
-            val endTime = endTimeButton.text.toString()
+            val startDate = firstDateButton.text.toString()
+            val startTime = firstTimeButton.text.toString()
+            val endDate = secondDateButton.text.toString()
+            val endTime = secondTimeButton.text.toString()
 
             // Check if any field is empty
             if (startDate.isEmpty() || startTime.isEmpty() || endDate.isEmpty() || endTime.isEmpty()) {
                 // Show a toast message indicating that all fields must be filled out
                 Toast.makeText(this@CreateEventSessionsActivity, "Please fill out all fields", Toast.LENGTH_SHORT).show()
             } else {
-                // Create a session array and add it to the sessionsList
-                val session = listOf(startDate, startTime, endDate, endTime)
-                sessionsList.add(session)
+                // Combine start date and time
+                val startDateTime = parseDateTime("$startDate $startTime")
 
-                // Update the currentSessions TextView with the formatted array
-                updateCurrentSessionsTextView(currentSessionsTextView)
+                // Combine end date and time
+                val endDateTime = parseDateTime("$endDate $endTime")
+
+                // Check if startDateTime is after endDateTime
+                if (startDateTime.isAfter(endDateTime)) {
+                    // Show a toast message indicating the error
+                    Toast.makeText(this@CreateEventSessionsActivity, "Start date and time cannot be after end date and time", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Create a session array and add it to the sessionsList
+                    val session = listOf(startDate, startTime, endDate, endTime)
+                    sessionsList.add(session)
+
+                    // Update the currentSessions TextView with the formatted array
+                    updateCurrentSessionsTextView(currentSessionsTextView)
+                }
             }
         }
 
@@ -195,25 +210,9 @@ class CreateEventSessionsActivity : AppCompatActivity() {
     }
 
     private fun makeDateString(day: Int, month: Int, year: Int): String {
-        return getMonthFormat(month) + " " + day + " " + year
-    }
-
-    private fun getMonthFormat(month: Int): String {
-        return when (month) {
-            1 -> "JAN"
-            2 -> "FEB"
-            3 -> "MAR"
-            4 -> "APR"
-            5 -> "MAY"
-            6 -> "JUN"
-            7 -> "JUL"
-            8 -> "AUG"
-            9 -> "SEP"
-            10 -> "OCT"
-            11 -> "NOV"
-            12 -> "DEC"
-            else -> "JAN"
-        }
+        val date = LocalDate.of(year, month, day)
+        val formatter = DateTimeFormatter.ofPattern("MMM d yyyy", Locale.ENGLISH)
+        return date.format(formatter)
     }
 
     private fun openTimePickerStart() {
@@ -268,6 +267,22 @@ class CreateEventSessionsActivity : AppCompatActivity() {
         )
 
         timePickerDialogEnd.show()
+    }
+
+    // Parse the date and time into LocalDateTime for comparison
+    private fun parseDateTime(dateTimeString: String): LocalDateTime {
+        val trimmedString = dateTimeString.trim()
+        val formatter = DateTimeFormatter.ofPattern("MMM d uuuu hh:mm a", Locale.getDefault())
+        return try {
+            LocalDateTime.parse(trimmedString, formatter)
+        } catch (e: DateTimeParseException) {
+            // Print the problematic dateTimeString for debugging
+            println("Error parsing date and time: $trimmedString")
+            // Print the exception details
+            e.printStackTrace()
+            // Handle parsing exception, return current time as a fallback
+            LocalDateTime.now()
+        }
     }
 
 }
