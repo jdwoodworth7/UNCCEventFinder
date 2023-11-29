@@ -3,31 +3,22 @@ package com.example.test
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.firebase.firestore.DocumentSnapshot
-import java.util.UUID
 
-data class EventSessionData (
-    val eventId: String,
-    val sessionDate : String,
+data class EventSessionData(
+    val startDate: String,
     val startTime: String,
-    val endTime: String,
-    // val location: String
-) : Parcelable
-{
+    val endDate: String,
+    val endTime: String
+) : Parcelable {
     // No-argument constructor for Firestore deserialization
-    constructor() : this(
-        "",
-        "",
-        "",
-        ""
-    )
+    constructor() : this("", "", "", "")
 
     // constructor for converting Firestore DocumentSnapshot to EventSessionData object
     constructor(documentSnapshot: DocumentSnapshot) : this(
-        documentSnapshot.getString("eventId") ?: "",
-        documentSnapshot.getString("sessionDate") ?: "",
+        documentSnapshot.getString("startDate") ?: "",
         documentSnapshot.getString("startTime") ?: "",
-        documentSnapshot.getString("endTime") ?: "",
-
+        documentSnapshot.getString("endDate") ?: "",
+        documentSnapshot.getString("endTime") ?: ""
     )
 
     // constructor for Parcelable EventSessionData object to send between activities as Intent attribute
@@ -35,14 +26,14 @@ data class EventSessionData (
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString() ?: "",
+        parcel.readString() ?: ""
     )
 
-    //Parcelable Implementations
+    // Parcelable Implementations
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(eventId)
-        parcel.writeString(sessionDate)
+        parcel.writeString(startDate)
         parcel.writeString(startTime)
+        parcel.writeString(endDate)
         parcel.writeString(endTime)
     }
 
@@ -59,5 +50,4 @@ data class EventSessionData (
             return arrayOfNulls(size)
         }
     }
-
 }

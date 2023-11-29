@@ -13,6 +13,8 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.util.UUID
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 
 class CreateEventDetailsActivity : AppCompatActivity() {
 
@@ -228,52 +230,58 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         Log.d("Firestore", "Saving event data to Firestore")
 
         // Save EventSessionData to Firestore and get the generated IDs
-        val eventSessionIds = saveEventSessionsToFirestore(sessionsList)
+        saveEventSessionsToFirestore(sessionsList) { eventSessionIds ->
+            // Create a new event document in the "Events" collection
+            val event = hashMapOf(
+                "title" to title,
+                "description" to description,
+                "date" to date,
+                "time" to time,
+                "eventSessionIds" to eventSessionIds,
+                "buildingName" to buildingName,
+                "address" to address,
+                "imageUri" to imageUri,
+                "categories" to categories,
+                "audience" to audience,
+                "timestamp" to FieldValue.serverTimestamp()
+            )
 
-        // Create a new event document in the "Events" collection
-        val event = hashMapOf(
-            "title" to title,
-            "description" to description,
-            "date" to date,
-            "time" to time,
-            "eventSessionIds" to eventSessionIds,
-            "buildingName" to buildingName,
-            "address" to address,
-            "imageUri" to imageUri,
-            "categories" to categories,
-            "audience" to audience,
-            "timestamp" to FieldValue.serverTimestamp()
-        )
+            // Print out the event details
+            Log.d("Firestore", "Event Details:")
+            event.forEach { (key, value) ->
+                Log.d("Firestore", "$key: $value")
+            }
 
-        // Print out the event details
-        Log.d("Firestore", "Event Details:")
-        event.forEach { (key, value) ->
-            Log.d("Firestore", "$key: $value")
+            // Add the event to the "Events" collection
+            db.collection("Events")
+                .add(event)
+                .addOnSuccessListener { documentReference ->
+                    Log.d("Firestore", "DocumentSnapshot added with ID: ${documentReference.id}")
+
+                    // Start the MapsActivity
+                    val intent = Intent(this@CreateEventDetailsActivity, MapsActivity::class.java)
+                    startActivity(intent)
+
+                    // Finish the current activity to remove it from the back stack
+                    finish()
+                }
+                .addOnFailureListener { e ->
+                    Log.e("Firestore", "Error adding event document", e)
+                }
         }
-
-        // Add the event to the "Events" collection
-        db.collection("Events")
-            .add(event)
-            .addOnSuccessListener { documentReference ->
-                Log.d("Firestore", "DocumentSnapshot added with ID: ${documentReference.id}")
-
-                // Start the MapsActivity
-                val intent = Intent(this@CreateEventDetailsActivity, MapsActivity::class.java)
-                startActivity(intent)
-
-                // Finish the current activity to remove it from the back stack
-                finish()
-            }
-            .addOnFailureListener { e ->
-                Log.e("Firestore", "Error adding event document", e)
-            }
     }
 
-    private fun saveEventSessionsToFirestore(sessionsList: Array<Array<String>>): List<String> {
+    private fun saveEventSessionsToFirestore(
+        sessionsList: Array<Array<String>>,
+        onComplete: (List<String>) -> Unit
+    ) {
         // Save EventSessionData to EventSessions collection and get the generated IDs
         val eventSessionIds = mutableListOf<String>()
 
-        sessionsList.forEach { session ->
+        // Create a list to hold all the task references
+        val tasks = mutableListOf<Task<Void>>()
+
+        sessionsList.forEachIndexed { index, session ->
             val eventSessionData = hashMapOf(
                 "startDate" to session[0],
                 "startTime" to session[1],
@@ -281,19 +289,37 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                 "endTime" to session[3]
             )
 
-            // Add the event session to the "EventSessions" collection
-            db.collection("EventSessions")
-                .add(eventSessionData)
-                .addOnSuccessListener { documentReference ->
-                    Log.d("Firestore", "EventSessionData added with ID: ${documentReference.id}")
-                    eventSessionIds.add(documentReference.id)
+            // Get randomly generated document names
+            val documentName = UUID.randomUUID().toString()
+
+            // Add the event session to the "EventSessions" collection with the specified document name
+            val task = db.collection("EventSessions")
+                .document(documentName)
+                .set(eventSessionData)
+                .addOnSuccessListener {
+                    Log.d("Firestore", "EventSessionData added with ID: $documentName")
+                    eventSessionIds.add(documentName)
                 }
                 .addOnFailureListener { e ->
                     Log.e("Firestore", "Error adding event session document", e)
                 }
+
+            // Add the task to the list
+            tasks.add(task)
         }
 
-        return eventSessionIds
+        // Use Tasks.whenAllSuccess to wait for all tasks to complete
+        Tasks.whenAllSuccess<Void>(tasks)
+            .addOnSuccessListener {
+                Log.d("Firestore", "All tasks completed successfully")
+                onComplete(eventSessionIds)
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "One or more tasks failed", e)
+            }
+            .addOnCompleteListener {
+                // Do something if needed after all tasks complete
+            }
     }
 
     private fun buildSessionsDetails(sessionsList: Array<Array<String>>): String {

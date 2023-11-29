@@ -132,11 +132,7 @@ class EventDbAccess(private val context: Context) {
                 description,
                 date.toString(),
                 time.toString(),
-                listOf(
-                    EventSessionData("eventId", "sessionDate1", "startTime1", "endTime1"),
-                    EventSessionData("eventId", "sessionDate2", "startTime2", "endTime2"),
-                    // Add more EventSessionData objects as needed
-                ),
+                listOf(),
                 buildingName,
                 address,
                 imageUrl,
@@ -287,11 +283,7 @@ class EventDbAccess(private val context: Context) {
                 description,
                 date.toString(),
                 time.toString(),
-                listOf(
-                    EventSessionData("eventId", "sessionDate1", "startTime1", "endTime1"),
-                    EventSessionData("eventId", "sessionDate2", "startTime2", "endTime2"),
-                    // Add more EventSessionData objects as needed
-                ),
+                listOf(),
                 buildingName,
                 address,
                 imageUrl,

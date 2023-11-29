@@ -6,19 +6,20 @@ import com.google.firebase.firestore.DocumentSnapshot
 import java.util.UUID
 
 data class EventData(
-        val id: String, // converted from UUID
+        val id: String,
         val title: String,
         val description: String,
-        val date: String, // converted from LocalDate
-        val time: String, // converted from LocalTime
-        val eventSessionIds: List<EventSessionData>, // holds session Ids of corresponding event
+        val date: String,
+        val time: String,
+        val eventSessionIds: List<String>,
         val buildingName: String?,
         val address: String?,
         val imageUri: String?,
         val categories: List<String>,
         val audience: List<String>
 ) : Parcelable {
-        // No-argument constructor for Firestore deserialization - REQUIRED
+
+        // No-argument constructor for Firestore deserialization
         constructor() : this(
                 UUID.randomUUID().toString(),
                 "",
@@ -40,7 +41,7 @@ data class EventData(
                 documentSnapshot.getString("description") ?: "",
                 documentSnapshot.getString("date") ?: "",
                 documentSnapshot.getString("time") ?: "",
-                documentSnapshot.get("eventSessionIds") as? List<EventSessionData> ?: listOf(),
+                documentSnapshot.get("eventSessionIds") as? List<String> ?: listOf(), // Change the type
                 documentSnapshot.getString("buildingName"),
                 documentSnapshot.getString("address"),
                 documentSnapshot.getString("userUploadedImageUrl"),
@@ -55,7 +56,7 @@ data class EventData(
                 parcel.readString() ?: "",
                 parcel.readString() ?: "",
                 parcel.readString() ?: "",
-                parcel.createTypedArrayList(EventSessionData) ?: listOf(),
+                parcel.createStringArrayList()?.toList() ?: listOf(),
                 parcel.readString(),
                 parcel.readString(),
                 parcel.readString(),
@@ -69,7 +70,7 @@ data class EventData(
                 parcel.writeString(description)
                 parcel.writeString(date)
                 parcel.writeString(time)
-                parcel.writeTypedList(eventSessionIds)
+                parcel.writeStringList(eventSessionIds)
                 parcel.writeString(buildingName)
                 parcel.writeString(address)
                 parcel.writeString(imageUri)
