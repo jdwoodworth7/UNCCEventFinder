@@ -8,6 +8,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 class CreateEventCategoriesActivity : AppCompatActivity() {
+    private lateinit var sessionsList: Array<Array<String>>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event_categories)
@@ -23,6 +24,9 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
         val cancelButton = findViewById<Button>(R.id.cancelButton)
         val menuButton = findViewById<ImageView>(R.id.menuButton)
         val mapIcon = findViewById<ImageView>(R.id.mapIcon)
+
+        // Retrieve the sessionsList from the intent
+        sessionsList = intent.getSerializableExtra("sessionsList") as? Array<Array<String>> ?: emptyArray()
 
         continueButton.setOnClickListener {
             // Retrieve data from the previous activity
@@ -53,6 +57,9 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
             intent.putExtra("checkboxWorkshops", checkBoxWorkshops.isChecked)
             intent.putExtra("checkboxVolunteering", checkBoxVolunteering.isChecked)
             intent.putExtra("checkboxStudentsOnly", checkBoxStudentsOnly.isChecked)
+
+            // Pass the sessionsList to the next activity
+            intent.putExtra("sessionsList", sessionsList)
 
             // Start the next activity
             startActivity(intent)

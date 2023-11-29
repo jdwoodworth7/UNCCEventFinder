@@ -134,7 +134,7 @@ class CreateEventActivity : AppCompatActivity() {
                 Toast.makeText(this@CreateEventActivity, "Please upload an image", Toast.LENGTH_SHORT).show()
             } else {
                 // Create an Intent to start the next activity
-                val intent = Intent(this@CreateEventActivity, CreateEventCategoriesActivity::class.java)
+                val intent = Intent(this@CreateEventActivity, CreateEventSessionsActivity::class.java)
 
                 // Pass the data to the next activity
                 intent.putExtra("title", title)
@@ -177,7 +177,7 @@ class CreateEventActivity : AppCompatActivity() {
             val imageUri: Uri = data.data!!
 
             // Pass the image URI to the next activity
-            val intent = Intent(this@CreateEventActivity, CreateEventCategoriesActivity::class.java)
+            val intent = Intent(this@CreateEventActivity, CreateEventSessionsActivity::class.java)
 
             // Continue with your other data passing logic...
 

@@ -12,6 +12,9 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import java.util.UUID
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 
 class CreateEventDetailsActivity : AppCompatActivity() {
 
@@ -40,6 +43,11 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         val categoriesCheckBoxDetails = buildCategoriesCheckBoxDetails()
         val audienceCheckBoxDetails = buildAudienceCheckBoxDetails()
 
+        // Retrieve the sessions list from the intent
+        val sessionsList = intent.getSerializableExtra("sessionsList") as? Array<Array<String>> ?: emptyArray()
+        // Build string representation for sessions list
+        val sessionsDetails = buildSessionsDetails(sessionsList)
+
         // Display the data in detailsEditText
         val detailsEditText = findViewById<EditText>(R.id.detailsEditText)
         detailsEditText.setText(
@@ -52,7 +60,8 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                     "Address: $address\n" +
                     "Categories: $categoriesCheckBoxDetails\n" +
                     "Audiences: $audienceCheckBoxDetails\n" +
-                    "Image URI: $imageUri"
+                    "Image URI: $imageUri\n" +
+                    "Sessions:\n$sessionsDetails"
         )
 
         // Setup "Exit" button click listener
@@ -102,6 +111,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                 description ?: "",
                 date ?: "",
                 time ?: "",
+                sessionsList,
                 buildingName ?: "",
                 address ?: "",
                 categories ?: emptyList(),  // Provide an empty list if null
@@ -164,6 +174,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         description: String,
         date: String?,
         time: String?,
+        sessionsList: Array<Array<String>>,
         buildingName: String?,
         address: String?,
         categories: List<String>,
@@ -190,7 +201,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                     // Get the download URL for the uploaded image
                     imageRef.downloadUrl.addOnSuccessListener { uri ->
                         // Continue with saving the event data to Firestore
-                        saveEventDataToFirestore(title, description, date, time, buildingName, address, categories, audience, uri.toString())
+                        saveEventDataToFirestore(title, description, date, time, sessionsList, buildingName, address, categories, audience, uri.toString())
                     }
                 }
                 .addOnFailureListener { e ->
@@ -200,7 +211,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             Log.d("Firestore", "Image URI is null, blank, or already a Cloud Storage URI, proceeding with Firestore upload")
 
             // Continue with saving the event data to Firestore
-            saveEventDataToFirestore(title, description, date, time, buildingName, address, categories, audience,imageUri ?: "")
+            saveEventDataToFirestore(title, description, date, time, sessionsList, buildingName, address, categories, audience, imageUri ?: "")
         }
     }
 
@@ -209,47 +220,116 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         description: String,
         date: String?,
         time: String?,
+        sessionsList: Array<Array<String>>,
         buildingName: String?,
         address: String?,
         categories: List<String>,
         audience: List<String>,
         imageUri: String
     ) {
-        // Create a new event document in the "Events" collection
-        val event = hashMapOf(
-            "title" to title,
-            "description" to description,
-            "date" to date,
-            "time" to time,
-            "buildingName" to buildingName,
-            "address" to address,
-            "imageUri" to imageUri,
-            "categories" to categories,
-            "audience" to audience,
-            "timestamp" to FieldValue.serverTimestamp()
-        )
+        Log.d("Firestore", "Saving event data to Firestore")
 
-        // Print out the event details
-        Log.d("Firestore", "Event Details:")
-        event.forEach { (key, value) ->
-            Log.d("Firestore", "$key: $value")
+        // Save EventSessionData to Firestore and get the generated IDs
+        saveEventSessionsToFirestore(sessionsList) { eventSessionIds ->
+            // Create a new event document in the "Events" collection
+            val event = hashMapOf(
+                "title" to title,
+                "description" to description,
+                "date" to date,
+                "time" to time,
+                "eventSessionIds" to eventSessionIds,
+                "buildingName" to buildingName,
+                "address" to address,
+                "imageUri" to imageUri,
+                "categories" to categories,
+                "audience" to audience,
+                "timestamp" to FieldValue.serverTimestamp()
+            )
+
+            // Print out the event details
+            Log.d("Firestore", "Event Details:")
+            event.forEach { (key, value) ->
+                Log.d("Firestore", "$key: $value")
+            }
+
+            // Add the event to the "Events" collection
+            db.collection("Events")
+                .add(event)
+                .addOnSuccessListener { documentReference ->
+                    Log.d("Firestore", "DocumentSnapshot added with ID: ${documentReference.id}")
+
+                    // Start the MapsActivity
+                    val intent = Intent(this@CreateEventDetailsActivity, MapsActivity::class.java)
+                    startActivity(intent)
+
+                    // Finish the current activity to remove it from the back stack
+                    finish()
+                }
+                .addOnFailureListener { e ->
+                    Log.e("Firestore", "Error adding event document", e)
+                }
+        }
+    }
+
+    private fun saveEventSessionsToFirestore(
+        sessionsList: Array<Array<String>>,
+        onComplete: (List<String>) -> Unit
+    ) {
+        // Save EventSessionData to EventSessions collection and get the generated IDs
+        val eventSessionIds = mutableListOf<String>()
+
+        // Create a list to hold all the task references
+        val tasks = mutableListOf<Task<Void>>()
+
+        sessionsList.forEachIndexed { index, session ->
+            val eventSessionData = hashMapOf(
+                "startDate" to session[0],
+                "startTime" to session[1],
+                "endDate" to session[2],
+                "endTime" to session[3]
+            )
+
+            // Get randomly generated document names
+            val documentName = UUID.randomUUID().toString()
+
+            // Add the event session to the "EventSessions" collection with the specified document name
+            val task = db.collection("EventSessions")
+                .document(documentName)
+                .set(eventSessionData)
+                .addOnSuccessListener {
+                    Log.d("Firestore", "EventSessionData added with ID: $documentName")
+                    eventSessionIds.add(documentName)
+                }
+                .addOnFailureListener { e ->
+                    Log.e("Firestore", "Error adding event session document", e)
+                }
+
+            // Add the task to the list
+            tasks.add(task)
         }
 
-        // Add the event to the "Events" collection
-        db.collection("Events")
-            .add(event)
-            .addOnSuccessListener { documentReference ->
-                Log.d("Firestore", "DocumentSnapshot added with ID: ${documentReference.id}")
-
-                // Start the MapsActivity
-                val intent = Intent(this@CreateEventDetailsActivity, MapsActivity::class.java)
-                startActivity(intent)
-
-                // Finish the current activity to remove it from the back stack
-                finish()
+        // Use Tasks.whenAllSuccess to wait for all tasks to complete
+        Tasks.whenAllSuccess<Void>(tasks)
+            .addOnSuccessListener {
+                Log.d("Firestore", "All tasks completed successfully")
+                onComplete(eventSessionIds)
             }
             .addOnFailureListener { e ->
-                Log.e("Firestore", "Error adding event document", e)
+                Log.e("Firestore", "One or more tasks failed", e)
             }
+            .addOnCompleteListener {
+                // Do something if needed after all tasks complete
+            }
+    }
+
+    private fun buildSessionsDetails(sessionsList: Array<Array<String>>): String {
+        val sessionsDetails = StringBuilder()
+
+        sessionsList.forEachIndexed { index, session ->
+            val sessionDetails = session.joinToString(", ")
+            sessionsDetails.append("${index + 1}. $sessionDetails\n")
+        }
+
+        return sessionsDetails.toString()
     }
 }

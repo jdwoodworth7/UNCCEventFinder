@@ -8,6 +8,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 class CreateEventAudienceActivity : AppCompatActivity() {
+    private lateinit var sessionsList: Array<Array<String>>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event_audiences)
@@ -24,6 +25,9 @@ class CreateEventAudienceActivity : AppCompatActivity() {
         val cancelButton = findViewById<Button>(R.id.cancelButton)
         val menuButton = findViewById<ImageView>(R.id.menuButton)
         val mapIcon = findViewById<ImageView>(R.id.mapIcon)
+
+        // Retrieve the sessionsList from the intent
+        sessionsList = intent.getSerializableExtra("sessionsList") as? Array<Array<String>> ?: emptyArray()
 
         continueButton.setOnClickListener {
             // Retrieve data from the previous activity
@@ -72,6 +76,9 @@ class CreateEventAudienceActivity : AppCompatActivity() {
             intent.putExtra("checkboxPublicCommunity", checkBoxPublicCommunity.isChecked)
             intent.putExtra("checkboxFamily", checkBoxFamily.isChecked)
             intent.putExtra("checkboxProspecStudents", checkBoxProspecStudents.isChecked)
+
+            // Pass the sessionsList to the next activity
+            intent.putExtra("sessionsList", sessionsList)
 
             // Start the next activity
             startActivity(intent)
