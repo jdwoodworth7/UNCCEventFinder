@@ -88,10 +88,10 @@
             android:layout_marginTop="42dp"
             android:padding="5dp"
             android:maxLength="100"
-            android:text="JAN 01 2023"
+            android:text="Select Date"
             android:textColor="@color/black"
             style="?android:spinnerStyle"
-            android:onClick='openDatePicker'/>/>
+            android:onClick='openDatePicker'/>
 
         <TextView
             android:id="@+id/startTimeLabel"
@@ -136,7 +136,7 @@
             android:layout_marginTop="1dp"
             android:padding="8dp"
             android:maxLength="80"
-            android:text="JAN 01 2023"
+            android:text="Select Date"
             android:textColor="@color/black"
             style="?android:spinnerStyle"
             android:onClick='openDatePicker'/>/>

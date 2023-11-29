@@ -1,16 +1,24 @@
 package com.example.test
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import java.time.LocalDate
+import java.util.Calendar
 
 class CreateEventSessionsActivity : AppCompatActivity() {
 
+    private lateinit var datePickerDialogStart: DatePickerDialog
+    private lateinit var datePickerDialogEnd: DatePickerDialog
+    private lateinit var firstDateButton: Button
+    private lateinit var secondDateButton: Button
     private val sessionsList = mutableListOf<List<String>>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +34,17 @@ class CreateEventSessionsActivity : AppCompatActivity() {
         val endDateButton = findViewById<Button>(R.id.endDateButton)
         val endTimeButton = findViewById<Button>(R.id.endTimeButton)
         val currentSessionsTextView = findViewById<TextView>(R.id.currentSessions)
+
+        firstDateButton = findViewById(R.id.startDateButton)
+        secondDateButton = findViewById(R.id.endDateButton)
+
+        firstDateButton.setOnClickListener {
+            openDatePickerStart()
+        }
+
+        secondDateButton.setOnClickListener {
+            openDatePickerEnd()
+        }
 
         submitButton.setOnClickListener {
             // Get values from EditText fields
@@ -97,4 +116,71 @@ class CreateEventSessionsActivity : AppCompatActivity() {
         textView.text = formattedSessions
     }
 
+    private fun openDatePickerStart() {
+        val cal = Calendar.getInstance()
+        val year = cal.get(Calendar.YEAR)
+        val month = cal.get(Calendar.MONTH)
+        val day = cal.get(Calendar.DAY_OF_MONTH)
+
+        datePickerDialogStart = DatePickerDialog(
+            this,
+            DatePickerDialog.OnDateSetListener { _, year, month, day ->
+                // set the selectedDate to the user input value in LocalDate
+                selectedDate = LocalDate.of(year, month + 1, day)
+
+                val dateString = makeDateString(day, month + 1, year)
+                firstDateButton.text = dateString
+            },
+            year,
+            month,
+            day
+        )
+
+        datePickerDialogStart.show()
+    }
+
+    private fun openDatePickerEnd() {
+        val cal = Calendar.getInstance()
+        val year = cal.get(Calendar.YEAR)
+        val month = cal.get(Calendar.MONTH)
+        val day = cal.get(Calendar.DAY_OF_MONTH)
+
+        datePickerDialogEnd = DatePickerDialog(
+            this,
+            DatePickerDialog.OnDateSetListener { _, year, month, day ->
+                // set the selectedDate to the user input value in LocalDate
+                selectedDate = LocalDate.of(year, month + 1, day)
+
+                val dateString = makeDateString(day, month + 1, year)
+                secondDateButton.text = dateString
+            },
+            year,
+            month,
+            day
+        )
+
+        datePickerDialogEnd.show()
+    }
+
+    private fun makeDateString(day: Int, month: Int, year: Int): String {
+        return getMonthFormat(month) + " " + day + " " + year
+    }
+
+    private fun getMonthFormat(month: Int): String {
+        return when (month) {
+            1 -> "JAN"
+            2 -> "FEB"
+            3 -> "MAR"
+            4 -> "APR"
+            5 -> "MAY"
+            6 -> "JUN"
+            7 -> "JUL"
+            8 -> "AUG"
+            9 -> "SEP"
+            10 -> "OCT"
+            11 -> "NOV"
+            12 -> "DEC"
+            else -> "JAN"
+        }
+    }
 }
