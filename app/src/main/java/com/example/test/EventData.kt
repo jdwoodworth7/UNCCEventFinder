@@ -3,19 +3,15 @@ package com.example.test
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.firebase.firestore.DocumentSnapshot
-import java.time.LocalDate
-import java.time.LocalTime
 import java.util.UUID
 
 data class EventData(
-        val id: String, //converted from UUID
+        val id: String, // converted from UUID
         val title: String,
         val description: String,
         val date: String, // converted from LocalDate
         val time: String, // converted from LocalTime
-        val eventSessionIds: List<List<String>>, // holds session Ids of corresponding event
-        // val startDate : String, // start date of the event for event duration
-        // val endDate: String, // end dat eof the event for event duration
+        val eventSessionIds: List<EventSessionData>, // holds session Ids of corresponding event
         val buildingName: String?,
         val address: String?,
         val imageUri: String?,
@@ -29,7 +25,7 @@ data class EventData(
                 "",
                 "",
                 "",
-                listOf(listOf()),
+                listOf(),
                 null,
                 null,
                 null,
@@ -44,7 +40,7 @@ data class EventData(
                 documentSnapshot.getString("description") ?: "",
                 documentSnapshot.getString("date") ?: "",
                 documentSnapshot.getString("time") ?: "",
-                documentSnapshot.get("eventSessionIds") as? List<List<String>> ?: listOf(),
+                documentSnapshot.get("eventSessionIds") as? List<EventSessionData> ?: listOf(),
                 documentSnapshot.getString("buildingName"),
                 documentSnapshot.getString("address"),
                 documentSnapshot.getString("userUploadedImageUrl"),
@@ -59,7 +55,7 @@ data class EventData(
                 parcel.readString() ?: "",
                 parcel.readString() ?: "",
                 parcel.readString() ?: "",
-                (parcel.createStringArrayList() ?: listOf()).chunked(4),
+                parcel.createTypedArrayList(EventSessionData) ?: listOf(),
                 parcel.readString(),
                 parcel.readString(),
                 parcel.readString(),
@@ -68,12 +64,12 @@ data class EventData(
         )
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
-                parcel.writeString(id.toString())
+                parcel.writeString(id)
                 parcel.writeString(title)
                 parcel.writeString(description)
                 parcel.writeString(date)
                 parcel.writeString(time)
-                parcel.writeStringList(eventSessionIds.flatten())
+                parcel.writeTypedList(eventSessionIds)
                 parcel.writeString(buildingName)
                 parcel.writeString(address)
                 parcel.writeString(imageUri)

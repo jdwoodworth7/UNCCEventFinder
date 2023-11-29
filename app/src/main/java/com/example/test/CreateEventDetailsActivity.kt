@@ -12,6 +12,7 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import java.util.UUID
 
 class CreateEventDetailsActivity : AppCompatActivity() {
 
@@ -108,6 +109,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                 description ?: "",
                 date ?: "",
                 time ?: "",
+                sessionsList,
                 buildingName ?: "",
                 address ?: "",
                 categories ?: emptyList(),  // Provide an empty list if null
@@ -170,6 +172,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         description: String,
         date: String?,
         time: String?,
+        sessionsList: Array<Array<String>>,
         buildingName: String?,
         address: String?,
         categories: List<String>,
@@ -196,7 +199,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                     // Get the download URL for the uploaded image
                     imageRef.downloadUrl.addOnSuccessListener { uri ->
                         // Continue with saving the event data to Firestore
-                        saveEventDataToFirestore(title, description, date, time, buildingName, address, categories, audience, uri.toString())
+                        saveEventDataToFirestore(title, description, date, time, sessionsList, buildingName, address, categories, audience, uri.toString())
                     }
                 }
                 .addOnFailureListener { e ->
@@ -206,7 +209,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             Log.d("Firestore", "Image URI is null, blank, or already a Cloud Storage URI, proceeding with Firestore upload")
 
             // Continue with saving the event data to Firestore
-            saveEventDataToFirestore(title, description, date, time, buildingName, address, categories, audience,imageUri ?: "")
+            saveEventDataToFirestore(title, description, date, time, sessionsList, buildingName, address, categories, audience, imageUri ?: "")
         }
     }
 
@@ -215,18 +218,25 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         description: String,
         date: String?,
         time: String?,
+        sessionsList: Array<Array<String>>,
         buildingName: String?,
         address: String?,
         categories: List<String>,
         audience: List<String>,
         imageUri: String
     ) {
+        Log.d("Firestore", "Saving event data to Firestore")
+
+        // Save EventSessionData to Firestore and get the generated IDs
+        val eventSessionIds = saveEventSessionsToFirestore(sessionsList)
+
         // Create a new event document in the "Events" collection
         val event = hashMapOf(
             "title" to title,
             "description" to description,
             "date" to date,
             "time" to time,
+            "eventSessionIds" to eventSessionIds,
             "buildingName" to buildingName,
             "address" to address,
             "imageUri" to imageUri,
@@ -259,6 +269,33 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             }
     }
 
+    private fun saveEventSessionsToFirestore(sessionsList: Array<Array<String>>): List<String> {
+        // Save EventSessionData to EventSessions collection and get the generated IDs
+        val eventSessionIds = mutableListOf<String>()
+
+        sessionsList.forEach { session ->
+            val eventSessionData = hashMapOf(
+                "startDate" to session[0],
+                "startTime" to session[1],
+                "endDate" to session[2],
+                "endTime" to session[3]
+            )
+
+            // Add the event session to the "EventSessions" collection
+            db.collection("EventSessions")
+                .add(eventSessionData)
+                .addOnSuccessListener { documentReference ->
+                    Log.d("Firestore", "EventSessionData added with ID: ${documentReference.id}")
+                    eventSessionIds.add(documentReference.id)
+                }
+                .addOnFailureListener { e ->
+                    Log.e("Firestore", "Error adding event session document", e)
+                }
+        }
+
+        return eventSessionIds
+    }
+
     private fun buildSessionsDetails(sessionsList: Array<Array<String>>): String {
         val sessionsDetails = StringBuilder()
 
@@ -269,5 +306,4 @@ class CreateEventDetailsActivity : AppCompatActivity() {
 
         return sessionsDetails.toString()
     }
-
 }
