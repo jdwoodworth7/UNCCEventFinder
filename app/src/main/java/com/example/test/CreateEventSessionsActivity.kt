@@ -21,18 +21,18 @@ class CreateEventSessionsActivity : AppCompatActivity() {
         val cancelButton = findViewById<Button>(R.id.cancelButton)
         val menuButton = findViewById<ImageView>(R.id.menuButton)
         val mapIcon = findViewById<ImageView>(R.id.mapIcon)
-        val startDateEditText = findViewById<EditText>(R.id.startDateEditText)
-        val startTimeEditText = findViewById<EditText>(R.id.startTimeEditText)
-        val endDateEditText = findViewById<EditText>(R.id.endDateEditText)
-        val endTimeEditText = findViewById<EditText>(R.id.endTimeEditText)
+        val startDateButton = findViewById<Button>(R.id.startDateButton)
+        val startTimeButton = findViewById<Button>(R.id.startTimeButton)
+        val endDateButton = findViewById<Button>(R.id.endDateButton)
+        val endTimeButton = findViewById<Button>(R.id.endTimeButton)
         val currentSessionsTextView = findViewById<TextView>(R.id.currentSessions)
 
         submitButton.setOnClickListener {
             // Get values from EditText fields
-            val startDate = startDateEditText.text.toString()
-            val startTime = startTimeEditText.text.toString()
-            val endDate = endDateEditText.text.toString()
-            val endTime = endTimeEditText.text.toString()
+            val startDate = startDateButton.text.toString()
+            val startTime = startTimeButton.text.toString()
+            val endDate = endDateButton.text.toString()
+            val endTime = endTimeButton.text.toString()
 
             // Create a session array and add it to the sessionsList
             val session = listOf(startDate, startTime, endDate, endTime)

@@ -70,7 +70,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/startDateText"
+            android:id="@+id/startDateLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Start Date:"
@@ -80,83 +80,95 @@
             android:layout_marginTop="20dp"/>
 
         <!-- Title Textbox -->
-        <EditText
-            android:id="@+id/startDateEditText"
+        <Button
+            android:id="@+id/startDateButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tellUsText"
             android:layout_marginTop="42dp"
-            android:background="#F0F0F0"
             android:padding="5dp"
-            android:maxLength="100"/>
+            android:maxLength="100"
+            android:text="JAN 01 2023"
+            android:textColor="@color/black"
+            style="?android:spinnerStyle"
+            android:onClick='openDatePicker'/>/>
 
         <TextView
-            android:id="@+id/startTimeText"
+            android:id="@+id/startTimeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Start Time:"
             android:textSize="16sp"
             android:textColor="#888888"
-            android:layout_below="@id/startDateEditText"
+            android:layout_below="@id/startDateButton"
             android:layout_marginTop="20dp"/>
 
         <!-- Description Textbox -->
-        <EditText
-            android:id="@+id/startTimeEditText"
+        <Button
+            android:id="@+id/startTimeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/startDateEditText"
+            android:layout_below="@id/startDateButton"
             android:layout_marginTop="42dp"
-            android:background="#F0F0F0"
             android:padding="8dp"
-            android:maxLength="200"/>
+            android:maxLength="200"
+            android:text="Select Time"
+            style="?android:spinnerStyle"
+            android:textColor="@color/black"
+            android:onClick='openTimePicker'/>/>
 
         <TextView
-            android:id="@+id/endDateText"
+            android:id="@+id/endDateLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="End Date:"
             android:textSize="16sp"
             android:textColor="#888888"
-            android:layout_below="@id/startTimeEditText"
+            android:layout_below="@id/startTimeButton"
             android:layout_marginTop="20dp"/>
 
         <!-- Location Textbox -->
-        <EditText
-            android:id="@+id/endDateEditText"
+        <Button
+            android:id="@+id/endDateButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/endDateText"
+            android:layout_below="@id/endDateLabel"
             android:layout_marginTop="1dp"
-            android:background="#F0F0F0"
             android:padding="8dp"
-            android:maxLength="80"/>
+            android:maxLength="80"
+            android:text="JAN 01 2023"
+            android:textColor="@color/black"
+            style="?android:spinnerStyle"
+            android:onClick='openDatePicker'/>/>
 
         <TextView
-            android:id="@+id/endTimeText"
+            android:id="@+id/endTimeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="End Time:"
             android:textSize="16sp"
             android:textColor="#888888"
-            android:layout_below="@id/endDateEditText"
+            android:layout_below="@id/endDateButton"
             android:layout_marginTop="20dp"/>
 
-        <EditText
-            android:id="@+id/endTimeEditText"
+        <Button
+            android:id="@+id/endTimeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/endTimeText"
+            android:layout_below="@id/endTimeLabel"
             android:layout_marginTop="1dp"
-            android:background="#F0F0F0"
             android:padding="8dp"
-            android:maxLength="100"/>
+            android:maxLength="100"
+            android:text="Select Time"
+            style="?android:spinnerStyle"
+            android:textColor="@color/black"
+            android:onClick='openTimePicker'/>/>
 
         <Button
             android:id="@+id/submitButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/endTimeEditText"
+            android:layout_below="@id/endTimeButton"
             android:layout_marginTop="20dp"
             android:background="#FFFFFF"
             android:padding="8dp"
@@ -175,7 +187,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/endTimeEditText"
+            android:layout_below="@id/endTimeButton"
             android:layout_marginTop="110dp">
 
             <!-- Cancel Button -->
