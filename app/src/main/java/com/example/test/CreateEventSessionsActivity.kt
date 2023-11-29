@@ -1,6 +1,7 @@
 package com.example.test
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -11,14 +12,20 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import java.time.LocalDate
+import java.time.LocalTime
 import java.util.Calendar
+import java.util.Locale
 
 class CreateEventSessionsActivity : AppCompatActivity() {
 
+    private lateinit var selectedTimeStart: LocalTime
+    private lateinit var selectedTimeEnd: LocalTime
     private lateinit var datePickerDialogStart: DatePickerDialog
     private lateinit var datePickerDialogEnd: DatePickerDialog
     private lateinit var firstDateButton: Button
     private lateinit var secondDateButton: Button
+    private lateinit var firstTimeButton: Button
+    private lateinit var secondTimeButton: Button
     private val sessionsList = mutableListOf<List<String>>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +44,8 @@ class CreateEventSessionsActivity : AppCompatActivity() {
 
         firstDateButton = findViewById(R.id.startDateButton)
         secondDateButton = findViewById(R.id.endDateButton)
+        firstTimeButton = findViewById(R.id.startTimeButton)
+        secondTimeButton = findViewById(R.id.endTimeButton)
 
         firstDateButton.setOnClickListener {
             openDatePickerStart()
@@ -44,6 +53,14 @@ class CreateEventSessionsActivity : AppCompatActivity() {
 
         secondDateButton.setOnClickListener {
             openDatePickerEnd()
+        }
+
+        firstTimeButton.setOnClickListener {
+            openTimePickerStart()
+        }
+
+        secondTimeButton.setOnClickListener {
+            openTimePickerEnd()
         }
 
         submitButton.setOnClickListener {
@@ -183,4 +200,59 @@ class CreateEventSessionsActivity : AppCompatActivity() {
             else -> "JAN"
         }
     }
+
+    private fun openTimePickerStart() {
+        val cal = Calendar.getInstance()
+        val hourOfDay = cal.get(Calendar.HOUR_OF_DAY)
+        val minute = cal.get(Calendar.MINUTE)
+
+        val timePickerDialogStart = TimePickerDialog(
+            this,
+            TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+                // set the selectedTime to the user input value in LocalTime
+                selectedTimeStart = LocalTime.of(hour, minute)
+
+                // Convert 24-hour format to 12-hour format with AM/PM
+                val amPm = if (hour < 12) "AM" else "PM"
+                val displayHour = if (hour > 12) hour - 12 else if (hour == 0) 12 else hour
+                val timeString = String.format(Locale.getDefault(), "%02d:%02d %s", displayHour, minute, amPm)
+
+                // Update the text of the timeButton
+                firstTimeButton.text = timeString
+            },
+            hourOfDay,
+            minute,
+            false
+        )
+
+        timePickerDialogStart.show()
+    }
+
+    private fun openTimePickerEnd() {
+        val cal = Calendar.getInstance()
+        val hourOfDay = cal.get(Calendar.HOUR_OF_DAY)
+        val minute = cal.get(Calendar.MINUTE)
+
+        val timePickerDialogEnd = TimePickerDialog(
+            this,
+            TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+                // set the selectedTime to the user input value in LocalTime
+                selectedTimeEnd = LocalTime.of(hour, minute)
+
+                // Convert 24-hour format to 12-hour format with AM/PM
+                val amPm = if (hour < 12) "AM" else "PM"
+                val displayHour = if (hour > 12) hour - 12 else if (hour == 0) 12 else hour
+                val timeString = String.format(Locale.getDefault(), "%02d:%02d %s", displayHour, minute, amPm)
+
+                // Update the text of the timeButton
+                secondTimeButton.text = timeString
+            },
+            hourOfDay,
+            minute,
+            false
+        )
+
+        timePickerDialogEnd.show()
+    }
+
 }
