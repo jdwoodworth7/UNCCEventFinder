@@ -108,8 +108,6 @@ class CreateEventSessionsActivity : AppCompatActivity() {
                 // Retrieve data from the previous activity
                 val title = intent.getStringExtra("title")
                 val description = intent.getStringExtra("description")
-                val date = intent.getStringExtra("date")
-                val time = intent.getStringExtra("time")
                 val buildingName = intent.getStringExtra("buildingName")
                 val address = intent.getStringExtra("address")
                 val imageUri = intent.getStringExtra("imageUri")
@@ -119,8 +117,6 @@ class CreateEventSessionsActivity : AppCompatActivity() {
                 // Pass the data to the next activity
                 intent.putExtra("title", title)
                 intent.putExtra("description", description)
-                intent.putExtra("date", date)
-                intent.putExtra("time", time)
                 intent.putExtra("buildingName", buildingName)
                 intent.putExtra("address", address)
                 intent.putExtra("imageUri", imageUri)

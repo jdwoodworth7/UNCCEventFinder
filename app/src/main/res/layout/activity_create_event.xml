@@ -122,47 +122,6 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="8dp"/>
 
-        <!-- "Pick a date and time for your event" -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pick a date and time for your event:"
-            android:textSize="16sp"
-            android:textColor="#888888"
-            android:layout_below="@id/descriptionEditText"
-            android:layout_marginTop="28dp"/>
-
-        <!-- Date and Time Button -->
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/descriptionEditText"
-            android:layout_marginTop="51dp">
-
-            <!-- Date Button -->
-            <Button
-                android:id="@+id/datePickerButton"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:text="JAN 01 2023"
-                android:textColor="@color/black"
-                style="?android:spinnerStyle"
-                android:onClick='openDatePicker'/>
-
-            <!-- Time Button to the right of Date Button -->
-            <Button
-                android:id="@+id/timePickerButton"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/datePickerButton"
-                android:layout_marginStart="8dp"
-                android:text="Select Time"
-                style="?android:spinnerStyle"
-                android:textColor="@color/black"
-                android:onClick='openTimePicker'/>
-        </RelativeLayout>
-
         <!-- "Tell us where your event will take place" -->
         <TextView
             android:id="@+id/buildingNameHint"
@@ -172,7 +131,7 @@
             android:textSize="16sp"
             android:textColor="#888888"
             android:layout_below="@id/descriptionEditText"
-            android:layout_marginTop="110dp"/>
+            android:layout_marginTop="20dp"/>
 
         <!-- Location Textbox -->
         <EditText
