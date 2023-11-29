@@ -9,7 +9,6 @@ data class UserData (
         val email: String,
         val firstname: String,
         val lastname: String,
-        val username: String,
         val password: String,
         val status: String,
         val friendIds: List<String>
@@ -17,7 +16,6 @@ data class UserData (
     {
         // No-argument constructor for Firestore deserialization
         constructor() : this(
-        "",
         "",
         "",
         "",
@@ -31,7 +29,6 @@ data class UserData (
         documentSnapshot.getString("email") ?: "",
         documentSnapshot.getString("firstname") ?: "",
         documentSnapshot.getString("lastname") ?: "",
-        documentSnapshot.getString("username") ?: "",
         documentSnapshot.getString("password") ?: "",
         documentSnapshot.getString("status") ?: "",
         documentSnapshot.get("friendIds") as? List<String> ?: listOf()
@@ -39,7 +36,6 @@ data class UserData (
 
         // constructor for Parcelable UserData object to send between activities as Intent attribute
         constructor(parcel: Parcel) : this(
-            parcel.readString() ?: "",
             parcel.readString() ?: "",
             parcel.readString() ?: "",
             parcel.readString() ?: "",
@@ -53,7 +49,6 @@ data class UserData (
             parcel.writeString(email)
             parcel.writeString(firstname)
             parcel.writeString(lastname)
-            parcel.writeString(username)
             parcel.writeString(password)
             parcel.writeString(status)
             parcel.writeStringList(friendIds)
