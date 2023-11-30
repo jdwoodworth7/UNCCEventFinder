@@ -32,13 +32,13 @@ class MenuActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // Find the "Create an Event" TextView
-        val calendarViewTextView: TextView = findViewById(R.id.menuCalendarView)
+        // Find the "My Schedules" TextView
+        val calendarViewTextView: TextView = findViewById(R.id.mySchedules)
 
-        // Set an onClickListener for "Create an Event"
+        // Set an onClickListener for "My Schedules"
         calendarViewTextView.setOnClickListener {
 
-            // Launch CreateEventActivity
+            // Launch CalendarViewActivity
             val intent = Intent(this@MenuActivity, CalendarViewActivity::class.java)
             startActivity(intent)
         }

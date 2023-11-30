@@ -11,6 +11,9 @@ import android.widget.TextView
 import android.widget.Toast
 
 class LoginActivity : AppCompatActivity() {
+
+    var allUsers: List<UserData> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
