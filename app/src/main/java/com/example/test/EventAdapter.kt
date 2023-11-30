@@ -56,7 +56,7 @@ class EventAdapter(private val eventList: MutableList<EventData>) :
         // Set the text for TextViews
         holder.titleTextView.text = currentItem.title
         holder.buildingNameTextView.text = currentItem.buildingName
-        holder.dateTextView.text = currentItem.date.toString()
+        holder.dateTextView.text = "${currentItem.date} ${currentItem.time}"
         holder.sessionsTextView.text = currentItem.eventSessionIds.toString()
 
         // Change from "userUploadedImageUri" to "userUploadedImageUrl"
