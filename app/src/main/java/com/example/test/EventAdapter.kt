@@ -100,7 +100,7 @@ class EventAdapter(private val eventList: MutableList<EventData>) :
                         val endTime = documentSnapshot.getString("endTime")
 
                         // Add data to the list
-                        data.add("Start Date: $startDate\nStart Time: $startTime, \nEnd Date: $endDate, \nEnd Time: $endTime")
+                        data.add("Start: $startDate $startTime\nEnd: $endDate $endTime")
 
                         // Update the TextView with the fetched data after all documents are processed
                         textView.text = data.joinToString("\n\n")
