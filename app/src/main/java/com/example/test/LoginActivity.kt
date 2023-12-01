@@ -9,6 +9,8 @@ import android.widget.ImageButton
 import android.text.TextUtils
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -36,11 +38,18 @@ class LoginActivity : AppCompatActivity() {
             if(TextUtils.isEmpty(email.text.toString()) || TextUtils.isEmpty(password.text.toString())){
                 Toast.makeText(this, "Please fill out all of the provided prompts", Toast.LENGTH_SHORT).show()
             } else {
-                if(TextUtils.equals(email.text.toString(), "admin@gmail.com") && TextUtils.equals(password.text.toString(), "admin")){
-                    startActivity(Intent(this@LoginActivity, MapsActivity::class.java))
-                }else{
-                    Toast.makeText(this, "Please enter a valid account email and password", Toast.LENGTH_SHORT).show()
-                }
+                //Query the entered email to see if it already is being used
+                val query = FirebaseFirestore.getInstance().collection("Users")
+                    .whereEqualTo("email", email.text.toString())
+                    .whereEqualTo("password", password.text.toString())
+                    .get()
+                    .addOnSuccessListener {
+                        if(it.isEmpty) {
+                            Toast.makeText(this, "There is no account associated with that email and password combination", Toast.LENGTH_SHORT).show()
+                        } else {
+                            startActivity(Intent(this@LoginActivity, MapsActivity::class.java))
+                        }
+                    }
             }
 
         }

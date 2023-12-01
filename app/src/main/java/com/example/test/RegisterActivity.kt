@@ -32,7 +32,6 @@ class RegisterActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
     private val storageRef = storage.reference
-    var isEmailUsed = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,49 +59,49 @@ class RegisterActivity : AppCompatActivity() {
 
 
         signUpButton.setOnClickListener {
-            val query = FirebaseFirestore.getInstance().collection("Users")
-                .whereEqualTo("email", email.text.toString())
-                .get()
-                .addOnSuccessListener { //Set the email to used on successful query
-                    setIsEmailUsedTrue()
-                }
-
             //If the user did not fill out all of the prompts display an error
             if (TextUtils.isEmpty(firstName.text.toString()) || TextUtils.isEmpty(lastName.text.toString()) || TextUtils.isEmpty(email.text.toString()) || TextUtils.isEmpty(password.text.toString())) {
                 Toast.makeText(this, "Please fill out all of the prompts", Toast.LENGTH_SHORT).show()
-            } else if (isEmailUsed == true) {
-                //Account with this email already exists
-                Toast.makeText(this, "There already exists an account with that username", Toast.LENGTH_SHORT).show()
-                //Reset condition checking if email is used
-                setIsEmailUsedFalse()
-            }else {
-                //Create users firebase database entry to store other user information
-                val firstNameStr: String = firstName.text.toString()
-                val lastNameStr: String = lastName.text.toString()
-                val emailStr: String = email.text.toString()
-                val passwordStr: String = password.text.toString()
-                val blankTemp: String = ""
-                val blankList = emptyList<String>()
+            } else {
+                //Query the entered email to see if it already is being used
+                val query = FirebaseFirestore.getInstance().collection("Users")
+                    .whereEqualTo("email", email.text.toString())
+                    .get()
+                    .addOnSuccessListener {
+                        if(it.isEmpty){
+                            //No user exists with that email
+                                //Create users firebase database entry to store other user information
+                                val firstNameStr: String = firstName.text.toString()
+                                val lastNameStr: String = lastName.text.toString()
+                                val emailStr: String = email.text.toString()
+                                val passwordStr: String = password.text.toString()
+                                val blankTemp: String = ""
+                                val blankList = emptyList<String>()
 
-                saveUserDataToFirestore(
-                    emailStr ?: "",
-                    firstNameStr ?: "",
-                    lastNameStr ?: "",
-                    passwordStr ?: "",
-                    blankTemp ?: "",
-                    blankList ?: emptyList(),
-                )
+                                saveUserDataToFirestore(
+                                    emailStr ?: "",
+                                    firstNameStr ?: "",
+                                    lastNameStr ?: "",
+                                    passwordStr ?: "",
+                                    blankTemp ?: "",
+                                    blankList ?: emptyList(),
+                                )
 
-                // Set a flag indicating that the user has just signed up
-                val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-                val editor = sharedPreferences.edit()
-                editor.putBoolean("justSignedUp", true)
-                // Add a key-value pair to indicate that the tutorial prompt hasn't been shown yet
-                editor.putBoolean("showTutorialPrompt", true)
-                editor.apply()
+                                // Set a flag indicating that the user has just signed up
+                                val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                                val editor = sharedPreferences.edit()
+                                editor.putBoolean("justSignedUp", true)
+                                // Add a key-value pair to indicate that the tutorial prompt hasn't been shown yet
+                                editor.putBoolean("showTutorialPrompt", true)
+                                editor.apply()
 
 
-                startActivity(Intent(this@RegisterActivity, MapsActivity::class.java))
+                                startActivity(Intent(this@RegisterActivity, MapsActivity::class.java))
+                            } else {
+                            //Account with this email already exists
+                            Toast.makeText(this, "There already exists an account with that username", Toast.LENGTH_SHORT).show()
+                        }
+                    }
             }
         }
     }
@@ -139,11 +138,4 @@ class RegisterActivity : AppCompatActivity() {
             }
     }
 
-    private fun setIsEmailUsedTrue(){
-        isEmailUsed = true
-    }
-
-    private fun setIsEmailUsedFalse(){
-        isEmailUsed = false
-    }
 }
