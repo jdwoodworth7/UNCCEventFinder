@@ -6,7 +6,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import java.util.UUID
 
 data class EventData(
-        val id: String,
+        var id: String,
         val title: String,
         val description: String,
         val date: String,

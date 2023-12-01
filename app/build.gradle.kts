@@ -73,4 +73,6 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.squareup.picasso:picasso:2.8")
+    implementation("com.google.maps.android:android-maps-utils:3.8.0")
+
 }
