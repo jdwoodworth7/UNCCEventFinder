@@ -270,19 +270,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
     }
 
-    //Fetching event from local DB by eventID
-    private fun fetchEventByID(id: UUID): EventData? {
-        val eventDbAccess = EventDbAccess(this)
-        val eventList = eventDbAccess.getEventDataFromDatabase()
-
-        for (event in eventList) {
-            if (event.id == id.toString()) {
-                return event
-            }
-        }
-        return null
-    }
-
     private fun fetchEventByFireStoreID(id: String, callback: (EventData?) -> Unit) {
         val firestore = FirebaseStorageUtil.getFirebaseFireStoreInstance()
         val eventRef = firestore.collection("Events").document(id)
@@ -355,30 +342,4 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             navigationAppIntegration.starNavigationToGoogleMap(lat, lng)
         }
     }
-
-    //Fetching Existing Event Data from DB
-    private fun fetchEventData() {
-        val eventDbAccess = EventDbAccess(this)
-        val eventList = eventDbAccess.getEventDataFromDatabase()
-
-        //iterates for each event inside eventList
-        for (event in eventList) {
-            //searches and fetches latitude and longitude from input address
-            fetchLatLngFromAddress(event) { lat, lng ->
-                val latLng = LatLng(lat, lng)
-
-                //adds marker on given coordinate
-                //TODO: automate alternate marker locations so that events of the same address won't stack on top
-                //Suggestion: If multiple events occur at the same address, display titles of multiple events in list view
-                runOnUiThread {
-                    val newMarker = mMap.addMarker(
-                        MarkerOptions().position(latLng).title(event.title)
-                    )
-                    //assign event's unique id to the marker
-                    newMarker?.tag = event.id
-                }
-            }
-        }
-    }
-
 }
