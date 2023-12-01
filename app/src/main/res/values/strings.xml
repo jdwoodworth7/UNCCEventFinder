@@ -43,5 +43,9 @@
     <string name="navigate_to">Navigate To</string>
     <string name="event_category">Event Category</string>
     <string name="event_description">Event Description</string>
+    <string name="settings">Settings</string>
+    <string name="allow_friends_to_events">Allow Friends to see Your Signed Up Events</string>
+    <string name="privacy_settings">Privacy Settings</string>
+    <string name="save">Save</string>
 
 </resources>
