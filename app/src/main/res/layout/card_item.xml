@@ -41,7 +41,7 @@
         android:layout_below="@+id/titleTextView"
         android:text="BuildingName"
         android:textSize="18sp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="5dp" />
 
     <TextView
         android:id="@+id/dateTextView"
@@ -52,5 +52,13 @@
         android:textSize="14sp"
         android:layout_marginTop="15dp" />
 
+    <TextView
+        android:id="@+id/sessionsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buildingNameTextView"
+        android:text="Sessions"
+        android:textSize="14sp"
+        android:layout_marginTop="5dp" />
 
 </RelativeLayout>

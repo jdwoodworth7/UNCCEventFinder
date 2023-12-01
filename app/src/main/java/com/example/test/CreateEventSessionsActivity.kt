@@ -4,10 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -42,10 +39,6 @@ class CreateEventSessionsActivity : AppCompatActivity() {
         val cancelButton = findViewById<Button>(R.id.cancelButton)
         val menuButton = findViewById<ImageView>(R.id.menuButton)
         val mapIcon = findViewById<ImageView>(R.id.mapIcon)
-        val startDateButton = findViewById<Button>(R.id.startDateButton)
-        val startTimeButton = findViewById<Button>(R.id.startTimeButton)
-        val endDateButton = findViewById<Button>(R.id.endDateButton)
-        val endTimeButton = findViewById<Button>(R.id.endTimeButton)
         val currentSessionsTextView = findViewById<TextView>(R.id.currentSessions)
 
         firstDateButton = findViewById(R.id.startDateButton)
@@ -108,8 +101,6 @@ class CreateEventSessionsActivity : AppCompatActivity() {
                 // Retrieve data from the previous activity
                 val title = intent.getStringExtra("title")
                 val description = intent.getStringExtra("description")
-                val date = intent.getStringExtra("date")
-                val time = intent.getStringExtra("time")
                 val buildingName = intent.getStringExtra("buildingName")
                 val address = intent.getStringExtra("address")
                 val imageUri = intent.getStringExtra("imageUri")
@@ -119,8 +110,6 @@ class CreateEventSessionsActivity : AppCompatActivity() {
                 // Pass the data to the next activity
                 intent.putExtra("title", title)
                 intent.putExtra("description", description)
-                intent.putExtra("date", date)
-                intent.putExtra("time", time)
                 intent.putExtra("buildingName", buildingName)
                 intent.putExtra("address", address)
                 intent.putExtra("imageUri", imageUri)

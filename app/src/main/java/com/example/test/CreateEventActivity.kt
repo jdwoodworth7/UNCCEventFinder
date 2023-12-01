@@ -1,83 +1,57 @@
 package com.example.test
 
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import java.util.*
-import coil.load
-import java.time.LocalDate
-import java.time.LocalTime
 
 class CreateEventActivity : AppCompatActivity() {
 
-    private lateinit var datePickerDialog: DatePickerDialog
-    private lateinit var dateButton: Button
-    private lateinit var selectedTime: LocalTime
-    private lateinit var selectedDate: LocalDate
-    private lateinit var timeButton: Button
     private lateinit var selectImageButton: Button
-    private lateinit var userUploadedImageView: ImageView
-    private val PICK_IMAGE_REQUEST = 1
-    private var selectedImageUrl: String = "" // changed lateinit variable to initialized variable with an empty string
     private lateinit var storageReference: StorageReference
     private lateinit var editTitle: EditText
     private lateinit var editDescription: EditText
     private lateinit var editBuildingName: EditText
     private lateinit var editAddress: EditText
-
+    private var imageUri: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event)
 
-        // Initialize Firebase Storage reference
+        // Initialize Firebase Storage reference for images
         storageReference = FirebaseStorage.getInstance().getReference("event_images")
 
-        // Other initializations...
-
-        // Initialize the EditText variables
+        // Initialize the EditText and uploadButton variables
         editTitle = findViewById(R.id.titleEditText)
         editDescription = findViewById(R.id.descriptionEditText)
         editBuildingName = findViewById(R.id.locationEditText)
         editAddress = findViewById(R.id.addressEditText)
-        // Initialize Firebase Storage reference
-        storageReference = FirebaseStorage.getInstance().getReference("event_images")
-
-        dateButton = findViewById(R.id.datePickerButton)
-        timeButton = findViewById(R.id.timePickerButton)
         selectImageButton = findViewById(R.id.uploadButton)
 
-        dateButton.setOnClickListener {
-            openDatePicker()
-        }
-
-        timeButton.setOnClickListener {
-            openTimePicker()
-        }
-
+        //Upload Image Button
         selectImageButton.setOnClickListener {
-            openImagePicker()
+            // Open the image picker
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent.ACTION_GET_CONTENT
+            imagePickerLauncher.launch(Intent.createChooser(intent, "Select Picture"))
         }
 
-        // Assuming you have the relevant EditText and Button IDs in your activity_main.xml
         val editTitle = findViewById<EditText>(R.id.titleEditText)
         val editDescription = findViewById<EditText>(R.id.descriptionEditText)
-        val editDateAndTime = findViewById<Button>(R.id.datePickerButton)
         val editBuildingName = findViewById<EditText>(R.id.locationEditText)
         val editAddress = findViewById<EditText>(R.id.addressEditText)
         val continueButton = findViewById<Button>(R.id.continueButton)
         val cancelButton = findViewById<Button>(R.id.cancelButton)
         val menuButton = findViewById<ImageView>(R.id.menuButton)
         val mapIcon = findViewById<ImageView>(R.id.mapIcon)
-
         val descriptionCounter = findViewById<TextView>(R.id.descriptionCounter)
         val locationCounter = findViewById<TextView>(R.id.locationCounter)
 
@@ -98,7 +72,7 @@ class CreateEventActivity : AppCompatActivity() {
             }
         })
 
-        // TextWatcher for locationEditText
+        // Add a TextWatcher to update the Building Name counter
         editBuildingName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Do nothing here
@@ -117,33 +91,29 @@ class CreateEventActivity : AppCompatActivity() {
 
         continueButton.setOnClickListener {
             // Get the entered data
-            val title = editTitle.text.toString()
-            val description = editDescription.text.toString()
-            val date = selectedDate
-            val time = selectedTime
-            val buildingName = editBuildingName.text.toString()
-            val address = editAddress.text.toString()
+            val title = editTitle.text.toString().trim()
+            val description = editDescription.text.toString().trim()
+            val buildingName = editBuildingName.text.toString().trim()
+            val address = editAddress.text.toString().trim()
 
-            if (title.isEmpty() || description.isEmpty() || date == null || time == null || buildingName.isEmpty() || address.isEmpty()) {
-                // Display a message or toast indicating that all fields must be filled
-                // For example:
-                Toast.makeText(this@CreateEventActivity, "Please fill out all fields", Toast.LENGTH_SHORT).show()
-            } else if (selectedImageUrl == "") {  // updated .isEmpty() to initialized empty string
+            // Check if any of the required fields are empty
+            if (title.isEmpty() || description.isEmpty() || buildingName.isEmpty() || address.isEmpty()) {
+                // Display a message or toast indicating that all required fields must be filled
+                Toast.makeText(this@CreateEventActivity, "Please fill out all required fields", Toast.LENGTH_SHORT).show()
+            } else if (imageUri == null) {
                 // Display a message or toast indicating that the user must upload an image
-                // For example:
                 Toast.makeText(this@CreateEventActivity, "Please upload an image", Toast.LENGTH_SHORT).show()
             } else {
-                // Create an Intent to start the next activity
+                // Continue with your logic for a selected image
                 val intent = Intent(this@CreateEventActivity, CreateEventSessionsActivity::class.java)
 
-                // Pass the data to the next activity
+                // Continue with your other data passing logic...
+                // Pass the image URI to the next activity
+                intent.putExtra("imageUri", imageUri.toString())
                 intent.putExtra("title", title)
                 intent.putExtra("description", description)
-                intent.putExtra("date", date.toString())
-                intent.putExtra("time", time.toString())
                 intent.putExtra("buildingName", buildingName)
                 intent.putExtra("address", address)
-                intent.putExtra("imageUrl", selectedImageUrl)
 
                 // Start the next activity
                 startActivity(intent)
@@ -169,130 +139,13 @@ class CreateEventActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
-            // Get the selected image URI directly as a string
-            val imageUri: Uri = data.data!!
-
-            // Pass the image URI to the next activity
-            val intent = Intent(this@CreateEventActivity, CreateEventSessionsActivity::class.java)
-
-            // Continue with your other data passing logic...
-
-            // Get the entered data
-            val title = editTitle.text.toString()
-            val description = editDescription.text.toString()
-            val date = selectedDate
-            val time = selectedTime
-            val buildingName = editBuildingName.text.toString()
-            val address = editAddress.text.toString()
-
-            // Pass the image URI to the next activity
-            intent.putExtra("imageUri", imageUri.toString())
-            intent.putExtra("title", title)
-            intent.putExtra("description", description)
-            intent.putExtra("date", date.toString())
-            intent.putExtra("time", time.toString())
-            intent.putExtra("buildingName", buildingName)
-            intent.putExtra("address", address)
-
-            // Start the next activity
-            startActivity(intent)
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            if (data != null && data.data != null) {
+                // Get the selected image URI directly
+                imageUri = data.data!!
+            }
         }
-    }
-
-    private fun openTimePicker() {
-        val cal = Calendar.getInstance()
-        val hourOfDay = cal.get(Calendar.HOUR_OF_DAY)
-        val minute = cal.get(Calendar.MINUTE)
-
-        val timePickerDialog = TimePickerDialog(
-            this,
-            TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-                // set the selectedTime to the user input value in LocalTime
-                selectedTime = LocalTime.of(hour, minute)
-
-                // Convert 24-hour format to 12-hour format with AM/PM
-                val amPm = if (hour < 12) "AM" else "PM"
-                val displayHour = if (hour > 12) hour - 12 else if (hour == 0) 12 else hour
-                val timeString = String.format(Locale.getDefault(), "%02d:%02d %s", displayHour, minute, amPm)
-
-                // Update the text of the timeButton
-                timeButton.text = timeString
-            },
-            hourOfDay,
-            minute,
-            false
-        )
-
-        timePickerDialog.show()
-    }
-
-    private fun openDatePicker() {
-        val cal = Calendar.getInstance()
-        val year = cal.get(Calendar.YEAR)
-        val month = cal.get(Calendar.MONTH)
-        val day = cal.get(Calendar.DAY_OF_MONTH)
-
-        datePickerDialog = DatePickerDialog(
-            this,
-            DatePickerDialog.OnDateSetListener { _, year, month, day ->
-                // set the selectedDate to the user input value in LocalDate
-                selectedDate = LocalDate.of(year, month + 1, day)
-
-                val dateString = makeDateString(day, month + 1, year)
-                dateButton.text = dateString
-            },
-            year,
-            month,
-            day
-        )
-
-        datePickerDialog.show()
-    }
-
-    private fun getTodaysDate(): String {
-        val cal = Calendar.getInstance()
-        val year = cal.get(Calendar.YEAR)
-        var month = cal.get(Calendar.MONTH)
-        month += 1
-        val day = cal.get(Calendar.DAY_OF_MONTH)
-        return makeDateString(day, month, year)
-    }
-
-    private fun makeDateString(day: Int, month: Int, year: Int): String {
-        return getMonthFormat(month) + " " + day + " " + year
-    }
-
-    private fun getMonthFormat(month: Int): String {
-        return when (month) {
-            1 -> "JAN"
-            2 -> "FEB"
-            3 -> "MAR"
-            4 -> "APR"
-            5 -> "MAY"
-            6 -> "JUN"
-            7 -> "JUL"
-            8 -> "AUG"
-            9 -> "SEP"
-            10 -> "OCT"
-            11 -> "NOV"
-            12 -> "DEC"
-            else -> "JAN"
-        }
-    }
-
-    fun openDatePicker(view: View) {
-        datePickerDialog.show()
-    }
-
-
-    private fun openImagePicker() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST)
     }
 }

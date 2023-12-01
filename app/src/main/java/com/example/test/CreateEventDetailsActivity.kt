@@ -3,7 +3,6 @@ package com.example.test
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -33,8 +32,6 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         // Retrieve data from the previous activity
         val title = intent.getStringExtra("title")
         val description = intent.getStringExtra("description")
-        val date = intent.getStringExtra("date")
-        val time = intent.getStringExtra("time")
         val buildingName = intent.getStringExtra("buildingName")
         val address = intent.getStringExtra("address")
         val imageUri = intent.getStringExtra("imageUri")
@@ -54,8 +51,6 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             "You have created an event!\n\n" +
                     "Title: $title\n" +
                     "Description: $description\n" +
-                    "Date: $date" + "  " +  // Separate date
-                    "Time: $time\n" +   // Separate time
                     "Building Name: $buildingName\n" +
                     "Address: $address\n" +
                     "Categories: $categoriesCheckBoxDetails\n" +
@@ -109,8 +104,6 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             saveEventToFirestore(
                 title ?: "",
                 description ?: "",
-                date ?: "",
-                time ?: "",
                 sessionsList,
                 buildingName ?: "",
                 address ?: "",
@@ -172,8 +165,6 @@ class CreateEventDetailsActivity : AppCompatActivity() {
     private fun saveEventToFirestore(
         title: String,
         description: String,
-        date: String?,
-        time: String?,
         sessionsList: Array<Array<String>>,
         buildingName: String?,
         address: String?,
@@ -201,7 +192,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                     // Get the download URL for the uploaded image
                     imageRef.downloadUrl.addOnSuccessListener { uri ->
                         // Continue with saving the event data to Firestore
-                        saveEventDataToFirestore(title, description, date, time, sessionsList, buildingName, address, categories, audience, uri.toString())
+                        saveEventDataToFirestore(title, description, sessionsList, buildingName, address, categories, audience, uri.toString())
                     }
                 }
                 .addOnFailureListener { e ->
@@ -211,15 +202,13 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             Log.d("Firestore", "Image URI is null, blank, or already a Cloud Storage URI, proceeding with Firestore upload")
 
             // Continue with saving the event data to Firestore
-            saveEventDataToFirestore(title, description, date, time, sessionsList, buildingName, address, categories, audience, imageUri ?: "")
+            saveEventDataToFirestore(title, description, sessionsList, buildingName, address, categories, audience, imageUri ?: "")
         }
     }
 
     private fun saveEventDataToFirestore(
         title: String,
         description: String,
-        date: String?,
-        time: String?,
         sessionsList: Array<Array<String>>,
         buildingName: String?,
         address: String?,
@@ -235,8 +224,6 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             val event = hashMapOf(
                 "title" to title,
                 "description" to description,
-                "date" to date,
-                "time" to time,
                 "eventSessionIds" to eventSessionIds,
                 "buildingName" to buildingName,
                 "address" to address,
