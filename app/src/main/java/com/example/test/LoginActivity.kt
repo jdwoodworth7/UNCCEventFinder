@@ -16,6 +16,8 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         setContentView(R.layout.activity_login)
         val BackButton: ImageButton = findViewById(R.id.backButton)
         val loginbutton: Button = findViewById(R.id.logInButton)

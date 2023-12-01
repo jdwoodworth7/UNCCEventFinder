@@ -1,5 +1,6 @@
 package com.example.test
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,12 +13,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.tasks.await
+import kotlin.system.exitProcess
 
 
 class RegisterActivity : AppCompatActivity() {
@@ -26,14 +32,19 @@ class RegisterActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
     private val storageRef = storage.reference
+    var isEmailUsed = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+        //Setting up firebase
         FirebaseApp.initializeApp(this)
 
         setContentView(R.layout.activity_register)
+
+        //Button to go back to main activity
         val BackButton: ImageButton = findViewById(R.id.BackButton)
         BackButton.setOnClickListener {
             startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
@@ -48,13 +59,24 @@ class RegisterActivity : AppCompatActivity() {
 
 
 
-        //val userRef: DatabaseReference = FirebaseDatabase.getInstance().getReference().child("UserData")
-
-
         signUpButton.setOnClickListener {
+            val query = FirebaseFirestore.getInstance().collection("Users")
+                .whereEqualTo("email", email.text.toString())
+                .get()
+                .addOnSuccessListener { //Set the email to used on successful query
+                    setIsEmailUsedTrue()
+                }
+
+            //If the user did not fill out all of the prompts display an error
             if (TextUtils.isEmpty(firstName.text.toString()) || TextUtils.isEmpty(lastName.text.toString()) || TextUtils.isEmpty(email.text.toString()) || TextUtils.isEmpty(password.text.toString())) {
                 Toast.makeText(this, "Please fill out all of the prompts", Toast.LENGTH_SHORT).show()
-            } else {
+            } else if (isEmailUsed == true) {
+                //Account with this email already exists
+                Toast.makeText(this, "There already exists an account with that username", Toast.LENGTH_SHORT).show()
+                //Reset condition checking if email is used
+                setIsEmailUsedFalse()
+            }else {
+                //Create users firebase database entry to store other user information
                 val firstNameStr: String = firstName.text.toString()
                 val lastNameStr: String = lastName.text.toString()
                 val emailStr: String = email.text.toString()
@@ -80,7 +102,7 @@ class RegisterActivity : AppCompatActivity() {
                 editor.apply()
 
 
-                startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
+                startActivity(Intent(this@RegisterActivity, MapsActivity::class.java))
             }
         }
     }
@@ -115,5 +137,13 @@ class RegisterActivity : AppCompatActivity() {
             .addOnFailureListener { e ->
                 Log.e("Firestore", "Error adding event document", e)
             }
+    }
+
+    private fun setIsEmailUsedTrue(){
+        isEmailUsed = true
+    }
+
+    private fun setIsEmailUsedFalse(){
+        isEmailUsed = false
     }
 }
