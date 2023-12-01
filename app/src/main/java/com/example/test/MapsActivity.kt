@@ -28,8 +28,6 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
-import com.google.maps.android.clustering.ClusterItem
-import com.google.maps.android.clustering.ClusterManager
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -43,7 +41,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private var initialBounds: LatLngBounds? = null
     private lateinit var placesClient: PlacesClient
     private var markersMap = mutableMapOf<String, Marker?>()
-    private lateinit var clusterManager: ClusterManager<MyClusterItem>
 
     private var markerSelected = false
     var currentOverlayView: View? = null
@@ -99,11 +96,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             setZoomCameraBounds()
         }
 
-        clusterManager = ClusterManager(this, mMap)
-
-        mMap.setOnCameraIdleListener(clusterManager)
-        mMap.setOnMarkerClickListener(clusterManager)
-
+        //fetches and populates event markers
         processEventMarker()
 
         //when marker is clicked
@@ -248,9 +241,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 for (document in querySnapshot) {
                     //eventId is not the id assigned to the data inside event (ID field),
                     //but a id that is assigned to the document which contains the event data
-                    val eventId = document.id
                     val currentEventData = document.toObject(EventData::class.java)
-
+                    currentEventData.id = document.id
                     eventList.add(currentEventData)
 
                 }
@@ -327,42 +319,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
                 coordinateOffset = 0.00005
             }
-
-//            //iterate through duplicate addresses and remove each markers from addresses
-//            eventsWithDuplicateAddress.forEach {eventGroup ->
-//                for(eventData in eventGroup){
-//                    //retrieves a list of Marker object (in reality, one marker) that associates with the current address in for loop
-//                    val markersToRemove = markersMap.filter {it.key == eventData.id}.values.toList()
-//
-//
-//                    //remove the marker from the map
-//                    markersToRemove.forEach{ marker ->
-//                        marker?.remove()
-//
-//                        val keysToRemove = markersMap.filter {it.value == marker}.keys.toList()
-//                        keysToRemove.forEach { key -> markersMap.remove(key)}
-//                    }
-//                }
-//            }
-//
-//            //filters the eventsMap to only include map of eventDatas to cluster up
-//            val clusterEventDatas = eventsMap.filter { it.value.size > 1 }.values
-//            clusterEventDatas.forEach{ eventGroup ->
-//                for(eventData in eventGroup) {
-//                    clusterManager = ClusterManager<MyClusterItem>(this@MapsActivity, mMap)
-//
-//                    fetchLatLngFromAddress(eventData) {lat, lng ->
-//                        val latLng = LatLng(lat, lng)
-//
-//                        val clusterItem = MyClusterItem(latLng,eventData.title)
-//                        clusterManager.addItem(clusterItem)
-//                    }
-//                    clusterManager.cluster()
-//                }
-//            }
         }
     }
 
+    //suspend function to wait for each event location fetch to be processed; async requirement
     suspend fun fetchLatLngFromAddressSuspend(currentEventData: EventData): LatLng {
         return suspendCoroutine { continuation ->
             fetchLatLngFromAddress(currentEventData) { lat, lng ->
@@ -371,44 +331,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
     }
-
-    class MyClusterItem(
-        private val position: LatLng,
-        private val title: String?,
-        private val snippet: String = ""
-    ) : ClusterItem {
-        override fun getPosition(): LatLng {
-        return position
-        }
-
-        override fun getTitle(): String {
-            return title!!
-        }
-
-        override fun getSnippet(): String {
-            return snippet
-        }
-        override fun getZIndex(): Float {
-            return 0f
-        }
-    }
-
-//    private fun addMarkersToClusterManager(eventsWithDuplicateAddress: Collection<MutableList<EventData>>) {
-//        eventsWithDuplicateAddress.forEach{events ->
-//            for(event in events){
-//                val filteredMarkerMap = markersMap.filter{it.key == event.id}
-//
-//                filteredMarkerMap.forEach {marker ->
-//                    var position = marker.value!!.position
-//                    var title = marker.value!!.title
-//
-//                    val offsetItem = MyClusterItem(position, title)
-//                    clusterManager.addItem(offsetItem)
-//            }
-//            }
-//            clusterManager.cluster()
-//        }
-//    }
 
     private fun fetchEventByFireStoreID(id: String, callback: (EventData?) -> Unit) {
         val firestore = FirebaseStorageUtil.getFirebaseFireStoreInstance()
