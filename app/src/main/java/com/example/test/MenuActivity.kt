@@ -42,5 +42,17 @@ class MenuActivity : AppCompatActivity() {
             val intent = Intent(this@MenuActivity, CalendarViewActivity::class.java)
             startActivity(intent)
         }
+
+
+        // Find the "Setting" TextView
+        val settings: TextView = findViewById(R.id.settings)
+
+        // Set an onClickListener for "Setting"
+        settings.setOnClickListener {
+
+            // Launch PrivacySettingsActivity
+            val intent = Intent(this@MenuActivity, PrivacySettingsActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

@@ -14,7 +14,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 class GoogleActivity : AppCompatActivity() {
 
     private lateinit var gso: GoogleSignInOptions
-    private lateinit var gsc: GoogleSignInClient
+    private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var name: TextView
     private lateinit var email: TextView
     private lateinit var signOutBtn: Button
@@ -28,9 +28,10 @@ class GoogleActivity : AppCompatActivity() {
         signOutBtn = findViewById(R.id.signout)
 
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        gsc = GoogleSignIn.getClient(this, gso)
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         val acct = GoogleSignIn.getLastSignedInAccount(this)
         if (acct != null) {
@@ -54,7 +55,7 @@ class GoogleActivity : AppCompatActivity() {
     }
 
     private fun signOut() {
-        gsc.signOut().addOnCompleteListener { task ->
+        googleSignInClient.signOut().addOnCompleteListener { task ->
             finish()
             startActivity(Intent(this, MainActivity::class.java))
         }
