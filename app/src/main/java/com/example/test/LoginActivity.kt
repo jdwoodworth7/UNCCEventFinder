@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class LoginActivity : AppCompatActivity() {
 
     var allUsers: List<UserData> = mutableListOf()
+    private var authorId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,25 +35,48 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
         }
 
-        loginbutton.setOnClickListener{
-            if(TextUtils.isEmpty(email.text.toString()) || TextUtils.isEmpty(password.text.toString())){
+        loginbutton.setOnClickListener {
+            if (TextUtils.isEmpty(email.text.toString()) || TextUtils.isEmpty(password.text.toString())) {
                 Toast.makeText(this, "Please fill out all of the provided prompts", Toast.LENGTH_SHORT).show()
             } else {
-                //Query the entered email to see if it already is being used
+                // Query the entered email to see if it already is being used
                 val query = FirebaseFirestore.getInstance().collection("Users")
                     .whereEqualTo("email", email.text.toString())
                     .whereEqualTo("password", password.text.toString())
                     .get()
-                    .addOnSuccessListener {
-                        if(it.isEmpty) {
+                    .addOnSuccessListener { querySnapshot ->
+                        if (querySnapshot.isEmpty) {
                             Toast.makeText(this, "There is no account associated with that email and password combination", Toast.LENGTH_SHORT).show()
                         } else {
-                            startActivity(Intent(this@LoginActivity, MapsActivity::class.java))
+                            // Assuming there's only one document for the given email and password
+                            val userDocument = querySnapshot.documents[0]
+
+                            // Access additional fields from the user's document
+                            authorId = userDocument.id
+                            val username = userDocument.getString("firstname")
+
+                            // Saying Welcome firstname
+                            Toast.makeText(this, "Welcome, $username!", Toast.LENGTH_SHORT).show()
+
+                            // Save authorId to SharedPreferences
+                            saveAuthorIdToSharedPreferences(authorId)
+
+                            // Proceed to MapsActivity
+                            val intent = Intent(this@LoginActivity, MapsActivity::class.java)
+                            startActivity(intent)
                         }
                     }
             }
-
         }
 
     }
+
+    // Save authorId to SharedPreferences
+    private fun saveAuthorIdToSharedPreferences(authorId: String?) {
+        val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("authorId", authorId)
+        editor.apply()
+    }
+
 }
