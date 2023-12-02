@@ -17,7 +17,7 @@ import androidx.appcompat.app.AlertDialog
 class MainActivity : AppCompatActivity() {
 
     private lateinit var gso: GoogleSignInOptions
-    private lateinit var gsc: GoogleSignInClient
+    private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var googleBtn: MaterialButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,9 +46,10 @@ class MainActivity : AppCompatActivity() {
         googleBtn = findViewById(R.id.google_btn)
 
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        gsc = GoogleSignIn.getClient(this, gso)
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         val acct = GoogleSignIn.getLastSignedInAccount(this)
         if (acct != null) {
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
     }
 
         private fun signIn() {
-            val signInIntent = gsc.signInIntent
+            val signInIntent = googleSignInClient.signInIntent
             startActivityForResult(signInIntent, 1000)
         }
 

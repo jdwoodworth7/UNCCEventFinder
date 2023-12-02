@@ -35,6 +35,9 @@
             android:name=".DetailsActivity"
             android:exported="false"/>
         <activity
+            android:name=".PrivacySettingsActivity"
+            android:exported="false"/>
+        <activity
             android:name=".MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps" />
