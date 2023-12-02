@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:background="@color/color_primary"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="1dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -21,9 +21,9 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:gravity="center"
+            android:drawableStart="@drawable/googleicon"
             android:drawablePadding="20dp"
-            android:translationX="75dp"
-            app:drawableStartCompat="@drawable/googleicon" />
+            android:translationX="75dp" />
 
     </LinearLayout>
 
@@ -66,7 +66,7 @@
         android:layout_width="237dp"
         android:layout_height="52dp"
         android:layout_marginBottom="115dp"
-        android:text="@string/login"
+        android:text="LOG IN"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true" />
 
