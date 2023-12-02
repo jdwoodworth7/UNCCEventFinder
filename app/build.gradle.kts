@@ -50,38 +50,29 @@ android {
 
 dependencies {
 
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-
-    implementation("androidx.activity:activity-ktx:1.8.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.fragment:fragment-ktx:1.6.2")
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
-    implementation("com.google.android.gms:play-services-maps:18.2.0")
-    implementation("com.google.android.libraries.places:places:3.3.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
-    implementation("com.google.code.gson:gson:2.10")
-    implementation("com.google.gms:google-services:4.4.0")
-    implementation("com.google.maps.android:android-maps-utils:3.8.0")
-
-    implementation("com.squareup.okhttp3:okhttp:4.11.0")
-    implementation("com.squareup.picasso:picasso:2.8")
-
-    implementation("io.coil-kt:coil:1.4.0")
-    // Import the BoM for the Firebase platform
-    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
-    // Declare the dependency for the Cloud Firestore library
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation("com.google.firebase:firebase-auth-ktx:22.3.0")
-    implementation("com.google.firebase:firebase-auth:22.3.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.firebase:firebase-database-ktx:20.3.0")
-    implementation("com.google.firebase:firebase-firestore")
-    implementation("com.google.firebase:firebase-storage")
-
+    implementation("com.google.firebase:firebase-auth:22.3.0")
     testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation ("com.google.android.gms:play-services-auth:20.7.0")
+    //noinspection GradleDependency
+    implementation("androidx.activity:activity-ktx:$1.7.0")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
+    implementation("com.google.android.libraries.places:places:3.2.0")
+    implementation("io.coil-kt:coil:1.4.0")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.google.code.gson:gson:2.8.9")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+    implementation("com.google.firebase:firebase-storage")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.squareup.picasso:picasso:2.8")
+    implementation("com.google.maps.android:android-maps-utils:3.8.0")
 
 }

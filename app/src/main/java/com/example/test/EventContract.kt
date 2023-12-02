@@ -2,7 +2,7 @@ package com.example.test
 
 import android.provider.BaseColumns
 
-object  EventContract {
+object EventContract {
     // Define table and column names
     object EventEntry : BaseColumns {
         const val TABLE_NAME = "events"
