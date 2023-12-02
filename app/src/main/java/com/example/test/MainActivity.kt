@@ -13,16 +13,20 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.material.button.MaterialButton
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import com.google.firebase.FirebaseApp
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var gso: GoogleSignInOptions
-    private lateinit var gsc: GoogleSignInClient
+    private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var googleBtn: MaterialButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        FirebaseApp.initializeApp(this)
 
         val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         if (sharedPreferences.getBoolean("justSignedUp", false) && sharedPreferences.getBoolean("showTutorialPrompt", false)) {
@@ -46,9 +50,11 @@ class MainActivity : AppCompatActivity() {
         googleBtn = findViewById(R.id.google_btn)
 
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        gsc = GoogleSignIn.getClient(this, gso)
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         val acct = GoogleSignIn.getLastSignedInAccount(this)
         if (acct != null) {
@@ -59,10 +65,11 @@ class MainActivity : AppCompatActivity() {
     }
 
         private fun signIn() {
-            val signInIntent = gsc.signInIntent
+            val signInIntent = googleSignInClient.signInIntent
             startActivityForResult(signInIntent, 1000)
         }
 
+        @Deprecated("Deprecated in Java")
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
             super.onActivityResult(requestCode, resultCode, data)
             if (requestCode == 1000) {

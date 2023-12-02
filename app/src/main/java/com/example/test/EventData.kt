@@ -96,4 +96,13 @@ data class EventData(
                         return arrayOfNulls(size)
                 }
         }
+
+        data class User(
+                val name: String = "",
+                val privacySettings: PrivacySettings = PrivacySettings()
+        )
+
+        data class PrivacySettings(
+                val showEvents: Boolean = true
+        )
 }
