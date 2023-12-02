@@ -47,5 +47,6 @@
     <string name="allow_friends_to_events">Allow Friends to see Your Signed Up Events</string>
     <string name="privacy_settings">Privacy Settings</string>
     <string name="save">Save</string>
+    <string name="default_web_client_id">152589945463-clfuq4hdvpuqoreialvsrntlfritc23h.apps.googleusercontent.com</string>
 
 </resources>
