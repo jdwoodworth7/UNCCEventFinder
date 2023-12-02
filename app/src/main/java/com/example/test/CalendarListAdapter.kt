@@ -1,6 +1,7 @@
 package com.example.test
 
 import android.app.Activity
+import android.content.Intent
 import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +26,7 @@ class CalendarListAdapter (private val context : Activity, private val arrayList
         val view: View = inflater.inflate(R.layout.activity_calendar_list_view, null)
 
         //Used for event image
-        val imageUrl: String? = arrayList[position].userUploadedImageUrl
+        val imageUrl: String? = arrayList[position].imageUri
 
         //Finds the listview parts
         val icon : ImageView = view.findViewById(R.id.calendarListIcon)
@@ -38,6 +39,7 @@ class CalendarListAdapter (private val context : Activity, private val arrayList
         icon.load(imageUrl)
         icon.visibility = View.VISIBLE
         title.text = arrayList[position].title
+        time.text = arrayList[position].time
 
         //onClickListener for NavigationButton
         navButton.setOnClickListener{
@@ -70,5 +72,8 @@ class CalendarListAdapter (private val context : Activity, private val arrayList
 
         //removes the event
         EventDbAccess.removeEventFromDatabase(context, eventTitle)
+
+        val intent = Intent(context, CalendarViewActivity::class.java)
+        context.startActivity(intent)
     }
 }

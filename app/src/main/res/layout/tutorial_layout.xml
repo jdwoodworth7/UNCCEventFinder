@@ -1,0 +1,855 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/tutorialImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/tutorial_step_1"/>
+
+    <Button
+        android:id="@+id/step1Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="60dp"
+        android:text="Button 1"
+        android:visibility="visible"/>
+
+    <Button
+        android:id="@+id/step2Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="214dp"
+        android:layout_marginBottom="510dp"
+        android:text="Button 2"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step3Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 3"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step4Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 3"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step5Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 3"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step6Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 3"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step7Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 3"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step8Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 3"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step9Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 3"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step10Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 10"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step11Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 11"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step12Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 12"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step13Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 13"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step14Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 14"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step15Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 15"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step16Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 16"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step17Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 17"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step18Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 18"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step19Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 19"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step20Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 20"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/step21Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="0dp"
+        android:text="Button 21"
+        android:visibility="invisible" />
+
+    <!-- Step 1 Views -->
+    <FrameLayout
+        android:id="@+id/step1FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step1Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/step1ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 1 Image"/>
+
+        <TextView
+            android:id="@+id/step1TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 1 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 2 Views -->
+    <FrameLayout
+        android:id="@+id/step2FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step1Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step2ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 2 Image"/>
+
+        <TextView
+            android:id="@+id/step2TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 2 Text"
+            android:textColor="#0000FF"
+            android:textSize="18sp"/>
+    </FrameLayout>
+
+    <!-- Step 3 Views -->
+    <FrameLayout
+        android:id="@+id/step3FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step1Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step3ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 3 Image"/>
+
+        <TextView
+            android:id="@+id/step3TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 3 Text"
+            android:textColor="#0000FF"
+            android:textSize="18sp"/>
+    </FrameLayout>
+
+    <!-- Step 4 Views -->
+    <FrameLayout
+        android:id="@+id/step4FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step4Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step4ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 4 Image"/>
+
+        <TextView
+            android:id="@+id/step4TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 4 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 5 Views -->
+    <FrameLayout
+        android:id="@+id/step5FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step5Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step5ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 5 Image"/>
+
+        <TextView
+            android:id="@+id/step5TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 5 Text"
+            android:textColor="#0000FF"
+            android:textSize="18sp"/>
+    </FrameLayout>
+
+    <!-- Step 6 Views -->
+    <FrameLayout
+        android:id="@+id/step6FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step6Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step6ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 6 Image"/>
+
+        <TextView
+            android:id="@+id/step6TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 6 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 7 Views -->
+    <FrameLayout
+        android:id="@+id/step7FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step7Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step7ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 7 Image"/>
+
+        <TextView
+            android:id="@+id/step7TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 7 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 8 Views -->
+    <FrameLayout
+        android:id="@+id/step8FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step8Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step8ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 8 Image"/>
+
+        <TextView
+            android:id="@+id/step8TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 8 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 9 Views -->
+    <FrameLayout
+        android:id="@+id/step9FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step9Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step9ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 9 Image"/>
+
+        <TextView
+            android:id="@+id/step9TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 9 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 10 Views -->
+    <FrameLayout
+        android:id="@+id/step10FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step10Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step10ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 10 Image"/>
+
+        <TextView
+            android:id="@+id/step10TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 10 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 11 Views -->
+    <FrameLayout
+        android:id="@+id/step11FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step11Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step11ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 11 Image"/>
+
+        <TextView
+            android:id="@+id/step11TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 11 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 12 Views -->
+    <FrameLayout
+        android:id="@+id/step12FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step12Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step12ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 12 Image"/>
+
+        <TextView
+            android:id="@+id/step12TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 12 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 13 Views -->
+    <FrameLayout
+        android:id="@+id/step13FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step13Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step13ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 13 Image"/>
+
+        <TextView
+            android:id="@+id/step13TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 13 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 14 Views -->
+    <FrameLayout
+        android:id="@+id/step14FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step14Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step14ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 14 Image"/>
+
+        <TextView
+            android:id="@+id/step14TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 14 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 15 Views -->
+    <FrameLayout
+        android:id="@+id/step15FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step15Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step15ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 15 Image"/>
+
+        <TextView
+            android:id="@+id/step15TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 15 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 16 Views -->
+    <FrameLayout
+        android:id="@+id/step16FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step16Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step16ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 16 Image"/>
+
+        <TextView
+            android:id="@+id/step16TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 16 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 17 Views -->
+    <FrameLayout
+        android:id="@+id/step17FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step17Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step17ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 17 Image"/>
+
+        <TextView
+            android:id="@+id/step17TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 17 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 18 Views -->
+    <FrameLayout
+        android:id="@+id/step18FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step18Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step18ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 18 Image"/>
+
+        <TextView
+            android:id="@+id/step18TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 18 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 19 Views -->
+    <FrameLayout
+        android:id="@+id/step19FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step19Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step19ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 19 Image"/>
+
+        <TextView
+            android:id="@+id/step19TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 19 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 20 Views -->
+    <FrameLayout
+        android:id="@+id/step20FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step20Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step20ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 20 Image"/>
+
+        <TextView
+            android:id="@+id/step20TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 20 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+
+    <!-- Step 21 Views -->
+    <FrameLayout
+        android:id="@+id/step21FrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step21Button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/step21ImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/cloud_image"
+            android:contentDescription="Step 21 Image"/>
+
+        <TextView
+            android:id="@+id/step21TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Step 21 Text"
+            android:textSize="18sp"
+            android:textColor="#0000FF"/>
+    </FrameLayout>
+</RelativeLayout>

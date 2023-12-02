@@ -1,9 +1,7 @@
 package com.example.test
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +13,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.test.EventAdapter
 import com.example.test.EventData
-import com.example.test.EventDbAccess
-import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class SearchResultsFragment : Fragment() {
 
@@ -48,8 +50,8 @@ class SearchResultsFragment : Fragment() {
 
         recyclerView.adapter = eventAdapter
 
-        allEvents = EventDbAccess(requireContext()).getEventDataFromDatabase()
-        eventAdapter.updateData(allEvents)
+        // Fetch and display data from Firestore
+        fetchEventDataFromFirestore()
 
         searchedButton = requireActivity().findViewById(R.id.searchedButton)
         searchedButton.setOnClickListener {
@@ -59,6 +61,42 @@ class SearchResultsFragment : Fragment() {
         searchEditText = requireActivity().findViewById(R.id.searchEditText)
 
         return view
+    }
+
+    private fun fetchEventDataFromFirestore() {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val querySnapshot: QuerySnapshot = FirebaseFirestore.getInstance()
+                    .collection("Events")
+                    .get()
+                    .await()
+
+                val events = querySnapshot.toObjects(EventData::class.java)
+                allEvents = events // Update the allEvents list
+                updateUI(events)
+                println("Fetched ${events.size} events from Firestore")
+            } catch (e: Exception) {
+                // Handle exceptions
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun updateUI(events: List<EventData>) {
+        requireActivity().runOnUiThread {
+            if (events.isNotEmpty()) {
+                recyclerView.visibility = View.VISIBLE
+                eventAdapter.updateData(events)
+            } else {
+                showNoResults()
+            }
+        }
+    }
+
+    private fun showNoResults() {
+        println("No results found")
+        recyclerView.visibility = View.GONE
+        noResultsTextView.visibility = View.VISIBLE
     }
 
     private fun performSearch() {
@@ -76,54 +114,48 @@ class SearchResultsFragment : Fragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == FILTER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val filterData =
-                data?.getParcelableExtra<FilterData>("filterData") ?: FilterData(
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false
-                )
-            Log.d("SearchResultsFragment", "Received Filter Data: $filterData")
-
-            applyFilter(filterData)
-        }
-    }
-
     private fun showResults(results: List<EventData>) {
+        println("Showing ${results.size} results")
         recyclerView.visibility = View.VISIBLE
         noResultsTextView.visibility = View.GONE
         eventAdapter.updateData(results)
     }
 
-    private fun showNoResults() {
-        recyclerView.visibility = View.GONE
-        noResultsTextView.visibility = View.VISIBLE
-    }
-
     fun applyFilter(filterData: FilterData) {
+        println("Before filtering: ${allEvents.size} events")
+
         val filteredEvents = allEvents.filter { event ->
-            (event.categories.contains("Academic") && filterData.academic) ||
-                    (event.categories.contains("Social") && filterData.social) ||
-                    (event.categories.contains("Clubs/Organizations") && filterData.clubsOrg) ||
-                    (event.categories.contains("Workshops/Seminars") && filterData.workshops) ||
-                    (event.categories.contains("Volunteering") && filterData.volunteering) ||
-                    (event.categories.contains("Students Only") && filterData.studentsOnly)
+            val matches = event.categories.any { category ->
+                when {
+                    (category.equals("academic", ignoreCase = true) && filterData.category_academic) ||
+                            (category.equals("social", ignoreCase = true) && filterData.category_social) ||
+                            (category.equals("sports", ignoreCase = true) && filterData.category_sports) ||
+                            (category.equals("clubs/organizations", ignoreCase = true) && filterData.category_clubs) ||
+                            (category.equals("workshops/seminars", ignoreCase = true) && filterData.category_workshops) ||
+                            (category.equals("volunteering", ignoreCase = true) && filterData.category_volunteering) ||
+                            (category.equals("students only", ignoreCase = true) && filterData.category_students_only) -> true
+                    else -> false
+                }
+            }
+
+            if (!matches) {
+                println("Event ${event.title} did not pass the filter. Categories: ${event.categories}")
+            }
+
+            matches
         }
+
+        println("After filtering: ${filteredEvents.size} events")
 
         if (filteredEvents.isNotEmpty()) {
             showResults(filteredEvents)
         } else {
             showNoResults()
         }
+
+        println("Filtered events: $filteredEvents")
     }
 
-    // Open the event details activity
     private fun openEventDetails(eventData: EventData) {
         val intent = Intent(requireContext(), DetailsActivity::class.java)
         intent.putExtra("event", eventData)

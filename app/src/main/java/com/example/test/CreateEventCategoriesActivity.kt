@@ -8,6 +8,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 class CreateEventCategoriesActivity : AppCompatActivity() {
+    private lateinit var sessionsList: Array<Array<String>>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event_categories)
@@ -24,36 +25,25 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
         val menuButton = findViewById<ImageView>(R.id.menuButton)
         val mapIcon = findViewById<ImageView>(R.id.mapIcon)
 
+        // Retrieve the sessionsList from the intent
+        sessionsList = intent.getSerializableExtra("sessionsList") as? Array<Array<String>> ?: emptyArray()
+
         continueButton.setOnClickListener {
             // Retrieve data from the previous activity
             val title = intent.getStringExtra("title")
             val description = intent.getStringExtra("description")
-            val date = intent.getStringExtra("date")
-            val time = intent.getStringExtra("time")
             val buildingName = intent.getStringExtra("buildingName")
             val address = intent.getStringExtra("address")
-            val imageUrl = intent.getStringExtra("imageUrl")
+            val imageUri = intent.getStringExtra("imageUri")
 
-            // Retrieve checkbox information
-            val isAcademicChecked = checkBoxAcademic.isChecked
-            val isSocialChecked = checkBoxSocial.isChecked
-            val isSportsChecked = checkBoxSports.isChecked
-            val isClubsOrgChecked = checkBoxClubsOrg.isChecked
-            val isWorkshopsChecked = checkBoxWorkshops.isChecked
-            val isVolunteeringChecked = checkBoxVolunteering.isChecked
-            val isStudentsOnlyChecked = checkBoxStudentsOnly.isChecked
-
-
-            val intent = Intent(this@CreateEventCategoriesActivity, CreateEventDetailsActivity::class.java)
+            val intent = Intent(this@CreateEventCategoriesActivity, CreateEventAudienceActivity::class.java)
 
             // Pass the data to the next activity
             intent.putExtra("title", title)
             intent.putExtra("description", description)
-            intent.putExtra("date", date)
-            intent.putExtra("time", time)
             intent.putExtra("buildingName", buildingName)
             intent.putExtra("address", address)
-            intent.putExtra("imageUrl", imageUrl)
+            intent.putExtra("imageUri", imageUri)
 
             // Pass checkbox information
             intent.putExtra("checkboxAcademic", checkBoxAcademic.isChecked)
@@ -63,6 +53,9 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
             intent.putExtra("checkboxWorkshops", checkBoxWorkshops.isChecked)
             intent.putExtra("checkboxVolunteering", checkBoxVolunteering.isChecked)
             intent.putExtra("checkboxStudentsOnly", checkBoxStudentsOnly.isChecked)
+
+            // Pass the sessionsList to the next activity
+            intent.putExtra("sessionsList", sessionsList)
 
             // Start the next activity
             startActivity(intent)
