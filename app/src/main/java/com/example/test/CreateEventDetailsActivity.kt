@@ -21,6 +21,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
     private val storageRef = storage.reference
+    private var authorId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +36,9 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         val buildingName = intent.getStringExtra("buildingName")
         val address = intent.getStringExtra("address")
         val imageUri = intent.getStringExtra("imageUri")
+
+        // Retrieve authorId from SharedPreferences
+        authorId = getAuthorIdFromSharedPreferences()
 
         // Build a string to display checkbox details
         val categoriesCheckBoxDetails = buildCategoriesCheckBoxDetails()
@@ -56,7 +60,8 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                     "Categories: $categoriesCheckBoxDetails\n" +
                     "Audiences: $audienceCheckBoxDetails\n" +
                     "Image URI: $imageUri\n" +
-                    "Sessions:\n$sessionsDetails"
+                    "Sessions:\n$sessionsDetails" +
+                    "Author ID: $authorId\n"
         )
 
         // Setup "Exit" button click listener
@@ -109,7 +114,8 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                 address ?: "",
                 categories ?: emptyList(),  // Provide an empty list if null
                 audience ?: emptyList(),
-                imageUri ?: ""
+                imageUri ?: "",
+                authorId ?: ""
             )
         }
     }
@@ -170,7 +176,8 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         address: String?,
         categories: List<String>,
         audience: List<String>,
-        imageUri: String?
+        imageUri: String?,
+        authorId: String
     ) {
         Log.d("Firestore", "Saving event to Firestore")
 
@@ -192,7 +199,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                     // Get the download URL for the uploaded image
                     imageRef.downloadUrl.addOnSuccessListener { uri ->
                         // Continue with saving the event data to Firestore
-                        saveEventDataToFirestore(title, description, sessionsList, buildingName, address, categories, audience, uri.toString())
+                        saveEventDataToFirestore(title, description, sessionsList, buildingName, address, categories, audience, uri.toString(), authorId ?: "")
                     }
                 }
                 .addOnFailureListener { e ->
@@ -202,7 +209,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             Log.d("Firestore", "Image URI is null, blank, or already a Cloud Storage URI, proceeding with Firestore upload")
 
             // Continue with saving the event data to Firestore
-            saveEventDataToFirestore(title, description, sessionsList, buildingName, address, categories, audience, imageUri ?: "")
+            saveEventDataToFirestore(title, description, sessionsList, buildingName, address, categories, audience, imageUri ?: "", authorId ?: "")
         }
     }
 
@@ -214,7 +221,8 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         address: String?,
         categories: List<String>,
         audience: List<String>,
-        imageUri: String
+        imageUri: String,
+        authorId: String
     ) {
         Log.d("Firestore", "Saving event data to Firestore")
 
@@ -230,7 +238,8 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                 "imageUri" to imageUri,
                 "categories" to categories,
                 "audience" to audience,
-                "timestamp" to FieldValue.serverTimestamp()
+                "timestamp" to FieldValue.serverTimestamp(),
+                "authorId" to authorId
             )
 
             // Print out the event details
@@ -319,4 +328,10 @@ class CreateEventDetailsActivity : AppCompatActivity() {
 
         return sessionsDetails.toString()
     }
+
+    private fun getAuthorIdFromSharedPreferences(): String? {
+        val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        return sharedPreferences.getString("authorId", null)
+    }
+
 }
