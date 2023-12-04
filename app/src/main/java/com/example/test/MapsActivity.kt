@@ -231,6 +231,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     //Fetching all event data from the FireStore
+    @SuppressLint("SuspiciousIndentation")
     private suspend fun fetchEventDataFireStore() : List<EventData> {
         val firestore = FirebaseStorageUtil.getFirebaseFireStoreInstance()
         val eventCollectionRef = firestore.collection("Events")

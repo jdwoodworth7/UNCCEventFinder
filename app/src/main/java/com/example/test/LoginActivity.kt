@@ -1,5 +1,6 @@
 package com.example.test
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -73,7 +74,7 @@ class LoginActivity : AppCompatActivity() {
 
     // Save authorId to SharedPreferences
     private fun saveAuthorIdToSharedPreferences(authorId: String?) {
-        val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val sharedPreferences = this.applicationContext.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("authorId", authorId)
         editor.apply()
