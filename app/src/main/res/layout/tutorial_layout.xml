@@ -14,146 +14,151 @@
         android:id="@+id/step1Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="235dp"
         android:layout_marginEnd="60dp"
         android:layout_marginBottom="60dp"
-        android:text="Button 1"
+        android:text="Click HERE to Continue"
         android:visibility="visible"/>
 
     <Button
         android:id="@+id/step2Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="160dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="214dp"
-        android:layout_marginBottom="510dp"
-        android:text="Button 2"
-        android:visibility="invisible" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="OKAY!"
+        android:visibility="invisible"  />
 
     <Button
         android:id="@+id/step3Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="0dp"
-        android:text="Button 3"
-        android:visibility="invisible" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="OKAY!"
+        android:visibility="invisible"  />
 
     <Button
         android:id="@+id/step4Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="0dp"
-        android:text="Button 3"
-        android:visibility="invisible" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="OKAY!"
+        android:visibility="invisible"  />
 
     <Button
         android:id="@+id/step5Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="0dp"
-        android:text="Button 3"
-        android:visibility="invisible" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="OKAY!"
+        android:visibility="invisible"  />
 
     <Button
         android:id="@+id/step6Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="0dp"
-        android:text="Button 3"
-        android:visibility="invisible" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="OKAY!"
+        android:visibility="invisible"  />
 
     <Button
         android:id="@+id/step7Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="0dp"
-        android:text="Button 3"
-        android:visibility="invisible" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="OKAY!"
+        android:visibility="invisible"  />
 
     <Button
         android:id="@+id/step8Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="0dp"
-        android:text="Button 3"
-        android:visibility="invisible" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="OKAY!"
+        android:visibility="invisible"  />
 
     <Button
         android:id="@+id/step9Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="0dp"
-        android:text="Button 3"
-        android:visibility="invisible" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="OKAY!"
+        android:visibility="invisible"  />
 
     <Button
         android:id="@+id/step10Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="0dp"
-        android:text="Button 10"
-        android:visibility="invisible" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="OKAY!"
+        android:visibility="invisible"  />
 
     <Button
         android:id="@+id/step11Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginStart="155dp"
+        android:layout_marginTop="170dp"
         android:layout_marginEnd="0dp"
-        android:text="Button 11"
+        android:text="OKAY!"
         android:visibility="invisible" />
 
     <Button
         android:id="@+id/step12Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginStart="155dp"
+        android:layout_marginTop="200dp"
         android:layout_marginEnd="0dp"
-        android:text="Button 12"
+        android:text="OKAY!"
         android:visibility="invisible" />
 
     <Button
         android:id="@+id/step13Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="0dp"
-        android:text="Button 13"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="135dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Finish Tutorial!"
         android:visibility="invisible" />
 
     <Button
@@ -249,28 +254,27 @@
         android:id="@+id/step1FrameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/step1Button"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="0dp"
         android:visibility="visible">
 
         <ImageView
             android:id="@+id/step1ImageView"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/cloud_image"
-            android:contentDescription="Step 1 Image"/>
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:contentDescription="Step 1 Image"
+            android:src="@drawable/cloud_image" />
 
         <TextView
             android:id="@+id/step1TextView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:layout_gravity="center"
-            android:text="Step 1 Text"
-            android:textSize="18sp"
-            android:textColor="#0000FF"/>
+            android:text="Explore our dynamic\n menu featuring\n My Schedules\n Search Events\n Create Events\n and More!"
+            android:textSize="17sp"
+            android:textColor="#000000"/>
     </FrameLayout>
 
     <!-- Step 2 Views -->
@@ -279,8 +283,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/step1Button"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="230dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:visibility="invisible">
@@ -297,8 +301,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Step 2 Text"
-            android:textColor="#0000FF"
+            android:text="Fill out your\n Event Details"
+            android:textColor="#000000"
             android:textSize="18sp"/>
     </FrameLayout>
 
@@ -308,8 +312,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/step1Button"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="400dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="230dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:visibility="invisible">
@@ -326,8 +330,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Step 3 Text"
-            android:textColor="#0000FF"
+            android:text="We will fill out\n a test event\n for example"
+            android:textColor="#000000"
             android:textSize="18sp"/>
     </FrameLayout>
 
@@ -336,9 +340,9 @@
         android:id="@+id/step4FrameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/step4Button"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_below="@id/step1Button"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="230dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:visibility="invisible">
@@ -355,9 +359,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Step 4 Text"
+            android:text="Upload an image\n then continue"
             android:textSize="18sp"
-            android:textColor="#0000FF"/>
+            android:textColor="#000000"/>
     </FrameLayout>
 
     <!-- Step 5 Views -->
@@ -365,9 +369,9 @@
         android:id="@+id/step5FrameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/step5Button"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="200dp"
+        android:layout_below="@id/step1Button"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="230dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:visibility="invisible">
@@ -384,8 +388,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Step 5 Text"
-            android:textColor="#0000FF"
+            android:text="Submit Sessions\n Above"
+            android:textColor="#000000"
             android:textSize="18sp"/>
     </FrameLayout>
 
@@ -394,9 +398,9 @@
         android:id="@+id/step6FrameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/step6Button"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="400dp"
+        android:layout_below="@id/step1Button"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="230dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:visibility="invisible">
@@ -413,9 +417,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Step 6 Text"
+            android:text="Then Press Continue"
             android:textSize="18sp"
-            android:textColor="#0000FF"/>
+            android:textColor="#000000"/>
     </FrameLayout>
 
     <!-- Step 7 Views -->
@@ -423,9 +427,9 @@
         android:id="@+id/step7FrameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/step7Button"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="400dp"
+        android:layout_below="@id/step1Button"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="230dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:visibility="invisible">
@@ -442,9 +446,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Step 7 Text"
+            android:text="Enter Categories"
             android:textSize="18sp"
-            android:textColor="#0000FF"/>
+            android:textColor="#000000"/>
     </FrameLayout>
 
     <!-- Step 8 Views -->
@@ -452,9 +456,9 @@
         android:id="@+id/step8FrameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/step8Button"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="400dp"
+        android:layout_below="@id/step1Button"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="230dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:visibility="invisible">
@@ -471,9 +475,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Step 8 Text"
+            android:text="Then press Continue"
             android:textSize="18sp"
-            android:textColor="#0000FF"/>
+            android:textColor="#000000"/>
     </FrameLayout>
 
     <!-- Step 9 Views -->
@@ -481,9 +485,9 @@
         android:id="@+id/step9FrameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/step9Button"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="400dp"
+        android:layout_below="@id/step1Button"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="230dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:visibility="invisible">
@@ -500,9 +504,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Step 9 Text"
+            android:text="Enter Audience"
             android:textSize="18sp"
-            android:textColor="#0000FF"/>
+            android:textColor="#000000"/>
     </FrameLayout>
 
     <!-- Step 10 Views -->
@@ -510,9 +514,9 @@
         android:id="@+id/step10FrameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/step10Button"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="400dp"
+        android:layout_below="@id/step1Button"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="230dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:visibility="invisible">
@@ -529,9 +533,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Step 10 Text"
+            android:text="Then press Continue"
             android:textSize="18sp"
-            android:textColor="#0000FF"/>
+            android:textColor="#000000"/>
     </FrameLayout>
 
     <!-- Step 11 Views -->
@@ -539,9 +543,8 @@
         android:id="@+id/step11FrameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/step11Button"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="400dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="0dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:visibility="invisible">
@@ -558,9 +561,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Step 11 Text"
+            android:text="Here are your\n Event Details"
             android:textSize="18sp"
-            android:textColor="#0000FF"/>
+            android:textColor="#000000"/>
     </FrameLayout>
 
     <!-- Step 12 Views -->
@@ -568,9 +571,8 @@
         android:id="@+id/step12FrameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/step12Button"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="400dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:visibility="invisible">
@@ -587,9 +589,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Step 12 Text"
+            android:text="Your Event\n can be found\n on the interactive\n Campus Map"
             android:textSize="18sp"
-            android:textColor="#0000FF"/>
+            android:textColor="#000000"/>
     </FrameLayout>
 
     <!-- Step 13 Views -->
@@ -597,9 +599,9 @@
         android:id="@+id/step13FrameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/step13Button"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="400dp"
+        android:layout_below="@id/step1Button"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="230dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:visibility="invisible">
@@ -616,9 +618,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Step 13 Text"
+            android:text="Your new event\n can be found\n in the search"
             android:textSize="18sp"
-            android:textColor="#0000FF"/>
+            android:textColor="#000000"/>
     </FrameLayout>
 
     <!-- Step 14 Views -->
