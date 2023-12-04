@@ -22,14 +22,6 @@ class TutorialActivity : AppCompatActivity(), View.OnClickListener {
     private var step11Button: Button? = null
     private var step12Button: Button? = null
     private var step13Button: Button? = null
-    private var step14Button: Button? = null
-    private var step15Button: Button? = null
-    private var step16Button: Button? = null
-    private var step17Button: Button? = null
-    private var step18Button: Button? = null
-    private var step19Button: Button? = null
-    private var step20Button: Button? = null
-    private var step21Button: Button? = null
     private var tutorialImageView: ImageView? = null
     private var currentStep = 1
 
@@ -51,14 +43,6 @@ class TutorialActivity : AppCompatActivity(), View.OnClickListener {
         step11Button = findViewById<Button>(R.id.step11Button)
         step12Button = findViewById<Button>(R.id.step12Button)
         step13Button = findViewById<Button>(R.id.step13Button)
-        step14Button = findViewById<Button>(R.id.step14Button)
-        step15Button = findViewById<Button>(R.id.step15Button)
-        step16Button = findViewById<Button>(R.id.step16Button)
-        step17Button = findViewById<Button>(R.id.step17Button)
-        step18Button = findViewById<Button>(R.id.step18Button)
-        step19Button = findViewById<Button>(R.id.step19Button)
-        step20Button = findViewById<Button>(R.id.step20Button)
-        step21Button = findViewById<Button>(R.id.step21Button)
         tutorialImageView = findViewById<ImageView>(R.id.tutorialImageView)
         updateVisibility()
 
@@ -76,20 +60,12 @@ class TutorialActivity : AppCompatActivity(), View.OnClickListener {
         step11Button?.setOnClickListener(this)
         step12Button?.setOnClickListener(this)
         step13Button?.setOnClickListener(this)
-        step14Button?.setOnClickListener(this)
-        step15Button?.setOnClickListener(this)
-        step16Button?.setOnClickListener(this)
-        step17Button?.setOnClickListener(this)
-        step18Button?.setOnClickListener(this)
-        step19Button?.setOnClickListener(this)
-        step20Button?.setOnClickListener(this)
-        step21Button?.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {
         // Handle button clicks
         currentStep++
-        if (currentStep <= 21) {
+        if (currentStep <= 13) {
             updateVisibility()
             updateImage()
         } else {
@@ -141,30 +117,6 @@ class TutorialActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<FrameLayout>(R.id.step13FrameLayout)?.visibility =
             if (currentStep == 13) View.VISIBLE else View.INVISIBLE
 
-        findViewById<FrameLayout>(R.id.step14FrameLayout)?.visibility =
-            if (currentStep == 14) View.VISIBLE else View.INVISIBLE
-
-        findViewById<FrameLayout>(R.id.step15FrameLayout)?.visibility =
-            if (currentStep == 15) View.VISIBLE else View.INVISIBLE
-
-        findViewById<FrameLayout>(R.id.step16FrameLayout)?.visibility =
-            if (currentStep == 16) View.VISIBLE else View.INVISIBLE
-
-        findViewById<FrameLayout>(R.id.step17FrameLayout)?.visibility =
-            if (currentStep == 17) View.VISIBLE else View.INVISIBLE
-
-        findViewById<FrameLayout>(R.id.step18FrameLayout)?.visibility =
-            if (currentStep == 18) View.VISIBLE else View.INVISIBLE
-
-        findViewById<FrameLayout>(R.id.step19FrameLayout)?.visibility =
-            if (currentStep == 19) View.VISIBLE else View.INVISIBLE
-
-        findViewById<FrameLayout>(R.id.step20FrameLayout)?.visibility =
-            if (currentStep == 20) View.VISIBLE else View.INVISIBLE
-
-        findViewById<FrameLayout>(R.id.step21FrameLayout)?.visibility =
-            if (currentStep == 21) View.VISIBLE else View.INVISIBLE
-
         // Update buttons visibility based on the current step
         step1Button?.visibility = if (currentStep == 1) View.VISIBLE else View.INVISIBLE
         step2Button?.visibility = if (currentStep == 2) View.VISIBLE else View.INVISIBLE
@@ -179,14 +131,6 @@ class TutorialActivity : AppCompatActivity(), View.OnClickListener {
         step11Button?.visibility = if (currentStep == 11) View.VISIBLE else View.INVISIBLE
         step12Button?.visibility = if (currentStep == 12) View.VISIBLE else View.INVISIBLE
         step13Button?.visibility = if (currentStep == 13) View.VISIBLE else View.INVISIBLE
-        step14Button?.visibility = if (currentStep == 14) View.VISIBLE else View.INVISIBLE
-        step15Button?.visibility = if (currentStep == 15) View.VISIBLE else View.INVISIBLE
-        step16Button?.visibility = if (currentStep == 16) View.VISIBLE else View.INVISIBLE
-        step17Button?.visibility = if (currentStep == 17) View.VISIBLE else View.INVISIBLE
-        step18Button?.visibility = if (currentStep == 18) View.VISIBLE else View.INVISIBLE
-        step19Button?.visibility = if (currentStep == 19) View.VISIBLE else View.INVISIBLE
-        step20Button?.visibility = if (currentStep == 20) View.VISIBLE else View.INVISIBLE
-        step21Button?.visibility = if (currentStep == 21) View.VISIBLE else View.INVISIBLE
     }
 
     private fun updateImage() {
@@ -206,14 +150,6 @@ class TutorialActivity : AppCompatActivity(), View.OnClickListener {
                 11 -> R.drawable.tutorial_step_11
                 12 -> R.drawable.tutorial_step_12
                 13 -> R.drawable.tutorial_step_13
-                14 -> R.drawable.tutorial_step_14
-                15 -> R.drawable.tutorial_step_15
-                16 -> R.drawable.tutorial_step_16
-                17 -> R.drawable.tutorial_step_17
-                18 -> R.drawable.tutorial_step_18
-                19 -> R.drawable.tutorial_step_19
-                20 -> R.drawable.tutorial_step_20
-                21 -> R.drawable.tutorial_step_21
                 else -> R.drawable.baseline_image_24 // Change to a default image or handle accordingly
             }
         )
