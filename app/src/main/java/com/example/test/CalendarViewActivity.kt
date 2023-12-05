@@ -37,9 +37,8 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
     private lateinit var calendarRecyclerView: RecyclerView
     private lateinit var listView: ListView
     private var allEvents: List<EventData> = mutableListOf()
-    private var userEventsDataList: List<UserEventsData> = mutableListOf()
+    private var userEventsDataList: MutableList<UserEventsData> = mutableListOf()
     private val firestore = FirebaseStorageUtil.getFirebaseFireStoreInstance()
-
 
     private lateinit var eventTitle: TextView
     private lateinit var eventTime: TextView
@@ -87,32 +86,17 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
     private fun setListViewAdapter() {
         runBlocking {
             val dailyEvents: ArrayList<EventData> = eventsForDateUser(selectedDate)
-            //val dailyEvents: ArrayList<EventData> = eventsForDate(selectedDate)
             val calendarListAdapter = CalendarListAdapter(this@CalendarViewActivity, dailyEvents)
             listView.adapter = calendarListAdapter
         }
     }
 
-
-    //Queries the database to see which events are on which day and adds them to a temp array if dates match
-    fun eventsForDate(date: LocalDate): ArrayList<EventData> {
-        //Gets database access
-        fetchEventDataFromFirestore()
-        val events = ArrayList<EventData>()
-        //Checking if dates match to put in the new array
-        for (event in allEvents) {
-            if (LocalDate.parse(event.date) == date)
-                events.add(event)
-        }
-        return events
-    }
-
+    //main function that compares currently selected date with events user signed up for
     suspend fun eventsForDateUser(date: LocalDate): ArrayList<EventData> {
 
         val events = ArrayList<EventData>()
-
         if (userId != null) {
-            fetchEventDataFromUser(userId)
+            fetchUserEventsFromUser(userId)
 
             //for each list of event data for a single user
             for (eventData in userEventsDataList) {
@@ -123,51 +107,37 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
                 val session = fetchSessionBySessionId(sessiondId)
                 //if sessionData's staring date is equal to the selected date
                 if(session != null){
+                    //formatting session date to LocalDate type
                     val formatter = DateTimeFormatter.ofPattern("MMM d yyyy")
                     val sessionDate = LocalDate.parse(session.startDate, formatter)
+
+                    //if selected date == current event's session date
                     if (LocalDate.parse(sessionDate.toString()) == date) {
-                        val event: EventData? = fetchEventByEventId(eventId)
+                        val event: EventData? = fetchEventByEventId(eventId) //fetch event
                         if (event != null) {
-                            events.add(event)
+                            events.add(event) //add event to the temp arraylist of events to display for the selected date
                         }
                     }
                 }
             }
-//            for (event in allEvents) {
-//                if (LocalDate.parse(event.date) == date) //if the event's date is equal to the selectedDate
-//                    events.add(event)
-//            }
         }
         return events
     }
 
-    private fun fetchEventDataFromFirestore() {
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val querySnapshot: QuerySnapshot = FirebaseFirestore.getInstance()
-                    .collection("Events")
-                    .get()
-                    .await()
-
-                val events = querySnapshot.toObjects(EventData::class.java)
-                allEvents = events // Update the allEvents list
-                println("Fetched ${events.size} events from Firestore")
-            } catch (e: Exception) {
-                // Handle exceptions
-                e.printStackTrace()
-            }
-        }
-    }
-
-    suspend fun fetchEventDataFromUser(userId: String) {
+    //fetches UserEvents with specific userId as a field
+    suspend fun fetchUserEventsFromUser(userId: String) {
         return withContext(Dispatchers.IO) {
             val eventCollectionRef = firestore.collection("UserEvents")
             val query = eventCollectionRef.whereEqualTo("userId", userId)
 
+            userEventsDataList.clear()
+
             try {
                 val querySnapshot = Tasks.await(query.get())
                 val userEvents = querySnapshot.toObjects(UserEventsData::class.java)
-                userEventsDataList = userEvents
+                userEvents.forEach { userEvent ->
+                    userEventsDataList.add(userEvent) //updates global variable userEventsDataList
+                }
             } catch (exception: Exception) {
                 Log.e("UserEvent FetchById Request", "UserEvent Fetch Failed: $exception")
             }
@@ -188,7 +158,6 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
             Log.e("Session FetchById Request", "Session Fetch Failed: " + exception)
             null
         }
-
     }
 
     suspend fun fetchEventByEventId(eventId: String): EventData? {
@@ -254,5 +223,37 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
         val authorId = sharedPreferences.getString("authorId", null)
         return authorId.toString()
     }
+
+    //    private fun fetchEventDataFromFirestore() {
+//        GlobalScope.launch(Dispatchers.IO) {
+//            try {
+//                val querySnapshot: QuerySnapshot = FirebaseFirestore.getInstance()
+//                    .collection("Events")
+//                    .get()
+//                    .await()
+//
+//                val events = querySnapshot.toObjects(EventData::class.java)
+//                allEvents = events // Update the allEvents list
+//                println("Fetched ${events.size} events from Firestore")
+//            } catch (e: Exception) {
+//                // Handle exceptions
+//                e.printStackTrace()
+//            }
+//        }
+//    }
+
+    //Queries the database to see which events are on which day and adds them to a temp array if dates match
+//    fun eventsForDate(date: LocalDate): ArrayList<EventData> {
+//        //Gets database access
+//        fetchEventDataFromFirestore()
+//        val events = ArrayList<EventData>()
+//        //Checking if dates match to put in the new array
+//        for (event in allEvents) {
+//            if (LocalDate.parse(event.date) == date)
+//                events.add(event)
+//        }
+//        return events
+//    }
+
 
 }
