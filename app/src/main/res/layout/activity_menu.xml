@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_primary">
@@ -11,107 +12,141 @@
         android:padding="50dp">
 
         <!-- Student Name -->
-        <TextView
-            android:id="@+id/studentName"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="322dp"
             android:layout_height="wrap_content"
-            android:text="My Name"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp"
-            android:textStyle="bold"/>
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/studentName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="My Name"
+                    android:textColor="#FFFFFF"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/studentEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="unccstudent@uncc.edu:"
+                    android:textColor="#888888"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnAdminView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    android:textAlignment="center"
+                    app:icon="@drawable/admin"
+                    app:iconGravity="textEnd"
+                    app:iconPadding="0dp"
+                    app:iconSize="50dp" />
+            </LinearLayout>
+
+        </LinearLayout>
 
         <!-- Student Email -->
-        <TextView
-            android:id="@+id/studentEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="unccstudent@uncc.edu:"
-            android:textSize="16sp"
-            android:textColor="#888888"
-            android:layout_below="@id/studentName"
-            android:layout_marginTop="5dp"/>
 
         <!-- Additional TextViews -->
-        <TextView
-            android:id="@+id/mySchedules"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="My Schedules"
-            android:textSize="16sp"
-            android:textColor="#FFFFFF"
-            android:layout_below="@id/studentEmail"
-            android:layout_marginTop="80dp"/>
-
-        <TextView
-            android:id="@+id/searchEvent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search Events"
-            android:textSize="16sp"
-            android:textColor="#FFFFFF"
-            android:layout_below="@id/mySchedules"
-            android:layout_marginTop="50dp"/>
-
-        <TextView
-            android:id="@+id/createEvent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create a New Event"
-            android:textSize="16sp"
-            android:textColor="#FFFFFF"
-            android:layout_below="@id/searchEvent"
-            android:layout_marginTop="50dp"/>
-
-        <TextView
-            android:id="@+id/menuNotifications"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Notifications"
-            android:textSize="16sp"
-            android:textColor="#FFFFFF"
-            android:layout_below="@id/createEvent"
-            android:layout_marginTop="50dp"/>
-
-        <TextView
-            android:id="@+id/myFriends"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="My Friends"
-            android:textSize="16sp"
-            android:textColor="#FFFFFF"
-            android:layout_below="@id/menuNotifications"
-            android:layout_marginTop="50dp"/>
-
-        <TextView
-            android:id="@+id/myProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="My Profile"
-            android:textSize="16sp"
-            android:textColor="#FFFFFF"
-            android:layout_below="@id/myFriends"
-            android:layout_marginTop="50dp"/>
 
 
-        <TextView
-            android:id="@+id/settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Settings"
-            android:textSize="16sp"
-            android:textColor="#FFFFFF"
-            android:layout_below="@id/myProfile"
-            android:layout_marginTop="40dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="40dp">
 
-        <TextView
-            android:id="@+id/rateUs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Rate Us"
-            android:textSize="16sp"
-            android:textColor="#FFFFFF"
-            android:layout_below="@id/settings"
-            android:layout_marginTop="25dp"/>
+            <TextView
+                android:id="@+id/mySchedules"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:text="My Schedules"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/searchEvent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="Search Events"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/createEvent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="Create a New Event"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/menuNotifications"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="Notifications"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/myFriends"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="My Friends"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/myProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="My Profile"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Settings"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/rateUs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Rate Us"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+        </LinearLayout>
 
     </RelativeLayout>
 
