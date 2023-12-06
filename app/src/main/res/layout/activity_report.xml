@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/ic_launcher_background">
+
+
+    <View
+        android:id="@+id/overlayView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000" />
+
+    <RelativeLayout
+        android:layout_width="409dp"
+        android:layout_height="403dp"
+        android:layout_marginTop="164dp"
+        android:background="@color/color_secondary"
+        android:backgroundTint="@color/color_secondary"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="false"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_weight="0"
+                android:background="@color/color_tertiary"
+                android:gravity="center"
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textColor="@color/color_primary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="Report an Event" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:paddingVertical="10dp"
+                    android:paddingLeft="10dp"
+                    android:text="Event:"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputReportEventName"
+                        android:layout_width="325dp"
+                        android:layout_height="wrap_content"
+                        android:background="#D1C797"
+                        android:hint="hint"
+                        android:includeFontPadding="true"
+                        android:padding="10dp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="0"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:paddingVertical="10dp"
+                    android:paddingLeft="10dp"
+                    android:text="Event Reason"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/inputReportEventReason"
+                    style="?android:spinnerStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Select Reason"
+                    android:maxLength="100"
+                    android:onClick='openDatePicker'
+                    android:padding="5dp"
+                    android:text=""
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:paddingVertical="10dp"
+                    android:paddingLeft="10dp"
+                    android:text="Event Details"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputReportEventDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="168dp"
+                    android:layout_weight="1"
+                    android:background="#D1C797"
+                    android:gravity="start"
+                    android:hint="Enter "
+                    android:includeFontPadding="true"
+                    android:padding="10dp"
+                    android:textAlignment="textStart" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

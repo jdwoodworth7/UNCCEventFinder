@@ -1,22 +1,16 @@
 package com.example.test
 
-import android.content.Context
 import android.content.Intent
-import android.media.metrics.Event
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.Dispatchers
@@ -27,9 +21,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.UUID
 
 
 class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener {
@@ -210,7 +202,7 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
 
     //Find the recycler view and text view on startup and make them variables
     private fun initWidgets() {
-        listView = findViewById(R.id.calendarListView)
+        listView = findViewById(R.id.userListView)
         monthYearText = findViewById(R.id.monthYearTV)
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView)
     }
