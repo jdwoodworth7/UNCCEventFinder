@@ -7,19 +7,27 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 
 class PrivacySettingsActivity : AppCompatActivity() {
+    private val firestore = FirebaseStorageUtil.getFirebaseFireStoreInstance()
+
+    private lateinit var showEventsSwitch: CheckBox
+
+    private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val userId = getAuthorIdFromSharedPreferences() // gets userID from SharedPreference
+        userId = getAuthorIdFromSharedPreferences() // gets userID from SharedPreference
 
         // Load current privacy settings
         loadPrivacySettings(userId)
 
         setContentView(R.layout.activity_privacy_settings)
+
+        showEventsSwitch = findViewById(R.id.checkBoxEvents)
 
         val saveButton: Button = findViewById(R.id.btnSave)
 
@@ -47,7 +55,7 @@ class PrivacySettingsActivity : AppCompatActivity() {
     }
 
     private fun loadPrivacySettings(userId: String) {
-        val userCollection = FirebaseFirestore.getInstance().collection("Users")
+        val userCollection = firestore.collection("Users")
 
         userCollection.whereEqualTo("id", userId)
             .get()
@@ -70,7 +78,7 @@ class PrivacySettingsActivity : AppCompatActivity() {
         val checkBoxEvents: CheckBox = findViewById(R.id.checkBoxEvents)
         val newPrivacy = if (checkBoxEvents.isChecked) "public" else "private"
 
-        val userCollection = FirebaseFirestore.getInstance().collection("Users")
+        val userCollection = firestore.collection("Users")
 
         userCollection.whereEqualTo("id", userId)
             .get()
@@ -96,6 +104,7 @@ class PrivacySettingsActivity : AppCompatActivity() {
             }
     }
 
+    //gets the userId initialized during login
     private fun getAuthorIdFromSharedPreferences(): String {
         val sharedPreferences = applicationContext.getSharedPreferences("MyPrefs", MODE_PRIVATE)
         val authorId = sharedPreferences.getString("authorId", null)
