@@ -230,6 +230,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         saveEventSessionsToFirestore(sessionsList) { eventSessionIds ->
             // Create a new event document in the "Events" collection
             val event = hashMapOf(
+                "id" to "",
                 "title" to title,
                 "description" to description,
                 "eventSessionIds" to eventSessionIds,
@@ -252,8 +253,20 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             db.collection("Events")
                 .add(event)
                 .addOnSuccessListener { documentReference ->
-                    Log.d("Firestore", "DocumentSnapshot added with ID: ${documentReference.id}")
+                    val generatedId = documentReference.id
+                    Log.d("Firestore", "DocumentSnapshot added with ID: ${generatedId}")
 
+                    //update the id value on event hashmap
+                    event["id"]= generatedId
+
+                    db.collection("Events").document(generatedId).set(event)
+                        .addOnSuccessListener {
+                            Log.d("Firestore PUT", "DocumentSnapshot updated with ID: ${generatedId}")
+                        }
+                        .addOnFailureListener{ e ->
+                            Log.e("Firestore PUT", "Error updating event document: ", e)
+                        }
+                    
                     // Start the MapsActivity
                     val intent = Intent(this@CreateEventDetailsActivity, MapsActivity::class.java)
                     startActivity(intent)

@@ -28,7 +28,6 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
     private lateinit var monthYearText: TextView
     private lateinit var calendarRecyclerView: RecyclerView
     private lateinit var listView: ListView
-    private var allEvents: List<EventData> = mutableListOf()
     private var userEventsDataList: MutableList<UserEventsData> = mutableListOf()
     private val firestore = FirebaseStorageUtil.getFirebaseFireStoreInstance()
 
@@ -44,8 +43,10 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
         setContentView(R.layout.activity_calendar_view)
         initWidgets()
         //Giving it the current date and time of local pc
-        selectedDate = LocalDate.now()
-        time = LocalTime.now()
+        if(selectedDate == null){ //if selectedDate is not initialized yet
+            selectedDate = LocalDate.now()
+            time = LocalTime.now()
+        }
 
         userId = getAuthorIdFromSharedPreferences() // gets userID from SharedPreference
 
@@ -77,39 +78,34 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
     //Sets the adapter and finds which events are on that day via eventsForDate
     private fun setListViewAdapter() {
         runBlocking {
-            val dailyEvents: ArrayList<EventData> = eventsForDateUser(selectedDate)
+            val dailyEvents: ArrayList<UserEventsData> = eventsForDateUser(selectedDate)
             val calendarListAdapter = CalendarListAdapter(this@CalendarViewActivity, dailyEvents)
             listView.adapter = calendarListAdapter
         }
     }
 
     //main function that compares currently selected date with events user signed up for
-    suspend fun eventsForDateUser(date: LocalDate): ArrayList<EventData> {
+    suspend fun eventsForDateUser(date: LocalDate): ArrayList<UserEventsData> {
 
-        val events = ArrayList<EventData>()
+        val events = ArrayList<UserEventsData>()
         if (userId != null) {
             fetchUserEventsFromUser(userId)
-            if(userEventsDataList.isNotEmpty()){
+            if (userEventsDataList.isNotEmpty()) {
                 //for each list of event data for a single user
 
                 for (eventData in userEventsDataList) {
                     val sessiondId = eventData.eventSessionId
-                    val eventId = eventData.eventId
 
                     //queries and fetches session by current session id
                     val session = fetchSessionBySessionId(sessiondId)
                     //if sessionData's staring date is equal to the selected date
-                    if(session != null){
+                    if (session != null) {
                         //formatting session date to LocalDate type
-                        val formatter = DateTimeFormatter.ofPattern("MMM d yyyy")
-                        val sessionDate = LocalDate.parse(session.startDate, formatter)
+                        val sessionDate = session.startDate
 
                         //if selected date == current event's session date
-                        if (LocalDate.parse(sessionDate.toString()) == date) {
-                            val event: EventData? = fetchEventByEventId(eventId) //fetch event
-                            if (event != null) {
-                                events.add(event) //add event to the temp arraylist of events to display for the selected date
-                            }
+                        if (LocalDate.parse(sessionDate) == date) {
+                            events.add(eventData) //add UserEvent to the temp arraylist of UserEvents to display for the selected date
                         }
                     }
                 }
