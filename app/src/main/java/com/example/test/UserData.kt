@@ -55,6 +55,19 @@ data class UserData(
         parcel.readInt() ?: 0
     )
 
+    //constructor for menu
+    constructor(id:String, email: String, firstname: String) :  this(
+        id,
+        email,
+        firstname,
+        "",
+        "",
+        "",
+        listOf(),
+        "",
+        0
+    )
+
     //Parcelable Implementations
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
@@ -93,5 +106,8 @@ data class UserData(
 //            "reportCases" to reportCases
 //        )
 //    }
+    }
+    fun createUserDataForMenu(id:String, email: String, firstname: String) :UserData {
+        return UserData(id,firstname,email)
     }
 }
