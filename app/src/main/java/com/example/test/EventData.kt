@@ -17,6 +17,7 @@ data class EventData(
         val categories: List<String>,
         val audience: List<String>,
         val authorId: String?,
+        val reportCount : Int
 ) : Parcelable {
 
         // No-argument constructor for Firestore deserialization
@@ -33,8 +34,25 @@ data class EventData(
                 listOf(),
                 listOf(),
                 "",
+                0
         )
 
+        // constructor for converting Firestore DocumentSnapshot to EventData object
+        constructor(documentSnapshot: DocumentSnapshot) : this(
+                documentSnapshot.get("id") as? String ?: UUID.randomUUID().toString(),
+                documentSnapshot.getString("title") ?: "",
+                documentSnapshot.getString("description") ?: "",
+                documentSnapshot.getString("date") ?: "",
+                documentSnapshot.getString("time") ?: "",
+                documentSnapshot.get("eventSessionIds") as? List<String> ?: listOf(), // Change the type
+                documentSnapshot.getString("buildingName"),
+                documentSnapshot.getString("address"),
+                documentSnapshot.getString("userUploadedImageUrl"),
+                documentSnapshot.get("categories") as? List<String> ?: listOf(),
+                documentSnapshot.get("audience") as? List<String> ?: listOf(),
+                documentSnapshot.getString("authorId") ?: "",
+                documentSnapshot.get("reportCount") as? Int ?: 0
+        )
 
         // constructor for Parcelable EventData object to send between activities as Intent attribute
         constructor(parcel: Parcel) : this(
@@ -50,6 +68,7 @@ data class EventData(
                 parcel.createStringArrayList()?.toList() ?: listOf(),
                 parcel.createStringArrayList()?.toList() ?: listOf(),
                 parcel.readString() ?: "",
+                parcel.readInt()
         )
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -65,6 +84,7 @@ data class EventData(
                 parcel.writeStringList(categories)
                 parcel.writeStringList(audience)
                 parcel.writeString(authorId)
+                parcel.writeInt(reportCount)
         }
 
         override fun describeContents(): Int {
