@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+
+            android:id="@+id/bannerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@color/color_primary"
+            android:orientation="vertical"
+            android:padding="16dp"
+            tools:ignore="MissingConstraints">
+
+            <!-- Menu and Map Icons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- Menu Button -->
+                <ImageView
+                    android:id="@+id/menuButton"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/baseline_menu_24" />
+
+                <!-- Map Icon -->
+
+            </LinearLayout>
+
+            <!-- Text: Create a new event -->
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="User Reports"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/graybannerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_tertiary"
+            android:padding="7dp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="70dp">
+
+            <!-- Search Box with Search Icon Inside -->
+            <LinearLayout
+                android:layout_width="405dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- Search Icon Button -->
+                <ImageButton
+                    android:id="@+id/searchedButton"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/baseline_search_24" />
+
+                <!-- Search EditText -->
+                <EditText
+                    android:id="@+id/searchEditText"
+                    android:layout_width="359dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginEnd="45dp"
+                    android:background="#F0F0F0"
+                    android:gravity="center_vertical"
+                    android:hint="Search for Events"
+                    android:inputType="text"
+                    android:maxWidth="250dp"
+                    android:paddingStart="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="8dp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/userListView"
+                android:layout_width="413dp"
+                android:layout_height="607dp"
+                android:layout_weight="5"
+                tools:layout_editor_absoluteX="0dp"
+                tools:listitem="@layout/activity_reported_users_list" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

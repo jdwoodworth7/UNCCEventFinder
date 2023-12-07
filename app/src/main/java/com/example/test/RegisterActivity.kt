@@ -98,7 +98,7 @@ class RegisterActivity : AppCompatActivity() {
                                 editor.apply()
 
 
-                                startActivity(Intent(this@RegisterActivity, MapsActivity::class.java))
+                                startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
                             } else {
                             //Account with this email already exists
                             Toast.makeText(this, "There already exists an account with that email", Toast.LENGTH_SHORT).show()
