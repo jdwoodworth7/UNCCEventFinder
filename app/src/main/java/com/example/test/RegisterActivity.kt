@@ -117,7 +117,7 @@ class RegisterActivity : AppCompatActivity() {
         friendids: List<String>,
         privacy : String
     ) {
-        // Create a new event document in the "Users" collection
+        // Create a new user document in the "Users" collection
         val user = hashMapOf(
             "id" to "",
             "email" to email,
@@ -130,7 +130,7 @@ class RegisterActivity : AppCompatActivity() {
 
         )
 
-        // Add the event to the "Users" collection
+        // Add the user to the "Users" collection
         db.collection("Users")
             .add(user)
             .addOnSuccessListener { documentReference ->
