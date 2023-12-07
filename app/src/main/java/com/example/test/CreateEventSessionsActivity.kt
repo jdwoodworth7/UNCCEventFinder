@@ -200,7 +200,7 @@ class CreateEventSessionsActivity : AppCompatActivity() {
 
     private fun makeDateString(day: Int, month: Int, year: Int): String {
         val date = LocalDate.of(year, month, day)
-        val formatter = DateTimeFormatter.ofPattern("MMM d yyyy", Locale.ENGLISH)
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
         return date.format(formatter)
     }
 
@@ -212,15 +212,9 @@ class CreateEventSessionsActivity : AppCompatActivity() {
         timePickerDialogStart = TimePickerDialog(
             this,
             TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-                // set the selectedTime to the user input value in LocalTime
                 selectedTimeStart = LocalTime.of(hour, minute)
 
-                // Convert 24-hour format to 12-hour format with AM/PM
-                val amPm = if (hour < 12) "AM" else "PM"
-                val displayHour = if (hour > 12) hour - 12 else if (hour == 0) 12 else hour
-                val timeString = String.format(Locale.getDefault(), "%02d:%02d %s", displayHour, minute, amPm)
-
-                // Update the text of the timeButton
+                val timeString = makeTimeString(hour, minute)
                 firstTimeButton.text = timeString
             },
             hourOfDay,
@@ -239,15 +233,9 @@ class CreateEventSessionsActivity : AppCompatActivity() {
         timePickerDialogEnd = TimePickerDialog(
             this,
             TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-                // set the selectedTime to the user input value in LocalTime
                 selectedTimeEnd = LocalTime.of(hour, minute)
 
-                // Convert 24-hour format to 12-hour format with AM/PM
-                val amPm = if (hour < 12) "AM" else "PM"
-                val displayHour = if (hour > 12) hour - 12 else if (hour == 0) 12 else hour
-                val timeString = String.format(Locale.getDefault(), "%02d:%02d %s", displayHour, minute, amPm)
-
-                // Update the text of the timeButton
+                val timeString = makeTimeString(hour, minute)
                 secondTimeButton.text = timeString
             },
             hourOfDay,
@@ -258,18 +246,19 @@ class CreateEventSessionsActivity : AppCompatActivity() {
         timePickerDialogEnd.show()
     }
 
+    private fun makeTimeString(hour: Int, minute: Int): String {
+        val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH)
+        return LocalTime.of(hour, minute).format(formatter)
+    }
+
     // Parse the date and time into LocalDateTime for comparison
     private fun parseDateTime(dateTimeString: String): LocalDateTime {
         val trimmedString = dateTimeString.trim()
-        val formatter = DateTimeFormatter.ofPattern("MMM d uuuu hh:mm a", Locale.getDefault())
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.getDefault())
         return try {
             LocalDateTime.parse(trimmedString, formatter)
         } catch (e: DateTimeParseException) {
-            // Print the problematic dateTimeString for debugging
-            println("Error parsing date and time: $trimmedString")
-            // Print the exception details
             e.printStackTrace()
-            // Handle parsing exception, return current time as a fallback
             LocalDateTime.now()
         }
     }
