@@ -2,7 +2,6 @@ package com.example.test
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.google.firebase.firestore.DocumentSnapshot
 import java.util.UUID
 
 data class EventData(
@@ -17,7 +16,7 @@ data class EventData(
         val imageUri: String?,
         val categories: List<String>,
         val audience: List<String>,
-        val authorId: String?
+        val authorId: String?,
 ) : Parcelable {
 
         // No-argument constructor for Firestore deserialization
@@ -36,21 +35,6 @@ data class EventData(
                 "",
         )
 
-        // constructor for converting Firestore DocumentSnapshot to EventData object
-        constructor(documentSnapshot: DocumentSnapshot) : this(
-                documentSnapshot.get("id") as? String ?: UUID.randomUUID().toString(),
-                documentSnapshot.getString("title") ?: "",
-                documentSnapshot.getString("description") ?: "",
-                documentSnapshot.getString("date") ?: "",
-                documentSnapshot.getString("time") ?: "",
-                documentSnapshot.get("eventSessionIds") as? List<String> ?: listOf(), // Change the type
-                documentSnapshot.getString("buildingName"),
-                documentSnapshot.getString("address"),
-                documentSnapshot.getString("userUploadedImageUrl"),
-                documentSnapshot.get("categories") as? List<String> ?: listOf(),
-                documentSnapshot.get("audience") as? List<String> ?: listOf(),
-                documentSnapshot.getString("authorId") ?: ""
-        )
 
         // constructor for Parcelable EventData object to send between activities as Intent attribute
         constructor(parcel: Parcel) : this(
@@ -96,13 +80,4 @@ data class EventData(
                         return arrayOfNulls(size)
                 }
         }
-
-        data class User(
-                val name: String = "",
-                val privacySettings: PrivacySettings = PrivacySettings()
-        )
-
-        data class PrivacySettings(
-                val showEvents: Boolean = true
-        )
 }

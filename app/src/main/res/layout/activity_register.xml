@@ -114,7 +114,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0.7"
-        android:text="LastName"
+        android:text="Last Name"
         app:layout_constraintBottom_toTopOf="@+id/editLastName"
         app:layout_constraintStart_toStartOf="@+id/editLastName" />
 

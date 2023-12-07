@@ -11,9 +11,9 @@ data class UserData (
         val lastname: String,
         val password: String,
         val status: String,
-        val friendIds: List<String>
-    ) : Parcelable
-    {
+        val friendIds: List<String>,
+        val privacy: String?
+) : Parcelable    {
         // No-argument constructor for Firestore deserialization
         constructor() : this(
         "",
@@ -21,7 +21,8 @@ data class UserData (
         "",
         "",
         "",
-        listOf()
+        listOf(),
+        ""
         )
 
         // constructor for converting Firestore DocumentSnapshot to UserData object
@@ -31,7 +32,8 @@ data class UserData (
         documentSnapshot.getString("lastname") ?: "",
         documentSnapshot.getString("password") ?: "",
         documentSnapshot.getString("status") ?: "",
-        documentSnapshot.get("friendIds") as? List<String> ?: listOf()
+        documentSnapshot.get("friendIds") as? List<String> ?: listOf(),
+        documentSnapshot.getString("privacy") ?: ""
         )
 
         // constructor for Parcelable UserData object to send between activities as Intent attribute
@@ -41,8 +43,9 @@ data class UserData (
             parcel.readString() ?: "",
             parcel.readString() ?: "",
             parcel.readString() ?: "",
-            parcel.createStringArrayList()?.toList() ?: listOf()
-        )
+            parcel.createStringArrayList()?.toList() ?: listOf(),
+            parcel.readString() ?: ""
+            )
 
         //Parcelable Implementations
         override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -52,6 +55,7 @@ data class UserData (
             parcel.writeString(password)
             parcel.writeString(status)
             parcel.writeStringList(friendIds)
+            parcel.writeString(privacy)
         }
 
         override fun describeContents(): Int {
@@ -67,4 +71,15 @@ data class UserData (
                 return arrayOfNulls(size)
             }
         }
+    fun toMap(): Map<String, Any?> {
+        return mapOf(
+            "email" to email,
+            "firstname" to firstname,
+            "lastname" to lastname,
+            "password" to password,
+            "status" to status,
+            "friendIds" to friendIds,
+            "privacy" to privacy
+        )
     }
+}

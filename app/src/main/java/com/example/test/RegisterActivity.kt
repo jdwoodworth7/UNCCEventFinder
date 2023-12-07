@@ -77,6 +77,7 @@ class RegisterActivity : AppCompatActivity() {
                                 val passwordStr: String = password.text.toString()
                                 val blankTemp: String = ""
                                 val blankList = emptyList<String>()
+                                val privacyStr: String = "public"
 
                                 saveUserDataToFirestore(
                                     emailStr ?: "",
@@ -85,6 +86,7 @@ class RegisterActivity : AppCompatActivity() {
                                     passwordStr ?: "",
                                     blankTemp ?: "",
                                     blankList ?: emptyList(),
+                                    privacyStr ?: "",
                                 )
 
                                 // Set a flag indicating that the user has just signed up
@@ -99,7 +101,7 @@ class RegisterActivity : AppCompatActivity() {
                                 startActivity(Intent(this@RegisterActivity, MapsActivity::class.java))
                             } else {
                             //Account with this email already exists
-                            Toast.makeText(this, "There already exists an account with that username", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "There already exists an account with that email", Toast.LENGTH_SHORT).show()
                         }
                     }
             }
@@ -112,7 +114,8 @@ class RegisterActivity : AppCompatActivity() {
         lastname: String,
         password: String,
         status: String,
-        friendids: List<String>
+        friendids: List<String>,
+        privacy : String
     ) {
         // Create a new event document in the "Users" collection
         val user = hashMapOf(
@@ -121,7 +124,9 @@ class RegisterActivity : AppCompatActivity() {
             "lastname" to lastname,
             "password" to password,
             "status" to status,
-            "friendids" to friendids
+            "friendids" to friendids,
+            "privacy" to privacy
+
         )
 
         // Add the event to the "Users" collection
