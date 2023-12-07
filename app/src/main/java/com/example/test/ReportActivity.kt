@@ -1,7 +1,9 @@
 package com.example.test
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.Tasks
@@ -27,6 +29,16 @@ class ReportActivity : AppCompatActivity(){
                 val adapter = ReportedUserListAdapter(this@ReportActivity,userList)
                 listView.adapter = adapter //gets the view based on adapter options
             }
+        }
+
+        // Get a reference to the menuButton
+        val menuButton = findViewById<ImageView>(R.id.menuButton)
+
+        // Set a click listener for the menuButton
+        menuButton.setOnClickListener {
+            // Start the MenuActivity when the menuButton is clicked
+            val intent = Intent(this@ReportActivity, MenuActivity::class.java)
+            startActivity(intent)
         }
 
     }
