@@ -13,7 +13,12 @@ import coil.load
 import com.google.android.gms.maps.model.LatLng
 import java.util.UUID
 import android.content.Context
+import android.widget.ListView
 import androidx.core.content.FileProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -40,6 +45,9 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var mapIcon: ImageView
 
     private lateinit var eventId: String
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var dateAdapter: DateAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,6 +127,30 @@ class DetailsActivity : AppCompatActivity() {
             val intent = Intent(this@DetailsActivity, MapsActivity::class.java)
             startActivity(intent)
         }
+
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        // Replace "your_collection" with your Firestore collection name
+        val firestore = FirebaseFirestore.getInstance()
+        val collectionReference = firestore.collection("your_collection")
+
+        // Retrieve dates from Firestore
+        collectionReference.get()
+            .addOnSuccessListener { documents ->
+                val dateList = mutableListOf<DateModel>()
+                for (document in documents) {
+                    val date = document.getString("date") ?: ""
+                    dateList.add(DateModel(date))
+                }
+
+                dateAdapter = DateAdapter(dateList)
+                recyclerView.adapter = dateAdapter
+            }
+            .addOnFailureListener { exception ->
+                // Handle errors
+            }
+
     }
 
     private fun sendLocationNavigation(event: EventData) {
@@ -179,9 +211,6 @@ class DetailsActivity : AppCompatActivity() {
         file.outputStream().use { fileOutputStream ->
             inputStream.copyTo(fileOutputStream)
         }
-
         return file
     }
-
-
 }
