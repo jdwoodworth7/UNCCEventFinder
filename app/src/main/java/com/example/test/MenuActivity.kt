@@ -44,7 +44,6 @@ class MenuActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
         // Find the "Setting" TextView
         val settings: TextView = findViewById(R.id.settings)
 
