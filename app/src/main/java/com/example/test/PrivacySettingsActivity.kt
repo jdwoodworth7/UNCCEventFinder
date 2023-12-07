@@ -14,11 +14,17 @@ import com.google.firebase.database.ValueEventListener
 class PrivacySettingsActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
 
-    val showEventsSwitch: CheckBox = findViewById(R.id.checkBoxEvents)
+    private lateinit var showEventsSwitch: CheckBox
+
+    private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_privacy_settings)
+
+        showEventsSwitch = findViewById(R.id.checkBoxEvents)
+
+        userId = getAuthorIdFromSharedPreferences() // gets userID from SharedPreference
 
         // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().reference
@@ -58,5 +64,12 @@ class PrivacySettingsActivity : AppCompatActivity() {
             database.child("users").child(userId).child("privacySettings")
                 .child("showEvents").setValue(showEvents)
         }
+    }
+
+    //gets the userId initialized during login
+    private fun getAuthorIdFromSharedPreferences(): String {
+        val sharedPreferences = applicationContext.getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val authorId = sharedPreferences.getString("authorId", null)
+        return authorId.toString()
     }
 }
