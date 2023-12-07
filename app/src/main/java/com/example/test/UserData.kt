@@ -13,6 +13,7 @@ data class UserData(
     val password: String,
     val status: String,
     val friendIds: List<String>,
+    val privacy: String?,
     val reportCases: Int
 ) : Parcelable {
     // No-argument constructor for Firestore deserialization
@@ -24,6 +25,7 @@ data class UserData(
         "",
         "",
         listOf(),
+        "",  
         0
     )
 
@@ -36,6 +38,7 @@ data class UserData(
         documentSnapshot.getString("password") ?: "",
         documentSnapshot.getString("status") ?: "",
         documentSnapshot.get("friendIds") as? List<String> ?: listOf(),
+        documentSnapshot.getString("privacy") ?: ""
         documentSnapshot.get("reportCases") as? Int ?: 0
     )
 
@@ -48,6 +51,7 @@ data class UserData(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.createStringArrayList()?.toList() ?: listOf(),
+        parcel.readString() ?: "",
         parcel.readInt() ?: 0
     )
 
@@ -60,6 +64,7 @@ data class UserData(
         parcel.writeString(password)
         parcel.writeString(status)
         parcel.writeStringList(friendIds)
+        parcel.writeString(privacy)
         parcel.writeInt(reportCases)
     }
 
@@ -75,5 +80,17 @@ data class UserData(
         override fun newArray(size: Int): Array<UserData?> {
             return arrayOfNulls(size)
         }
+    fun toMap(): Map<String, Any?> {
+        return mapOf(
+            "id" to id,
+            "email" to email,
+            "firstname" to firstname,
+            "lastname" to lastname,
+            "password" to password,
+            "status" to status,
+            "friendIds" to friendIds,
+            "privacy" to privacy,
+            "reportCases" to reportCases
+        )
     }
 }

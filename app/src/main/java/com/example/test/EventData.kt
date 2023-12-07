@@ -2,7 +2,6 @@ package com.example.test
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.google.firebase.firestore.DocumentSnapshot
 import java.util.UUID
 
 data class EventData(
@@ -101,13 +100,4 @@ data class EventData(
                         return arrayOfNulls(size)
                 }
         }
-
-        data class User(
-                val name: String = "",
-                val privacySettings: PrivacySettings = PrivacySettings()
-        )
-
-        data class PrivacySettings(
-                val showEvents: Boolean = true
-        )
 }
