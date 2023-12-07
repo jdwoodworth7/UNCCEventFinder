@@ -44,8 +44,6 @@ class ReportedUserListAdapter(
         intent.putExtra("id", userData.id)
         intent.putExtra("firstname", userData.firstname)
         intent.putExtra("lastname", userData.lastname)
-        intent.putExtra("email", userData.email)
-        intent.putExtra("reportCases", userData.reportCases)
 
         context.startActivity(intent)
     }

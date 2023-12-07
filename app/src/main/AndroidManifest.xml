@@ -32,10 +32,16 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <activity
+            android:name=".ReportedEventActivity"
+            android:exported="false"/>
+        <activity
             android:name=".ReportActivity"
             android:exported="false"/>
         <activity
             android:name=".ReportedUserActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ReportDetailsActivity"
             android:exported="false"/>
         <activity
             android:name=".DetailsActivity"
