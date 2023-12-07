@@ -3,7 +3,6 @@ package com.example.test
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.method.ScrollingMovementMethod
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -13,7 +12,9 @@ import coil.load
 import com.google.android.gms.maps.model.LatLng
 import java.util.UUID
 import android.content.Context
-import android.widget.ListView
+import android.text.Layout
+import android.view.Gravity
+import android.widget.GridLayout
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -82,18 +83,21 @@ class DetailsActivity : AppCompatActivity() {
             eventAddress.text = selectedEvent.address
             eventImage.load(selectedEvent.imageUri)
 
-            eventDescription.movementMethod = ScrollingMovementMethod()
-
             val categories = selectedEvent.categories
 
             for (category in categories) {
                 val button = Button(this)
                 button.text = category
                 // Set any additional properties or click listeners for the button as needed
+                val params = GridLayout.LayoutParams()
+                params.width = GridLayout.LayoutParams.WRAP_CONTENT
+                params.height = GridLayout.LayoutParams.WRAP_CONTENT
+                params.setMargins(0, 0, 0, 0) // Adjust margins as needed
+                button.layoutParams = params
 
                 // Add the button to your layout
-                val linearLayout = findViewById<LinearLayout>(R.id.categoryButtonsLayout)
-                linearLayout.addView(button)
+                val gridLayout: LinearLayout = findViewById(R.id.categoryButtonsLayout)
+                gridLayout.addView(button)
             }
 
             val audiencesList = selectedEvent.audience
@@ -101,11 +105,16 @@ class DetailsActivity : AppCompatActivity() {
             for (audience in audiencesList) {
                 val button = Button(this)
                 button.text = audience
-                // Set any additional properties or click listeners for the button as needed
+                val params = GridLayout.LayoutParams()
+                params.width = GridLayout.LayoutParams.WRAP_CONTENT
+                params.height = GridLayout.LayoutParams.WRAP_CONTENT
+                params.setMargins(0, 0, 0, 0) // Adjust margins as needed
+                button.layoutParams = params
 
+                // Set any additional properties or click listeners for the button as needed
                 // Add the button to your layout
-                val linearLayout = findViewById<LinearLayout>(R.id.audienceButtonsLayout)
-                linearLayout.addView(button)
+                val gridLayout: LinearLayout = findViewById(R.id.audienceButtonsLayout)
+                gridLayout.addView(button)
             }
 
             interestButton.setOnClickListener {
