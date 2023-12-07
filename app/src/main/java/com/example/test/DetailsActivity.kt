@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.LatLng
 import java.util.UUID
 import android.content.Context
 import android.widget.ListView
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,6 +42,7 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var interestButton: Button
     private lateinit var navigationButton: Button
     private lateinit var shareButton: Button
+    private lateinit var reportButton: AppCompatImageButton
     private lateinit var menuButton: ImageView
     private lateinit var mapIcon: ImageView
 
@@ -66,7 +68,9 @@ class DetailsActivity : AppCompatActivity() {
         eventDate = findViewById(R.id.eventDate)
         eventImage = findViewById(R.id.eventImage)
         shareButton = findViewById(R.id.shareButton)
+        reportButton = findViewById(R.id.reportButton)
 
+        //gets fetched event data from the previous activity
         val selectedEvent = intent.getParcelableExtra<EventData>("event")
         if (selectedEvent != null) {
             eventId = selectedEvent.id
@@ -113,6 +117,9 @@ class DetailsActivity : AppCompatActivity() {
 
             shareButton.setOnClickListener {
                 shareEventDetails(selectedEvent, this@DetailsActivity)
+            }
+            reportButton.setOnClickListener{
+                reportEvent(selectedEvent)
             }
         }
 
@@ -212,5 +219,16 @@ class DetailsActivity : AppCompatActivity() {
             inputStream.copyTo(fileOutputStream)
         }
         return file
+    }
+
+    //starts the report event activity with intent
+    private fun reportEvent(selectedEvent: EventData) {
+            val intent = Intent(this@DetailsActivity, ReportCreateActivity::class.java)
+
+            //put the Event object (parcelized) as an extra in the intent
+            intent.putExtra("selectedEvent", selectedEvent)
+
+            // Start the next activity
+            startActivity(intent)
     }
 }
