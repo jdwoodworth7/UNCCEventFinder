@@ -48,7 +48,7 @@ data class UserData(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.createStringArrayList()?.toList() ?: listOf(),
-        parcel.readInt() ?: 0
+        parcel.readInt() as? Int ?: 0
     )
 
     //Parcelable Implementations
