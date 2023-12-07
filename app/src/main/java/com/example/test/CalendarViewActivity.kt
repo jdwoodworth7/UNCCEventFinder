@@ -89,25 +89,27 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
         val events = ArrayList<EventData>()
         if (userId != null) {
             fetchUserEventsFromUser(userId)
+            if(userEventsDataList.isNotEmpty()){
+                //for each list of event data for a single user
 
-            //for each list of event data for a single user
-            for (eventData in userEventsDataList) {
-                val sessiondId = eventData.eventSessionId
-                val eventId = eventData.eventId
+                for (eventData in userEventsDataList) {
+                    val sessiondId = eventData.eventSessionId
+                    val eventId = eventData.eventId
 
-                //queries and fetches session by current session id
-                val session = fetchSessionBySessionId(sessiondId)
-                //if sessionData's staring date is equal to the selected date
-                if(session != null){
-                    //formatting session date to LocalDate type
-                    val formatter = DateTimeFormatter.ofPattern("MMM d yyyy")
-                    val sessionDate = LocalDate.parse(session.startDate, formatter)
+                    //queries and fetches session by current session id
+                    val session = fetchSessionBySessionId(sessiondId)
+                    //if sessionData's staring date is equal to the selected date
+                    if(session != null){
+                        //formatting session date to LocalDate type
+                        val formatter = DateTimeFormatter.ofPattern("MMM d yyyy")
+                        val sessionDate = LocalDate.parse(session.startDate, formatter)
 
-                    //if selected date == current event's session date
-                    if (LocalDate.parse(sessionDate.toString()) == date) {
-                        val event: EventData? = fetchEventByEventId(eventId) //fetch event
-                        if (event != null) {
-                            events.add(event) //add event to the temp arraylist of events to display for the selected date
+                        //if selected date == current event's session date
+                        if (LocalDate.parse(sessionDate.toString()) == date) {
+                            val event: EventData? = fetchEventByEventId(eventId) //fetch event
+                            if (event != null) {
+                                events.add(event) //add event to the temp arraylist of events to display for the selected date
+                            }
                         }
                     }
                 }
@@ -171,7 +173,7 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
 
     //Find the recycler view and text view on startup and make them variables
     private fun initWidgets() {
-        listView = findViewById(R.id.userListView)
+        listView = findViewById(R.id.calendarListView)
         monthYearText = findViewById(R.id.monthYearTV)
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView)
     }
