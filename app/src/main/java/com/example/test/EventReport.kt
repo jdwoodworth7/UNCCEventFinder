@@ -6,20 +6,22 @@ import com.google.firebase.firestore.DocumentSnapshot
 import java.util.UUID
 
 data class EventReport(
-    val authorId: String,
-    val category: List<String>,
+    val id: String,
+    val eventAuthorId: String,
+    val reportAuthorId: String,
+    val reportedDate: String,
+    val category: String,
     val details: String,
     val eventId: String,
     val eventName: String,
-    val imageUri: String?,
-    val reportAuthorId: String
     ) : Parcelable {
 
     //No-argument constructor for Firestore deserialization
 
     constructor() : this(
         "",
-        listOf(),
+        "",
+        "",
         "",
         "",
         "",
@@ -29,19 +31,21 @@ data class EventReport(
 
     // constructor for converting Firestore DocumentSnapshot to EventReport object
     constructor(documentSnapshot: DocumentSnapshot) : this(
-        documentSnapshot.getString("authorId") ?: "",
-        documentSnapshot.get("category") as? List<String> ?: listOf(),
+        documentSnapshot.getString("id") ?: "",
+        documentSnapshot.getString("eventAuthorId") ?: "",
+        documentSnapshot.getString("category") ?: "",
         documentSnapshot.getString("details") ?: "",
+        documentSnapshot.getString("reportedDate") ?: "",
         documentSnapshot.getString("eventId") ?: "",
         documentSnapshot.getString("eventName") ?: "",
-        documentSnapshot.getString("imageUri") ?: "",
         documentSnapshot.getString("reportAuthorId") ?: ""
         )
 
     // constructor for Parcelable EventReport object to send between activities as Intent attribute
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
-        parcel.createStringArrayList()?.toList() ?: listOf(),
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -52,12 +56,13 @@ data class EventReport(
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(authorId)
-        parcel.writeStringList(category)
+        parcel.writeString(id)
+        parcel.writeString(eventAuthorId)
+        parcel.writeString(category)
         parcel.writeString(details)
+        parcel.writeString(reportedDate)
         parcel.writeString(eventId)
         parcel.writeString(eventName)
-        parcel.writeString(imageUri)
         parcel.writeString(reportAuthorId)
 
     }

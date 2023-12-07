@@ -1,6 +1,7 @@
 package com.example.test
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,6 +52,21 @@ class ReportListAdapter(
             }
         }
 
+        view.setOnClickListener{
+            startReportDetailsActivity(position)
+        }
+
         return view
+    }
+
+    fun startReportDetailsActivity(position: Int) {
+        val intent = Intent(context, ReportedEventActivity::class.java)
+        val eventData = dataSource[position]
+
+        intent.putExtra("id", eventData.id)
+//        intent.putExtra("title", eventData.title)
+//        intent.putExtra("authorId" , eventData.authorId)
+
+        context.startActivity(intent)
     }
 }

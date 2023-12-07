@@ -23,15 +23,13 @@ class ReportedUserActivity : AppCompatActivity() {
         val authorId = intent.getStringExtra("id")
         val firstName = intent.getStringExtra("firstname")
         val lastName = intent.getStringExtra("lastname")
-        val email = intent.getStringExtra("email")
-        val reportCases = intent.getStringExtra("reportCases")
 
-        val authorName = "$firstName $lastName"
+        val authorName: String = "$firstName $lastName"
 
         val listView = findViewById<ListView>(R.id.reportedEventsListView) //defines list view to populate data into it
 
         runBlocking {
-            val userReportedEvents = fetchAuthorEventsWithReports(authorId)
+            val userReportedEvents = fetchAuthorEventsWithReports(authorId)  //fetches events by selected user with report
 
             val adapter = ReportListAdapter(this@ReportedUserActivity,userReportedEvents, authorName)
             listView.adapter = adapter //gets the view based on adapter options
