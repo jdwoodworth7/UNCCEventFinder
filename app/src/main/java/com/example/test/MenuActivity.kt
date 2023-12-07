@@ -12,6 +12,16 @@ class MenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
+        //return the UserData object after fetching from shared preference
+        val userInfo = getUserFromSharedPreferences()
+
+        val userNameView : TextView = findViewById(R.id.studentName)
+        val userEmailView : TextView = findViewById(R.id.studentEmail)
+
+        //set the text view by UserData object field values
+        userNameView.text = userInfo.firstname
+        userEmailView.text = userInfo.email
+
         // Find the "Create an Event" TextView
         val createEventTextView: TextView = findViewById(R.id.createEvent)
 
@@ -66,5 +76,15 @@ class MenuActivity : AppCompatActivity() {
             val intent = Intent(this@MenuActivity, ReportActivity::class.java)
             startActivity(intent)
         }
+    }
+    private fun getUserFromSharedPreferences(): UserData {
+        val sharedPreferences = applicationContext.getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val id = sharedPreferences.getString("authorId", null).toString()
+        val email = sharedPreferences.getString("email", null).toString()
+        val username = sharedPreferences.getString("username", null).toString()
+
+        val userData = UserData().createUserDataForMenu(id, username, email)
+
+        return userData
     }
 }

@@ -135,7 +135,7 @@
             android:textStyle="bold" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/reportButton"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"

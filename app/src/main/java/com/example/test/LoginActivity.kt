@@ -55,12 +55,13 @@ class LoginActivity : AppCompatActivity() {
                             // Access additional fields from the user's document
                             authorId = userDocument.id
                             val username = userDocument.getString("firstname")
+                            val email = userDocument.getString("email")
 
                             // Saying Welcome firstname
                             Toast.makeText(this, "Welcome, $username!", Toast.LENGTH_SHORT).show()
 
                             // Save authorId to SharedPreferences
-                            saveAuthorIdToSharedPreferences(authorId)
+                            saveAuthorIdToSharedPreferences(authorId, username, email)
 
                             // Proceed to MapsActivity
                             val intent = Intent(this@LoginActivity, MapsActivity::class.java)
@@ -73,10 +74,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     // Save authorId to SharedPreferences
-    private fun saveAuthorIdToSharedPreferences(authorId: String?) {
+    private fun saveAuthorIdToSharedPreferences(authorId: String?, username: String?, email: String?) {
         val sharedPreferences = this.applicationContext.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("authorId", authorId)
+        editor.putString("username", username)
+        editor.putString("email", email)
         editor.apply()
     }
 

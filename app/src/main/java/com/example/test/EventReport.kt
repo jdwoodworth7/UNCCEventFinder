@@ -14,7 +14,7 @@ data class EventReport(
     val details: String,
     val eventId: String,
     val eventName: String,
-    ) : Parcelable {
+) : Parcelable {
 
     //No-argument constructor for Firestore deserialization
 
@@ -27,7 +27,7 @@ data class EventReport(
         "",
         "",
         ""
-        )
+    )
 
     // constructor for converting Firestore DocumentSnapshot to EventReport object
     constructor(documentSnapshot: DocumentSnapshot) : this(
@@ -39,7 +39,7 @@ data class EventReport(
         documentSnapshot.getString("eventId") ?: "",
         documentSnapshot.getString("eventName") ?: "",
         documentSnapshot.getString("reportAuthorId") ?: ""
-        )
+    )
 
     // constructor for Parcelable EventReport object to send between activities as Intent attribute
     constructor(parcel: Parcel) : this(
@@ -52,7 +52,7 @@ data class EventReport(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
 
-    ) {
+        ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
