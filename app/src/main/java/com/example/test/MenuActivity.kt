@@ -2,6 +2,7 @@ package com.example.test // Change this package name to match your app's package
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -52,6 +53,18 @@ class MenuActivity : AppCompatActivity() {
 
             // Launch PrivacySettingsActivity
             val intent = Intent(this@MenuActivity, PrivacySettingsActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Find the "Admin View" TextView
+
+        val btnAdminView : Button = findViewById(R.id.btnAdminView)
+
+        // Set an onClickListener for "btnAdminView"
+        btnAdminView.setOnClickListener {
+
+            // Launch ReportActivity
+            val intent = Intent(this@MenuActivity, ReportActivity::class.java)
             startActivity(intent)
         }
     }

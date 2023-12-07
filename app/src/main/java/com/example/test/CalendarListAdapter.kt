@@ -65,6 +65,7 @@ class CalendarListAdapter (private val context : Activity, private val arrayList
         }
     }
 
+    //TODO: make remove functional to the Firebase
     private fun handleRemovalButtonClick(position: Int){
         //focuses on the selected event among events in the list (same date)
         val eventData = arrayList[position]

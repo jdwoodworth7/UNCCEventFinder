@@ -111,6 +111,8 @@ class EventDbAccess(private val context: Context) {
             val authorId =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_TITLE))
 
+            val reportCount = 0
+
             val categories = mutableListOf<String>()
             if (academic) categories.add("Academic")
             if (social) categories.add("Social")
@@ -141,7 +143,8 @@ class EventDbAccess(private val context: Context) {
                 imageUrl,
                 categories,
                 audience,
-                authorId
+                authorId,
+                reportCount
             )
             eventList.add(eventData)
         }
@@ -282,6 +285,8 @@ class EventDbAccess(private val context: Context) {
             val authorId =
                 cursor.getString(cursor.getColumnIndexOrThrow(EventContract.EventEntry.COLUMN_TITLE))
 
+            val reportCount = 0
+
             // Create an EventData object for the retrieved row
             val eventData = EventData(
                 id.toString(),
@@ -295,7 +300,8 @@ class EventDbAccess(private val context: Context) {
                 imageUrl,
                 categories,
                 audience,
-                authorId
+                authorId,
+                reportCount
             )
         }
         cursor.close()
