@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.google.firebase.firestore.DocumentSnapshot
 
 data class UserEventsData (
+    val id: String,
     val userId: String,
     val eventId: String, //unique identifier from EventDat data class
     val eventSessionId: String //unique identifier from EventSessionData data class
@@ -15,10 +16,12 @@ data class UserEventsData (
         "",
         "",
         "",
+        "",
     )
 
     // constructor for converting Firestore DocumentSnapshot to UserEventsData object
     constructor(documentSnapshot: DocumentSnapshot) : this(
+        documentSnapshot.getString("id") ?: "",
         documentSnapshot.getString("userId") ?: "",
         documentSnapshot.getString("eventId") ?: "",
         documentSnapshot.getString("eventSessionId") ?: "",
@@ -29,9 +32,11 @@ data class UserEventsData (
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
+        parcel.readString() ?: "",
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
         parcel.writeString(userId)
         parcel.writeString(eventId)
         parcel.writeString(eventSessionId)
