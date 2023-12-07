@@ -23,12 +23,14 @@ class ReportedUserActivity : AppCompatActivity() {
         val email = intent.getStringExtra("email")
         val reportCases = intent.getStringExtra("reportCases")
 
+        val authorName = "$firstName $lastName"
+
         val listView = findViewById<ListView>(R.id.reportedEventsListView) //defines list view to populate data into it
 
         runBlocking {
             val userReportedEvents = fetchAuthorEventsWithReports(authorId)
 
-            val adapter = ReportListAdapter(this@ReportedUserActivity,userReportedEvents)
+            val adapter = ReportListAdapter(this@ReportedUserActivity,userReportedEvents, authorName)
             listView.adapter = adapter //gets the view based on adapter options
         }
     }
@@ -36,7 +38,7 @@ class ReportedUserActivity : AppCompatActivity() {
     //fetches all events hosted by the user with filter with reports only
     suspend fun fetchAuthorEventsWithReports (authorId : String?) : MutableList<EventData> {
         return withContext(Dispatchers.IO){
-            val eventCollectionRef = firestore.collection("Users")
+            val eventCollectionRef = firestore.collection("Events")
             val query = eventCollectionRef
                 .whereEqualTo("authorId" , authorId)
                 .whereGreaterThan("reportCount", 0)

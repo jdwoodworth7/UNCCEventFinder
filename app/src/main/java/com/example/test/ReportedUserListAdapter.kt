@@ -24,7 +24,7 @@ class ReportedUserListAdapter(
 
         //set data to the views based on the position in the data source
         val user = getItem(position)
-        val fullName = dataSource[position].firstname + "" + dataSource[position].lastname
+        val fullName = dataSource[position].firstname + " " + dataSource[position].lastname
 
         lblUserName.text = fullName
         lblUserEmail.text = dataSource[position].email

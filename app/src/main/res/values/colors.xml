@@ -6,4 +6,8 @@
     <color name="color_primary">#005035</color>
     <color name="color_secondary">#F1E6B2</color>
     <color name="color_tertiary">#A49665</color>
+
+    <color name="color_danger">#F00A03</color>
+    <color name="color_warning">#D35E30</color>
+    <color name="color_light_warning">#D3A912</color>
 </resources>
