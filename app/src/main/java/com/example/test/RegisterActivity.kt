@@ -119,6 +119,7 @@ class RegisterActivity : AppCompatActivity() {
     ) {
         // Create a new event document in the "Users" collection
         val user = hashMapOf(
+            "id" to "",
             "email" to email,
             "firstname" to firstname,
             "lastname" to lastname,
@@ -133,10 +134,21 @@ class RegisterActivity : AppCompatActivity() {
         db.collection("Users")
             .add(user)
             .addOnSuccessListener { documentReference ->
-                Log.d("Firestore", "DocumentSnapshot added with ID: ${documentReference.id}")
+                val documentId = documentReference.id
+                Log.d("Firestore", "DocumentSnapshot added with ID: $documentId")
 
-                // Finish the current activity to remove it from the back stack
-                finish()
+                user["id"] = documentId
+
+                db.collection("Users").document(documentId).set(user)
+                    .addOnSuccessListener {
+                        Log.d("Firestore", "DocumentSnapshot updated with ID: $documentId")
+
+                        // Finish the current activity to remove it from the back stack
+                        finish()
+                    }
+                    .addOnFailureListener{e ->
+                        Log.e("Firestore", "Error updating event document", e)
+                    }
             }
             .addOnFailureListener { e ->
                 Log.e("Firestore", "Error adding event document", e)
