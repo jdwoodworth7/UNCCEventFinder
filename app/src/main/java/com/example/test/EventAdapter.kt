@@ -48,7 +48,7 @@ class EventAdapter(private val eventList: MutableList<EventData>) :
         }
     }
 
-    // Bind data to the views in each item
+    // Bind data to the views in each items
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         // Get the data for the current item
         val currentItem = eventList[position]
