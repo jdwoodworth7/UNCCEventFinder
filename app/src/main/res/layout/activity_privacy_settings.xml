@@ -75,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="@string/allow_friends_to_events"/>
+        android:text="@string/allow_events_visibility"/>
 
     <!--    &lt;!&ndash; Receive Notifications &ndash;&gt;
         <CheckBox

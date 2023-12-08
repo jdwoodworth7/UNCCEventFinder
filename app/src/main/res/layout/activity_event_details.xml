@@ -125,7 +125,7 @@
             android:layout_height="40dp"
             android:text="@string/i_m_interested"
             android:textSize="16sp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:textStyle="bold" />
 
         <Button
@@ -173,10 +173,10 @@
                 android:padding="4dp"
                 android:textStyle="bold"
                 android:layout_gravity="center"
-                app:drawableLeftCompat="@drawable/baseline_calendar_month_24" />
+                app:drawableLeftCompat="@drawable/calendar" />
 
             <TextView
-                android:id="@+id/eventDate"
+                android:id="@+id/eventStartDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="4dp"
@@ -184,7 +184,15 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/eventTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textSize="24sp"
+                android:text=" - "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/eventEndDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="4dp"
@@ -296,7 +304,6 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:gravity="center" />
-
         <Space
             android:layout_width="0dp"
             android:layout_height="0dp"
