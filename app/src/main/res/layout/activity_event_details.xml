@@ -173,10 +173,10 @@
                 android:padding="4dp"
                 android:textStyle="bold"
                 android:layout_gravity="center"
-                app:drawableLeftCompat="@drawable/baseline_calendar_month_24" />
+                app:drawableLeftCompat="@drawable/calendar" />
 
             <TextView
-                android:id="@+id/eventDate"
+                android:id="@+id/eventStartDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="4dp"
@@ -184,7 +184,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/eventTime"
+                android:id="@+id/eventEndDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="4dp"

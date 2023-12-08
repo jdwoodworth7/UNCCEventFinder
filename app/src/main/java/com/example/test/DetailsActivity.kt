@@ -33,7 +33,8 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var userId: UUID
     private lateinit var eventTitle: TextView
     private lateinit var eventTime: TextView
-    private lateinit var eventDate: TextView
+    private lateinit var eventStartDate: TextView
+    private lateinit var eventEndDate: TextView
     private lateinit var eventAddress: TextView
     private lateinit var eventLocation: TextView
     private lateinit var eventDescription: TextView
@@ -65,8 +66,9 @@ class DetailsActivity : AppCompatActivity() {
         eventTitle = findViewById(R.id.detailTitle)
         eventLocation = findViewById(R.id.detailLocation)
         eventAddress = findViewById(R.id.detailAddress)
-        eventTime = findViewById(R.id.eventTime)
-        eventDate = findViewById(R.id.eventDate)
+        //eventTime = findViewById(R.id.eventTime)
+        eventStartDate = findViewById(R.id.eventStartDate)
+        eventEndDate = findViewById(R.id.eventEndDate)
         eventImage = findViewById(R.id.eventImage)
         shareButton = findViewById(R.id.shareButton)
         reportButton = findViewById(R.id.reportButton)
@@ -77,7 +79,7 @@ class DetailsActivity : AppCompatActivity() {
             eventId = selectedEvent.id
             eventTitle.text = selectedEvent.title
             eventDescription.text = selectedEvent.description
-            eventDate.text = selectedEvent.date
+            eventStartDate.text = selectedEvent.date
             eventTime.text = selectedEvent.time
             eventLocation.text = selectedEvent.buildingName
             eventAddress.text = selectedEvent.address
