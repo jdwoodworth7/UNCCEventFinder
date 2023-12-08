@@ -125,7 +125,7 @@
             android:layout_height="40dp"
             android:text="@string/i_m_interested"
             android:textSize="16sp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:textStyle="bold" />
 
         <Button
@@ -181,6 +181,14 @@
                 android:layout_height="wrap_content"
                 android:padding="4dp"
                 android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textSize="24sp"
+                android:text=" - "
                 android:textStyle="bold" />
 
             <TextView
@@ -296,7 +304,6 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:gravity="center" />
-
         <Space
             android:layout_width="0dp"
             android:layout_height="0dp"

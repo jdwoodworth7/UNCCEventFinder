@@ -1,6 +1,5 @@
 package com.example.test
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -9,15 +8,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
-import com.google.android.gms.maps.model.LatLng
 import java.util.UUID
 import android.content.Context
-import android.text.Layout
-import android.view.Gravity
-import android.widget.GridLayout
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.FileProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
@@ -27,6 +21,10 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.InputStream
 import java.net.URL
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 
 class DetailsActivity : AppCompatActivity() {
     private lateinit var userIdS: String
@@ -79,44 +77,35 @@ class DetailsActivity : AppCompatActivity() {
             eventId = selectedEvent.id
             eventTitle.text = selectedEvent.title
             eventDescription.text = selectedEvent.description
-            eventStartDate.text = selectedEvent.date
-            eventTime.text = selectedEvent.time
+
+            dayOfWeek(selectedEvent.date, selectedEvent.date)
+
+            //eventTime.text = selectedEvent.time
             eventLocation.text = selectedEvent.buildingName
             eventAddress.text = selectedEvent.address
             eventImage.load(selectedEvent.imageUri)
 
             val categories = selectedEvent.categories
+            val categoryLayout: LinearLayout = findViewById(R.id.categoryButtonsLayout)
 
             for (category in categories) {
                 val button = Button(this)
                 button.text = category
                 // Set any additional properties or click listeners for the button as needed
-                val params = GridLayout.LayoutParams()
-                params.width = GridLayout.LayoutParams.WRAP_CONTENT
-                params.height = GridLayout.LayoutParams.WRAP_CONTENT
-                params.setMargins(0, 0, 0, 0) // Adjust margins as needed
-                button.layoutParams = params
-
                 // Add the button to your layout
-                val gridLayout: LinearLayout = findViewById(R.id.categoryButtonsLayout)
-                gridLayout.addView(button)
+                categoryLayout.addView(button)
             }
 
             val audiencesList = selectedEvent.audience
+            val audienceLayout: LinearLayout = findViewById(R.id.audienceButtonsLayout)
 
             for (audience in audiencesList) {
                 val button = Button(this)
                 button.text = audience
-                val params = GridLayout.LayoutParams()
-                params.width = GridLayout.LayoutParams.WRAP_CONTENT
-                params.height = GridLayout.LayoutParams.WRAP_CONTENT
-                params.setMargins(0, 0, 0, 0) // Adjust margins as needed
-                button.layoutParams = params
 
                 // Set any additional properties or click listeners for the button as needed
                 // Add the button to your layout
-                val gridLayout: LinearLayout = findViewById(R.id.audienceButtonsLayout)
-                gridLayout.addView(button)
+                audienceLayout.addView(button)
             }
 
             interestButton.setOnClickListener {
@@ -242,4 +231,31 @@ class DetailsActivity : AppCompatActivity() {
             // Start the next activity
             startActivity(intent)
     }
+
+    private fun dayOfWeek(dateS: String, dateE: String) {
+        // Assuming you have a date string from Firestore
+        val dateStart = dateS
+        val dateEnd = dateE
+
+        // Parse the date string into a LocalDate object
+        val localDateStart = LocalDate.parse(dateStart)
+        val localDateEnd = LocalDate.parse(dateEnd)
+
+        // Create a LocalDateTime object by adding a default time (midnight)
+        val localDateTime = localDateStart.atStartOfDay()
+        val localDateTime1 = localDateEnd.atStartOfDay()
+
+
+        // Define a date time formatter pattern for day of the week and day of the month
+        val formatter = DateTimeFormatter.ofPattern("MMM d'th'")
+
+        // Format the LocalDateTime object using the formatter
+        val formattedDateTimeStart = localDateTime.format(formatter)
+        val formattedDateTimeEnd = localDateTime1.format(formatter)
+
+        // Set the formatted date to your eventEndDate TextView or any other UI element
+        eventStartDate.text = formattedDateTimeStart
+        eventEndDate.text = formattedDateTimeEnd
+    }
+
 }
