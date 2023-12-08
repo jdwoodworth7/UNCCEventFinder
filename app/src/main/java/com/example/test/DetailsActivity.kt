@@ -22,7 +22,6 @@ import java.io.File
 import java.io.InputStream
 import java.net.URL
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
@@ -232,11 +231,7 @@ class DetailsActivity : AppCompatActivity() {
             startActivity(intent)
     }
 
-    private fun dayOfWeek(dateS: String, dateE: String) {
-        // Assuming you have a date string from Firestore
-        val dateStart = dateS
-        val dateEnd = dateE
-
+    private fun dayOfWeek(dateStart: String, dateEnd: String) {
         // Parse the date string into a LocalDate object
         val localDateStart = LocalDate.parse(dateStart)
         val localDateEnd = LocalDate.parse(dateEnd)
