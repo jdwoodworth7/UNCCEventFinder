@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 
 class MenuActivity : AppCompatActivity() {
 
@@ -69,6 +70,10 @@ class MenuActivity : AppCompatActivity() {
 
         val btnAdminView : Button = findViewById(R.id.btnAdminView)
 
+        if(userInfo.isModerator) {
+            btnAdminView.isVisible = true
+        }
+
         // Set an onClickListener for "btnAdminView"
         btnAdminView.setOnClickListener {
 
@@ -92,8 +97,9 @@ class MenuActivity : AppCompatActivity() {
         val id = sharedPreferences.getString("authorId", null).toString()
         val email = sharedPreferences.getString("email", null).toString()
         val username = sharedPreferences.getString("username", null).toString()
+        val isModerator = sharedPreferences.getBoolean("isModerator", false)
 
-        val userData = UserData().createUserDataForMenu(id, username, email)
+        val userData = UserData().createUserDataForMenu(id, username, email, isModerator)
 
         return userData
     }
