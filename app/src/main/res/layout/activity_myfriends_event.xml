@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_primary"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/bannerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/color_primary"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Menu and Map Icons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Menu Button -->
+            <ImageView
+                android:id="@+id/menuButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/baseline_menu_24"
+                android:layout_marginEnd="10dp"/>
+
+            <!-- Map Icon -->
+
+        </LinearLayout>
+
+        <!-- Text: Create a new event -->
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="My Friends"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Search Icon Button -->
+
+        <!-- Search EditText -->
+
+        <ImageButton
+            android:id="@+id/searchedButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/baseline_search_24"
+            android:visibility="invisible" />
+
+        <RelativeLayout
+            android:id="@+id/graybannerLayout"
+            android:layout_width="366dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bannerLayout"
+            android:background="#C0CCDA"
+            android:padding="7dp">
+
+            <ImageButton
+                android:id="@+id/searchedButton"
+                android:layout_width="35dp"
+                android:layout_height="37dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/baseline_search_24" />
+
+            <EditText
+                android:id="@+id/searchEditText"
+                android:layout_width="308dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="11dp"
+                android:background="#F0F0F0"
+                android:gravity="center_vertical"
+                android:hint="Search My Friends"
+                android:inputType="text"
+                android:maxWidth="250dp"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="167dp"
+            android:layout_marginTop="256dp"
+            android:text="No one is here"
+            android:textColor="#0C0C0C" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/AddFriendsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="36dp"
+            android:layout_marginBottom="69dp"
+            android:clickable="true"
+            android:src="@android:drawable/ic_input_add"
+            app:backgroundTint="#135457" />
+    </RelativeLayout>
+
+    <!--Banner: Month and Year + Buttons to swap month-->
+
+
+    <!--Days of the week text-->
+
+
+    <!--Location for recyclerview-->
+
+    <!--Location for the list view-->
+
+</LinearLayout>

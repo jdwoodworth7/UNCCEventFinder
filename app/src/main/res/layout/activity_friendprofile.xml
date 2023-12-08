@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_primary"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/bannerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/color_primary"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Menu and Map Icons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Menu Button -->
+            <ImageView
+                android:id="@+id/menuButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/baseline_menu_24" />
+
+            <!-- Map Icon -->
+
+        </LinearLayout>
+
+        <!-- Text: Create a new event -->
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Add Friends"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="662dp">
+
+        <RelativeLayout
+            android:id="@+id/Content"
+            android:layout_width="match_parent"
+            android:layout_height="398dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="263dp"
+            android:layout_marginEnd="0dp"
+            android:background="#FDF9F9">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="-10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/firstname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="171dp"
+                    android:layout_marginTop="55dp"
+                    android:text="@string/first_name" />
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="100dp"
+                    android:layout_marginVertical="5dp"
+                    android:text="Civil Engineering - Freshman"
+                    android:textAlignment="center"
+                    android:textColor="#716E6E"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="187dp"
+                    android:background="#E6E4E4"
+                    android:orientation="vertical"
+                    tools:ignore="MissingConstraints">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/graybannerLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:layout_marginEnd="0dp"
+                            android:background="@color/color_primary"
+                            android:padding="7dp">
+
+                            <TextView
+                                android:id="@+id/titletext"
+                                android:layout_width="161dp"
+                                android:layout_height="36dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginBottom="7dp"
+                                android:text="Title"
+                                android:textColor="#FFFFFF" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="131dp"
+                            android:background="#E6E4E4"
+                            android:orientation="vertical"
+                            tools:ignore="MissingConstraints"/>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="142dp"
+            android:layout_marginTop="185dp"
+            android:layout_marginEnd="142dp"
+            android:layout_marginBottom="0dp"
+             />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="213dp"
+            android:layout_marginEnd="26dp"
+            android:clickable="true"
+            android:elevation="0dp"
+            android:tint="#090909"
+            app:backgroundTint="#009F9C9C"
+            app:elevation="0dp"
+            app:rippleColor="#272525"
+            app:srcCompat="@drawable/add_friend" />
+
+    </RelativeLayout>
+
+    <!--Banner: Month and Year + Buttons to swap month-->
+
+
+    <!--Days of the week text-->
+
+
+    <!--Location for recyclerview-->
+
+    <!--Location for the list view-->
+
+</LinearLayout>

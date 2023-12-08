@@ -76,6 +76,16 @@ class MenuActivity : AppCompatActivity() {
             val intent = Intent(this@MenuActivity, ReportActivity::class.java)
             startActivity(intent)
         }
+        // Find the "My Schedules" TextView
+        val myProfileView: TextView = findViewById(R.id.myProfile)
+
+        // Set an onClickListener for "My Schedules"
+        myProfileView.setOnClickListener {
+
+            // Launch UserProfileActivity
+            val intent = Intent(this@MenuActivity, UserProfileActivity::class.java)
+            startActivity(intent)
+        }
     }
     private fun getUserFromSharedPreferences(): UserData {
         val sharedPreferences = applicationContext.getSharedPreferences("MyPrefs", MODE_PRIVATE)
