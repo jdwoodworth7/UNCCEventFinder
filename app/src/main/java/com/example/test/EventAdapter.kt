@@ -19,7 +19,6 @@ class EventAdapter(private val eventList: MutableList<EventData>) :
         val buildingNameTextView: TextView = itemView.findViewById(R.id.buildingNameTextView)
         val dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
         val photoImageView: ImageView = itemView.findViewById(R.id.photoImageView)
-        val sessionsTextView: TextView = itemView.findViewById(R.id.sessionsTextView)
     }
 
     private var onItemClickListener: OnItemClickListener? = null
@@ -57,7 +56,6 @@ class EventAdapter(private val eventList: MutableList<EventData>) :
         holder.titleTextView.text = currentItem.title
         holder.buildingNameTextView.text = currentItem.buildingName
         holder.dateTextView.text = "${currentItem.date} ${currentItem.time}"
-        holder.sessionsTextView.text = currentItem.eventSessionIds.toString()
 
         // Change from "userUploadedImageUri" to "userUploadedImageUrl"
         try {
@@ -75,8 +73,6 @@ class EventAdapter(private val eventList: MutableList<EventData>) :
             holder.photoImageView.setImageResource(R.drawable.baseline_image_24)
         }
 
-        // Fetch data from Firestore based on document IDs
-        fetchEventDataFromFirestore(currentItem.eventSessionIds, holder.sessionsTextView)
     }
 
     private fun fetchEventDataFromFirestore(
