@@ -46,6 +46,10 @@ class CreateEventDetailsActivity : AppCompatActivity() {
 
         // Retrieve the sessions list from the intent
         val sessionsList = intent.getSerializableExtra("sessionsList") as? Array<Array<String>> ?: emptyArray()
+
+        val startDate: String? = if (sessionsList.isNotEmpty() && sessionsList[0].size >= 2) sessionsList[0][0] else null
+        val startTime: String? = if (sessionsList.isNotEmpty() && sessionsList[0].size >= 2) sessionsList[0][1] else null
+
         // Build string representation for sessions list
         val sessionsDetails = buildSessionsDetails(sessionsList)
 
@@ -61,7 +65,9 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                     "Audiences: $audienceCheckBoxDetails\n" +
                     "Image URI: $imageUri\n" +
                     "Sessions:\n$sessionsDetails" +
-                    "Author ID: $authorId\n"
+                    "Author ID: $authorId\n" +
+                    "Start Date: $startDate\n" +
+                    "Start Time: $startTime\n"
         )
 
         // Setup "Exit" button click listener
@@ -115,7 +121,9 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                 categories ?: emptyList(),  // Provide an empty list if null
                 audience ?: emptyList(),
                 imageUri ?: "",
-                authorId ?: ""
+                authorId ?: "",
+                startDate ?: "",
+                startTime ?: "",
             )
         }
     }
@@ -177,7 +185,9 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         categories: List<String>,
         audience: List<String>,
         imageUri: String?,
-        authorId: String
+        authorId: String,
+        startDate: String?,
+        startTime: String?
     ) {
         Log.d("Firestore", "Saving event to Firestore")
 
@@ -199,7 +209,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                     // Get the download URL for the uploaded image
                     imageRef.downloadUrl.addOnSuccessListener { uri ->
                         // Continue with saving the event data to Firestore
-                        saveEventDataToFirestore(title, description, sessionsList, buildingName, address, categories, audience, uri.toString(), authorId ?: "")
+                        saveEventDataToFirestore(title, description, sessionsList, buildingName, address, categories, audience, uri.toString(), authorId ?: "", startDate ?: "", startTime ?: "")
                     }
                 }
                 .addOnFailureListener { e ->
@@ -209,7 +219,7 @@ class CreateEventDetailsActivity : AppCompatActivity() {
             Log.d("Firestore", "Image URI is null, blank, or already a Cloud Storage URI, proceeding with Firestore upload")
 
             // Continue with saving the event data to Firestore
-            saveEventDataToFirestore(title, description, sessionsList, buildingName, address, categories, audience, imageUri ?: "", authorId ?: "")
+            saveEventDataToFirestore(title, description, sessionsList, buildingName, address, categories, audience, imageUri ?: "", authorId ?: "", startDate ?: "", startTime ?: "")
         }
     }
 
@@ -222,7 +232,9 @@ class CreateEventDetailsActivity : AppCompatActivity() {
         categories: List<String>,
         audience: List<String>,
         imageUri: String,
-        authorId: String
+        authorId: String,
+        startDate: String?,
+        startTime: String?
     ) {
         Log.d("Firestore", "Saving event data to Firestore")
 
@@ -240,7 +252,10 @@ class CreateEventDetailsActivity : AppCompatActivity() {
                 "categories" to categories,
                 "audience" to audience,
                 "timestamp" to FieldValue.serverTimestamp(),
-                "authorId" to authorId
+                "authorId" to authorId,
+                "date" to startDate,
+                "time" to startTime
+
             )
 
             // Print out the event details

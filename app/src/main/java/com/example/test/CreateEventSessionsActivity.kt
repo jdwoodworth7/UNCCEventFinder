@@ -105,6 +105,9 @@ class CreateEventSessionsActivity : AppCompatActivity() {
                 val address = intent.getStringExtra("address")
                 val imageUri = intent.getStringExtra("imageUri")
 
+                // Get the first session from sessionsList
+                val firstSession = sessionsList[0]
+
                 val intent = Intent(this@CreateEventSessionsActivity, CreateEventCategoriesActivity::class.java)
 
                 // Pass the data to the next activity
@@ -116,6 +119,10 @@ class CreateEventSessionsActivity : AppCompatActivity() {
 
                 // Pass the sessionsList to the next activity
                 intent.putExtra("sessionsList", sessionsList.map { it.toTypedArray() }.toTypedArray())
+
+                // Pass the startDate and startTime from the first session to the next activity
+                intent.putExtra("startDate", firstSession[0]) // assuming startDate is at index 0
+                intent.putExtra("startTime", firstSession[1]) // assuming startTime is at index 1
 
                 // Start the next activity
                 startActivity(intent)
