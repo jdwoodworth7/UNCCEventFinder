@@ -36,6 +36,27 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
             val address = intent.getStringExtra("address")
             val imageUri = intent.getStringExtra("imageUri")
 
+            // Retrieve checkbox information
+            val checkboxAcademic = intent.getBooleanExtra("checkboxAcademic", false)
+            val checkboxSocial = intent.getBooleanExtra("checkboxSocial", false)
+            val checkboxSports = intent.getBooleanExtra("checkboxSports", false)
+            val checkboxClubsOrg = intent.getBooleanExtra("checkboxClubsOrg", false)
+            val checkboxWorkshops = intent.getBooleanExtra("checkboxWorkshops", false)
+            val checkboxVolunteering = intent.getBooleanExtra("checkboxVolunteering", false)
+            val checkboxStudentsOnly = intent.getBooleanExtra("checkboxStudentsOnly", false)
+
+            // Retrieve sessionsList from the intent
+            val sessionsList = intent.getSerializableExtra("sessionsList") as? Array<Array<String>> ?: emptyArray()
+
+            // Get the startDate and startTime from the first session
+            var startDate: String? = null
+            var startTime: String? = null
+
+            if (sessionsList.isNotEmpty() && sessionsList[0].size >= 2) {
+                startDate = sessionsList[0][0]
+                startTime = sessionsList[0][1]
+            }
+
             val intent = Intent(this@CreateEventCategoriesActivity, CreateEventAudienceActivity::class.java)
 
             // Pass the data to the next activity
@@ -46,13 +67,17 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
             intent.putExtra("imageUri", imageUri)
 
             // Pass checkbox information
-            intent.putExtra("checkboxAcademic", checkBoxAcademic.isChecked)
-            intent.putExtra("checkboxSocial", checkBoxSocial.isChecked)
-            intent.putExtra("checkboxSports", checkBoxSports.isChecked)
-            intent.putExtra("checkboxClubsOrg", checkBoxClubsOrg.isChecked)
-            intent.putExtra("checkboxWorkshops", checkBoxWorkshops.isChecked)
-            intent.putExtra("checkboxVolunteering", checkBoxVolunteering.isChecked)
-            intent.putExtra("checkboxStudentsOnly", checkBoxStudentsOnly.isChecked)
+            intent.putExtra("checkboxAcademic", checkboxAcademic)
+            intent.putExtra("checkboxSocial", checkboxSocial)
+            intent.putExtra("checkboxSports", checkboxSports)
+            intent.putExtra("checkboxClubsOrg", checkboxClubsOrg)
+            intent.putExtra("checkboxWorkshops", checkboxWorkshops)
+            intent.putExtra("checkboxVolunteering", checkboxVolunteering)
+            intent.putExtra("checkboxStudentsOnly", checkboxStudentsOnly)
+
+            // Pass the startDate and startTime to the next activity
+            intent.putExtra("startDate", startDate)
+            intent.putExtra("startTime", startTime)
 
             // Pass the sessionsList to the next activity
             intent.putExtra("sessionsList", sessionsList)
