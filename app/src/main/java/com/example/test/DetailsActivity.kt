@@ -114,6 +114,7 @@ class DetailsActivity : AppCompatActivity() {
                 audienceLayout.addView(button)
             }
 
+            //bugfix
             interestButton.setOnClickListener {
                 addEventToSchedlue(selectedEvent)
                 Toast.makeText(this, "Event has been successfully added to My Schedules", Toast.LENGTH_SHORT)

@@ -47,8 +47,8 @@ class UserProfileActivity : AppCompatActivity() {
         //get current userid
         userId = getAuthorIdFromSharedPreferences()
         val userInfo = getUserFromSharedPreferences()
-        val test123: TextView = findViewById(R.id.test123)
-        test123.text = userId
+//        val test123: TextView = findViewById(R.id.test123)
+//        test123.text = userId
 
         runOnUiThread {
             // Display user data
