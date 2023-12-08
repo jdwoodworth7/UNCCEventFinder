@@ -78,17 +78,17 @@
                 android:id="@+id/searchEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginEnd="45dp"
                 android:background="#F0F0F0"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:gravity="center_vertical"
                 android:hint="Search for Events"
                 android:inputType="text"
                 android:maxWidth="250dp"
-                android:layout_marginEnd="45dp"
-                android:layout_alignParentStart="true"
-                android:gravity="center_vertical" />
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp" />
         </LinearLayout>
 
     </RelativeLayout>
