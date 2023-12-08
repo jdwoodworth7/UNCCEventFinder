@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import coil.load
 import java.util.UUID
 import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,8 +28,9 @@ import java.time.format.DateTimeFormatter
 
 
 class DetailsActivity : AppCompatActivity() {
-    private lateinit var userIdS: String
-    private lateinit var userId: UUID
+
+    private lateinit var userId : String
+
     private lateinit var eventTitle: TextView
     private lateinit var eventTime: TextView
     private lateinit var eventStartDate: TextView
@@ -50,9 +53,13 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var dateAdapter: DateAdapter
 
+    private val firestore = FirebaseStorageUtil.getFirebaseFireStoreInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_details)
+
+        userId = getUserIdFromSharedPreferences()
 
         eventTitle = findViewById(R.id.detailTitle)
         interestButton = findViewById(R.id.interestButton)
@@ -108,6 +115,8 @@ class DetailsActivity : AppCompatActivity() {
             }
 
             interestButton.setOnClickListener {
+                addEventToSchedlue(selectedEvent)
+                Toast.makeText(this, "Event has been successfully added to My Schedules", Toast.LENGTH_SHORT)
             }
 
             navigationButton.setOnClickListener {
@@ -253,4 +262,41 @@ class DetailsActivity : AppCompatActivity() {
         eventEndDate.text = formattedDateTimeEnd
     }
 
+    private fun addEventToSchedlue(eventData: EventData) {
+        val userEventData = hashMapOf(
+            "eventId" to eventData.id,
+            "eventSessionId" to eventData.eventSessionIds[0],
+            "userId" to userId,
+        )
+
+        // Add the user to the "Users" collection
+        firestore.collection("UserEvents")
+            .add(userEventData)
+            .addOnSuccessListener { documentReference ->
+                val documentId = documentReference.id
+                Log.d("Firestore", "DocumentSnapshot added with ID: $documentId")
+
+                userEventData["id"] = documentId
+
+                firestore.collection("UserEvents").document(documentId).set(userEventData)
+                    .addOnSuccessListener {
+                        Log.d("Firestore", "DocumentSnapshot updated with ID: $documentId")
+
+                        // Finish the current activity to remove it from the back stack
+                        finish()
+                    }
+                    .addOnFailureListener{e ->
+                        Log.e("Firestore", "Error updating UserEvent document", e)
+                    }
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Error adding UserEvent document", e)
+            }
+    }
+
+    private fun getUserIdFromSharedPreferences(): String {
+        val sharedPreferences = applicationContext.getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val userId = sharedPreferences.getString("authorId", null)
+        return userId.toString()
+    }
 }
