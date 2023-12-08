@@ -43,10 +43,7 @@ class CalendarViewActivity : AppCompatActivity(), CalendarAdapter.OnItemListener
         setContentView(R.layout.activity_calendar_view)
         initWidgets()
         //Giving it the current date and time of local pc
-        if(selectedDate == null){ //if selectedDate is not initialized yet
-            selectedDate = LocalDate.now()
-            time = LocalTime.now()
-        }
+        time = LocalTime.now()
 
         userId = getAuthorIdFromSharedPreferences() // gets userID from SharedPreference
 
