@@ -91,6 +91,9 @@
             android:name=".FilterActivity"
             android:exported="false" />
         <activity
+            android:name=".UserProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".GoogleActivity"
             android:exported="false" />
         <activity

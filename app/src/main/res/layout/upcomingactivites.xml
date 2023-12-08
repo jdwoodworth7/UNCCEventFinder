@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        tools:ignore="MissingConstraints"
+        android:layout_width="match_parent"
+        android:layout_height="146dp"
+        android:background="#E6E4E4"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="186dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/graybannerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginEnd="0dp"
+                android:background="@color/color_primary"
+                android:padding="7dp">
+
+                <TextView
+                    android:id="@+id/titletext"
+                    android:layout_width="161dp"
+                    android:layout_height="36dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="7dp"
+                    android:text="Title"
+                    android:textColor="#FFFFFF" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                tools:ignore="MissingConstraints"
+                android:layout_width="match_parent"
+                android:layout_height="131dp"
+                android:background="#E6E4E4"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/eventimage"
+                    android:layout_width="195dp"
+                    android:layout_height="90dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="215dp"
+                    android:layout_marginBottom="41dp"
+                    tools:srcCompat="@drawable/baseline_image_24" />
+
+                <TextView
+                    android:id="@+id/eventdetails"
+                    android:layout_width="193dp"
+                    android:layout_height="79dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="Event Details" />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
