@@ -46,6 +46,18 @@ class CreateEventAudienceActivity : AppCompatActivity() {
             val checkboxVolunteering = intent.getBooleanExtra("checkboxVolunteering", false)
             val checkboxStudentsOnly = intent.getBooleanExtra("checkboxStudentsOnly", false)
 
+            // Retrieve sessionsList from the intent
+            val sessionsList = intent.getSerializableExtra("sessionsList") as? Array<Array<String>> ?: emptyArray()
+
+            // Get the startDate and startTime from the first session
+            var startDate: String? = null
+            var startTime: String? = null
+
+            if (sessionsList.isNotEmpty() && sessionsList[0].size >= 2) {
+                startDate = sessionsList[0][0]
+                startTime = sessionsList[0][1]
+            }
+
             val intent = Intent(this@CreateEventAudienceActivity, CreateEventDetailsActivity::class.java)
 
             // Pass the data to the next activity
@@ -72,6 +84,10 @@ class CreateEventAudienceActivity : AppCompatActivity() {
             intent.putExtra("checkboxPublicCommunity", checkBoxPublicCommunity.isChecked)
             intent.putExtra("checkboxFamily", checkBoxFamily.isChecked)
             intent.putExtra("checkboxProspecStudents", checkBoxProspecStudents.isChecked)
+
+            // Pass the startDate and startTime to the next activity
+            intent.putExtra("startDate", startDate)
+            intent.putExtra("startTime", startTime)
 
             // Pass the sessionsList to the next activity
             intent.putExtra("sessionsList", sessionsList)

@@ -36,6 +36,18 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
             val address = intent.getStringExtra("address")
             val imageUri = intent.getStringExtra("imageUri")
 
+            // Retrieve sessionsList from the intent
+            val sessionsList = intent.getSerializableExtra("sessionsList") as? Array<Array<String>> ?: emptyArray()
+
+            // Get the startDate and startTime from the first session
+            var startDate: String? = null
+            var startTime: String? = null
+
+            if (sessionsList.isNotEmpty() && sessionsList[0].size >= 2) {
+                startDate = sessionsList[0][0]
+                startTime = sessionsList[0][1]
+            }
+
             val intent = Intent(this@CreateEventCategoriesActivity, CreateEventAudienceActivity::class.java)
 
             // Pass the data to the next activity
@@ -53,6 +65,10 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
             intent.putExtra("checkboxWorkshops", checkBoxWorkshops.isChecked)
             intent.putExtra("checkboxVolunteering", checkBoxVolunteering.isChecked)
             intent.putExtra("checkboxStudentsOnly", checkBoxStudentsOnly.isChecked)
+
+            // Pass the startDate and startTime to the next activity
+            intent.putExtra("startDate", startDate)
+            intent.putExtra("startTime", startTime)
 
             // Pass the sessionsList to the next activity
             intent.putExtra("sessionsList", sessionsList)

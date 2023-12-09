@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter
 import java.util.ArrayList
 
 //This stuff is all outside the class to make it a package?? Kotlin way of static stuff I think
-lateinit var selectedDate: LocalDate
+var selectedDate: LocalDate = LocalDate.now()
 
 //Formats day month year
 fun formattedDate(date: LocalDate): String {

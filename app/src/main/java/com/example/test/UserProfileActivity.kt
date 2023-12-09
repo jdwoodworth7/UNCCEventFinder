@@ -44,6 +44,7 @@ class UserProfileActivity : AppCompatActivity() {
         //get current userid
         userId = getAuthorIdFromSharedPreferences()
         val userInfo = getUserFromSharedPreferences()
+
         runOnUiThread {
             // Display user data
             if (userInfo != null) {
@@ -136,8 +137,9 @@ class UserProfileActivity : AppCompatActivity() {
         val id = sharedPreferences.getString("authorId", null).toString()
         val email = sharedPreferences.getString("email", null).toString()
         val username = sharedPreferences.getString("username", null).toString()
+        val isModerator = sharedPreferences.getBoolean("isModerator", false)
 
-        val userData = UserData().createUserDataForMenu(id, username, email)
+        val userData = UserData().createUserDataForMenu(id, username, email, isModerator)
 
         return userData
     }

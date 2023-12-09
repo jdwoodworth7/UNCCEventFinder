@@ -1,9 +1,7 @@
 package com.example.test
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.media.Image
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +10,8 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import java.time.LocalDate
 import coil.load
-import com.example.test.EventDbAccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
@@ -95,7 +90,6 @@ class CalendarListAdapter(
         }
     }
 
-    //TODO: make remove functional to the Firebase
     private fun handleRemovalButtonClick(position: Int) {
         //focuses on the selected event among events in the list (same date)
         val userEvent = arrayList[position]
@@ -113,14 +107,5 @@ class CalendarListAdapter(
 
         val intent = Intent(context, CalendarViewActivity::class.java)
         context.startActivity(intent)
-    }
-
-    private fun getUserIdFromSharedPreferences(): String {
-        val sharedPreferences = context.getSharedPreferences(
-            "MyPrefs",
-            AppCompatActivity.MODE_PRIVATE
-        )
-        val userId = sharedPreferences.getString("authorId", null)
-        return userId.toString()
     }
 }

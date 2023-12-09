@@ -56,6 +56,7 @@
                     android:paddingRight="0dp"
                     android:paddingBottom="0dp"
                     android:textAlignment="center"
+                    android:visibility="invisible"
                     app:icon="@drawable/admin"
                     app:iconGravity="textEnd"
                     app:iconPadding="0dp"

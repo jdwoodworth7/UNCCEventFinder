@@ -1,7 +1,9 @@
 package com.example.test
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.DocumentSnapshot
 import java.util.UUID
 
@@ -14,7 +16,8 @@ data class UserData(
     val status: String,
     val friendIds: List<String>,
     val privacy: String?,
-    val reportCases: Int
+    val reportCases: Int,
+    val isModerator: Boolean
 ) : Parcelable {
     // No-argument constructor for Firestore deserialization
     constructor() : this(
@@ -26,7 +29,8 @@ data class UserData(
         "",
         listOf(),
         "",
-        0
+        0,
+        false
     )
 
     // constructor for converting Firestore DocumentSnapshot to UserData object
@@ -39,7 +43,8 @@ data class UserData(
         documentSnapshot.getString("status") ?: "",
         documentSnapshot.get("friendIds") as? List<String> ?: listOf(),
         documentSnapshot.getString("privacy") ?: "",
-        documentSnapshot.get("reportCases") as? Int ?: 0
+        documentSnapshot.get("reportCases") as? Int ?: 0,
+        documentSnapshot.get("isModerator") as? Boolean ?: false
     )
 
     // constructor for Parcelable UserData object to send between activities as Intent attribute
@@ -52,11 +57,12 @@ data class UserData(
         parcel.readString() ?: "",
         parcel.createStringArrayList()?.toList() ?: listOf(),
         parcel.readString() ?: "",
-        parcel.readInt() ?: 0
+        parcel.readInt() ?: 0,
+        parcel.readBoolean() ?: false
     )
 
     //constructor for menu
-    constructor(id:String, email: String, firstname: String) :  this(
+    constructor(id:String, email: String, firstname: String, isModerator: Boolean) :  this(
         id,
         email,
         firstname,
@@ -65,7 +71,8 @@ data class UserData(
         "",
         listOf(),
         "",
-        0
+        0,
+        isModerator
     )
 
     //Parcelable Implementations
@@ -79,6 +86,7 @@ data class UserData(
         parcel.writeStringList(friendIds)
         parcel.writeString(privacy)
         parcel.writeInt(reportCases)
+        parcel.writeBoolean(isModerator)
     }
 
     override fun describeContents(): Int {
@@ -107,7 +115,7 @@ data class UserData(
 //        )
 //    }
     }
-    fun createUserDataForMenu(id:String, email: String, firstname: String) :UserData {
-        return UserData(id,firstname,email)
+    fun createUserDataForMenu(id:String, email: String, firstname: String, isModerator: Boolean) :UserData {
+        return UserData(id,firstname,email,isModerator)
     }
 }
