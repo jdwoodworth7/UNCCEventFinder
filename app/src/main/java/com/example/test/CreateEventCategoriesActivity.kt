@@ -36,15 +36,6 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
             val address = intent.getStringExtra("address")
             val imageUri = intent.getStringExtra("imageUri")
 
-            // Retrieve checkbox information
-            val checkboxAcademic = intent.getBooleanExtra("checkboxAcademic", false)
-            val checkboxSocial = intent.getBooleanExtra("checkboxSocial", false)
-            val checkboxSports = intent.getBooleanExtra("checkboxSports", false)
-            val checkboxClubsOrg = intent.getBooleanExtra("checkboxClubsOrg", false)
-            val checkboxWorkshops = intent.getBooleanExtra("checkboxWorkshops", false)
-            val checkboxVolunteering = intent.getBooleanExtra("checkboxVolunteering", false)
-            val checkboxStudentsOnly = intent.getBooleanExtra("checkboxStudentsOnly", false)
-
             // Retrieve sessionsList from the intent
             val sessionsList = intent.getSerializableExtra("sessionsList") as? Array<Array<String>> ?: emptyArray()
 
@@ -67,13 +58,13 @@ class CreateEventCategoriesActivity : AppCompatActivity() {
             intent.putExtra("imageUri", imageUri)
 
             // Pass checkbox information
-            intent.putExtra("checkboxAcademic", checkboxAcademic)
-            intent.putExtra("checkboxSocial", checkboxSocial)
-            intent.putExtra("checkboxSports", checkboxSports)
-            intent.putExtra("checkboxClubsOrg", checkboxClubsOrg)
-            intent.putExtra("checkboxWorkshops", checkboxWorkshops)
-            intent.putExtra("checkboxVolunteering", checkboxVolunteering)
-            intent.putExtra("checkboxStudentsOnly", checkboxStudentsOnly)
+            intent.putExtra("checkboxAcademic", checkBoxAcademic.isChecked)
+            intent.putExtra("checkboxSocial", checkBoxSocial.isChecked)
+            intent.putExtra("checkboxSports", checkBoxSports.isChecked)
+            intent.putExtra("checkboxClubsOrg", checkBoxClubsOrg.isChecked)
+            intent.putExtra("checkboxWorkshops", checkBoxWorkshops.isChecked)
+            intent.putExtra("checkboxVolunteering", checkBoxVolunteering.isChecked)
+            intent.putExtra("checkboxStudentsOnly", checkBoxStudentsOnly.isChecked)
 
             // Pass the startDate and startTime to the next activity
             intent.putExtra("startDate", startDate)
