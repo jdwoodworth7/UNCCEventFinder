@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -106,6 +106,7 @@
         android:layout_marginTop="4dp" />
 
     <!-- This is where your fragment will be added -->
+
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"

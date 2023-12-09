@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.test"
-        minSdk = 26
+        minSdk = 29
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
