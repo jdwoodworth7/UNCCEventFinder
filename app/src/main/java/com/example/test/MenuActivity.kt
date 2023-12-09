@@ -34,6 +34,17 @@ class MenuActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // Find the "Create an Event" TextView
+        val myfriends: TextView = findViewById(R.id.myFriends)
+
+        // Set an onClickListener for "Create an Event"
+        myfriends.setOnClickListener {
+
+            // Launch CreateEventActivity
+            val intent = Intent(this@MenuActivity, AddFriendsActivity::class.java)
+            startActivity(intent)
+        }
+
         // Find the "Search Event" TextView
         val searchEventTextView: TextView = findViewById(R.id.searchEvent)
 

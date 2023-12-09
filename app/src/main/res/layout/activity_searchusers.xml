@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Green Banner -->
+    <RelativeLayout
+        android:id="@+id/bannerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/color_primary"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <!-- Menu and Map Icons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Menu Button -->
+            <ImageView
+                android:id="@+id/menuButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/baseline_menu_24"
+                android:layout_marginEnd="10dp"/>
+
+            <!-- Map Icon -->
+            <ImageView
+                android:id="@+id/mapIcon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/baseline_map_24" />
+
+        </LinearLayout>
+
+        <!-- Text: Events -->
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Users"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <!-- Gray Box for Search -->
+    <RelativeLayout
+        android:id="@+id/graybannerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bannerLayout"
+        android:background="#C0CCDA"
+        android:padding="7dp">
+
+        <!-- Search Box with Search Icon Inside -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Search Icon Button -->
+            <ImageButton
+                android:id="@+id/searchedButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/baseline_search_24"
+                android:background="?android:attr/selectableItemBackground" />
+
+            <!-- Search EditText -->
+            <EditText
+                android:id="@+id/searchEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginEnd="45dp"
+                android:background="#F0F0F0"
+                android:gravity="center_vertical"
+                android:hint="Search for Users"
+                android:inputType="text"
+                android:maxWidth="250dp"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!-- Filter Icon to the Right of the Search Box -->
+    <ImageView
+        android:id="@+id/filterIcon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/baseline_filter_list_24"
+        android:layout_below="@id/bannerLayout"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="4dp" />
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/graybannerLayout">
+
+        <!-- This is where your fragment will be added -->
+
+    </FrameLayout>
+
+</RelativeLayout>
