@@ -126,8 +126,8 @@ class RegisterActivity : AppCompatActivity() {
             "password" to password,
             "status" to status,
             "friendids" to friendids,
-            "privacy" to privacy
-
+            "privacy" to privacy,
+            "isModerator" to false,
         )
 
         // Add the user to the "Users" collection

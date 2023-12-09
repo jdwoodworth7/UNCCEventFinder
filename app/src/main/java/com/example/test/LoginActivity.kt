@@ -56,12 +56,13 @@ class LoginActivity : AppCompatActivity() {
                             authorId = userDocument.id
                             val username = userDocument.getString("firstname")
                             val email = userDocument.getString("email")
+                            val isModerator = userDocument.getBoolean("isModerator")
 
                             // Saying Welcome firstname
                             Toast.makeText(this, "Welcome, $username!", Toast.LENGTH_SHORT).show()
 
                             // Save authorId to SharedPreferences
-                            saveAuthorIdToSharedPreferences(authorId, username, email)
+                            saveAuthorIdToSharedPreferences(authorId, username, email, isModerator!!)
 
                             // Proceed to MapsActivity
                             val intent = Intent(this@LoginActivity, MapsActivity::class.java)
@@ -74,12 +75,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     // Save authorId to SharedPreferences
-    private fun saveAuthorIdToSharedPreferences(authorId: String?, username: String?, email: String?) {
+    private fun saveAuthorIdToSharedPreferences(authorId: String?, username: String?, email: String?, isModerator: Boolean) {
         val sharedPreferences = this.applicationContext.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("authorId", authorId)
         editor.putString("username", username)
         editor.putString("email", email)
+        editor.putBoolean("isModerator", isModerator)
         editor.apply()
     }
 

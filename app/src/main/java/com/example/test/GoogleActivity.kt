@@ -97,7 +97,7 @@ class GoogleActivity : AppCompatActivity() {
                 val userData = documentSnapshot.toObject(UserData::class.java)
 
                 //saves the user data into the shared preference
-                saveUserInfoToSharedPreferences(userData?.id, userData?.firstname, userData?.email)
+                saveUserInfoToSharedPreferences(userData?.id, userData?.firstname, userData?.email, userData?.isModerator!!)
 
                 callback(userData) //user is found
             } else {
@@ -136,7 +136,7 @@ class GoogleActivity : AppCompatActivity() {
                 userRef.document(documentId).set(user)
                     .addOnSuccessListener {
                         Log.d("Firestore", "DocumentSnapshot updated with ID: $documentId")
-                        saveUserInfoToSharedPreferences(documentId, user[firstname], user[email])
+                        saveUserInfoToSharedPreferences(documentId, user[firstname], user[email], false)
                     }
                     .addOnFailureListener { e ->
                         Log.e("Firestore", "Error updating event document", e)
@@ -156,12 +156,13 @@ class GoogleActivity : AppCompatActivity() {
     }
 
     //saves user information to the shared preferences
-    private fun saveUserInfoToSharedPreferences(userId: String?, username: String?, email: String?) {
+    private fun saveUserInfoToSharedPreferences(userId: String?, username: String?, email: String?, isModerator: Boolean) {
         val sharedPreferences = this.applicationContext.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("authorId", userId)
         editor.putString("username", username)
         editor.putString("email", email)
+        editor.putBoolean("isModerator", isModerator)
         editor.apply()
     }
 }
