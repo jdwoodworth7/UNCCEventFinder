@@ -63,7 +63,9 @@ class UserProfileActivity : AppCompatActivity() {
 
         // Fetch and display event data
         GlobalScope.launch {
+
             val events = fetchEventsFromUser()
+            Log.e("UserProfileActivity", "userID" + userId)
             Log.d("YourTag", "This is what's inside: ${events.size}")
             runOnUiThread {
                 if (events.isNotEmpty()) {
