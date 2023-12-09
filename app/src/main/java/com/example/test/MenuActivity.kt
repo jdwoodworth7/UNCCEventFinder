@@ -40,7 +40,7 @@ class MenuActivity : AppCompatActivity() {
         myfriends.setOnClickListener {
 
             // Launch CreateEventActivity
-            val intent = Intent(this@MenuActivity, AddFriendsActivity::class.java)
+            val intent = Intent(this@MenuActivity, SearchUsersActivity::class.java)
             startActivity(intent)
         }
 

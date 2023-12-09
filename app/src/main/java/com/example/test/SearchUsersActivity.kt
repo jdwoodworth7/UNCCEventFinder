@@ -20,20 +20,6 @@ class SearchUsersActivity : AppCompatActivity() {
     // EditText for entering search queries
     private lateinit var searchEditText: EditText
 
-    // Activity result launcher for handling filter activity results
-    private val filterLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            // Retrieve filter data from the result
-            val filterData = result.data?.getParcelableExtra<FilterData>("filterData")
-
-            // Apply the filter to the fragment
-            val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-
-            if (fragment is SearchResultsFragment && filterData != null) {
-                fragment.applyFilter(filterData)
-            }
-        }
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_searchusers)
@@ -44,11 +30,11 @@ class SearchUsersActivity : AppCompatActivity() {
                 return
             }
 
-            // Create and add the SearchResultsFragment to the fragment container
-            val searchResultsFragment = SearchResultsFragment()
+            // Create and add the UserSearchResultsFragment to the fragment container
+            val userSearchResultsFragment = UserSearchResultsFragment()
 
             supportFragmentManager.commit {
-                add(R.id.fragment_container, searchResultsFragment)
+                add(R.id.fragment_container, userSearchResultsFragment)
             }
         }
 
@@ -79,13 +65,6 @@ class SearchUsersActivity : AppCompatActivity() {
             val intent = Intent(this@SearchUsersActivity, MapsActivity::class.java)
             startActivity(intent)
         }
-
-        // Find the filter icon and set a click listener
-        val filterIcon = findViewById<ImageView>(R.id.filterIcon)
-        filterIcon.setOnClickListener {
-            // Open the FilterActivity when the filter icon is clicked
-            filterLauncher.launch(Intent(this@SearchUsersActivity, FilterActivity::class.java))
-        }
     }
 
     // Perform search based on the entered query
@@ -93,26 +72,8 @@ class SearchUsersActivity : AppCompatActivity() {
         val searchQuery = searchEditText.text.toString().trim()
         val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
-        if (fragment is SearchResultsFragment) {
-            fragment.searchEventsByTitle(searchQuery)
+        if (fragment is UserSearchResultsFragment) {
+            fragment.searchUsersByName(searchQuery)
         }
     }
-
-    //Handle the results of the filter activity
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == FILTER_REQUEST_CODE && resultCode == RESULT_OK) {
-            // Retrieve filter data from the result
-            val filterData = data?.getParcelableExtra<FilterData>("filterData")
-
-            // Apply the filter to the fragment
-            val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-
-            if (fragment is SearchResultsFragment && filterData != null) {
-                fragment.applyFilter(filterData)
-            }
-        }
-    }
-
 }
