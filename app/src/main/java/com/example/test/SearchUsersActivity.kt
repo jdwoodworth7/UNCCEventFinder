@@ -20,6 +20,7 @@ class SearchUsersActivity : AppCompatActivity() {
     // EditText for entering search queries
     private lateinit var searchEditText: EditText
 
+
     // Activity result launcher for handling filter activity results
     private val filterLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
@@ -44,6 +45,11 @@ class SearchUsersActivity : AppCompatActivity() {
                 return
             }
 
+            // Create and add the UserSearchResultsFragment to the fragment container
+            val userSearchResultsFragment = UserSearchResultsFragment()
+
+            supportFragmentManager.commit {
+                add(R.id.fragment_container, userSearchResultsFragment)
             // Create and add the SearchResultsFragment to the fragment container
             val searchResultsFragment = SearchResultsFragment()
 
@@ -79,6 +85,7 @@ class SearchUsersActivity : AppCompatActivity() {
             val intent = Intent(this@SearchUsersActivity, MapsActivity::class.java)
             startActivity(intent)
         }
+
 
         // Find the filter icon and set a click listener
         val filterIcon = findViewById<ImageView>(R.id.filterIcon)
