@@ -71,7 +71,6 @@ class LoginActivity : AppCompatActivity() {
                     }
             }
         }
-
     }
 
     // Save authorId to SharedPreferences
